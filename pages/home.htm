@@ -1,0 +1,81 @@
+url = "/"
+layout = "default"
+title = "BIO-Agora"
+is_hidden = 0
+meta_description = "The Safe-Hub project"
+robot_index = "index"
+robot_follow = "follow"
+
+[jumbotron intro]
+jumbotron = "homepage-intro"
+title = 0
+background = "transperant"
+templates = "template3"
+description_limit = 0
+
+[jumbotron numbers]
+jumbotron = "homepage-numbers"
+title = 0
+background = "transperant"
+templates = "template3"
+description_limit = 0
+
+[jumbotron science_service]
+jumbotron = "science-service-biodiversity"
+background = "transperant"
+templates = "template3"
+description_limit = 0
+
+[article_highlights]
+maxItems = 3
+title = "Latest news"
+baseUrl = "/news"
+templates = "template4"
+thumb_width = 338
+thumb_height = 236
+title_max_length = 150
+
+[jumbotron info]
+jumbotron = "homepage-info-bottom"
+background = "transperant"
+templates = "template3"
+description_limit = 0
+==
+<?php
+use Pensoft\Articles\Models\Article;
+use Carbon\Carbon;
+
+function onStart(){
+    $this['news'] = Article::news()->where('published_at', '<=', 'now()')->where('published', 'true')->take(3)->orderBy('published_at', 'DESC')->get();
+
+}
+?>
+==
+{% component 'intro' %}
+<div class="container-fluid bg-secondary">
+{% component 'numbers' %}
+</div>
+<div class="container-fluid science_service_container">
+{% component 'science_service' %}
+</div>
+
+
+{% if news.count %}
+<!-- latest from news -->
+<div class="container-fluid highlights-news bg-secondary">
+    <div class="container">
+        <div class="row middle-xs">
+            <div class="col-md-8 start-md center-xs"><h1 class="display-1">Our latest <strong>news</strong></h1></div>
+            <div class="col-md-4 end-md center-xs">
+                <a href="{{'news'|page}}" class="btn btn-primary">All the news</a>
+            </div>
+        </div>
+
+    {% component 'article_highlights' %}
+    </div>
+
+</div>
+
+{% endif %}
+
+{% component 'info' %}

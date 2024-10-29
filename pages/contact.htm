@@ -1,0 +1,97 @@
+url = "/contact"
+layout = "default"
+title = "Contact"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[SimpleContactFormComponent]
+templates = "template3"
+recaptcha_key = "6LcXFGQqAAAAAOv77b9E29Zo7G0i9P9fCO8tktp3"
+message_label = "Message"
+
+[jumbotron]
+jumbotron = "contact-intro"
+background = "transperant"
+templates = "template3"
+description_limit = 0
+
+[siteSearchInclude]
+==
+<?php
+use Pensoft\CardProfiles\Models\Profiles as Profiles;
+
+function onStart(){
+	$this['contacts'] =  Profiles::where('category_id', 2)->get();
+}
+?>
+==
+{% component 'siteSearchInclude' %}
+<div class="container contact_profiles">
+    <div class="row">
+    {% for profile in contacts %}
+        <div class="col-md-4 col-xs-12">
+            <div class="contact_info row">
+                <div class="col-md-12 col-xs-12 coordinator_image">
+                    <img src="{{profile.avatar.path}}" class="fr-fic fr-dii">
+                </div>
+                <div class="col-md-12 col-xs-12 coordinator_info">
+                    <div class="name-position">
+                        <h2>{{profile.names}}{% if profile.department %}, <span>{{profile.department}}</span>{% endif %}</h2>
+                        {% if profile.position %}
+                        <div class="profile-position">
+                            {{ profile.position }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+        <div class="col-md-4 col-xs-12">
+            <div class="contact_info row">
+                <div class="col-md-12 col-xs-12 coordinator_info">
+                    <div class="contact_us_field">
+                        <p>Contact us:</p>
+                        <a href="mailto:contact@bioagora.eu" target="_blank">contact@bioagora.eu</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% component 'jumbotron' %}
+<div class="container contact_info_felds">
+    <div class="row middle-xs">
+        <div class="col-md-12 col-xs-12">
+            <div class="contact_form_container">
+                <p>"<span class="red">*</span>" indicates required fields</p>
+                {% component 'SimpleContactFormComponent' %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid bg-secondary">
+    <div class="container social_media_contacts">
+        <h2 style="text-align: center;"><strong>Follow us</strong> on social media</h2>
+        <p align="center">
+        {% if this.theme.twitter and this.theme.twitter_url %}
+        <a href="{{this.theme.twitter_url}}" target="_blank" class="pr p-secondary p-twitter big" target="_blank"></a>
+        {% endif %}
+        {% if this.theme.facebook and this.theme.facebook_url %}
+        <a href="{{this.theme.facebook_url}}" target="_blank" class="pr p-secondary p-facebook big" target="_blank"></a>
+        {% endif %}
+        {% if this.theme.linkedin and this.theme.linkedin_url %}
+        <a  href="{{this.theme.linkedin_url}}" target="_blank" class="pr p-secondary p-linkedin big" target="_blank"></a>
+        {% endif %}
+        {% if this.theme.youtube and this.theme.youtube_url %}
+        <a  href="{{this.theme.youtube_url}}" target="_blank" class="pr p-secondary p-youtube big" target="_blank"></a>
+        {% endif %}
+        {% if this.theme.instagram and this.theme.instagram_url %}
+        <a  href="{{this.theme.instagram_url}}" target="_blank" class="pr p-secondary p-instagram big" target="_blank"></a>
+        {% endif %}
+        <p>
+    </div>
+</div>

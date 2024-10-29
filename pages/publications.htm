@@ -1,0 +1,38 @@
+url = "/publications"
+layout = "default"
+title = "Publications"
+
+[siteSearchInclude]
+
+[jumbotron]
+jumbotron = "publications"
+background = "transperant"
+templates = "template3"
+description_limit = 0
+==
+<?php
+use Pensoft\Knowledgelibrary\Models\Data;
+use Carbon\Carbon;
+
+function onStart(){
+    $this['publications'] = Data::where('format_id', 1)->get();
+}
+?>
+==
+{% component 'siteSearchInclude' %}
+{% component 'jumbotron' %}
+
+<div class="container">
+    {% for item in publications %}
+    {% if item.web_page %}
+    {% set url = item.web_page  %}
+    {% endif %}
+    {% if item.file %}
+    {% set url = item.file.path %}
+    {% endif %}
+    <div class="row middle-md">
+        <div class="col-md-4 col-xs-12"><img src="{{item.cover.getThumb(326, 326, { mode: 'crop' })}}"></div>
+        <div class="col-md-8 col-xs-12"><a href="{{url}}" target="_blank">{{item.title}}</a></div>
+    </div>
+    {% endfor %}
+</div>

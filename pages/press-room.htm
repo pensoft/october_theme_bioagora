@@ -1,0 +1,57 @@
+title = "Press Room"
+layout = "default"
+url = "/press-room"
+
+[siteSearchInclude]
+
+[jumbotron]
+jumbotron = "press-room"
+background = "transperant"
+templates = "template3"
+description_limit = 0
+
+==
+<?php
+use Pensoft\Articles\Models\Category;
+use Pensoft\Articles\Models\Article;
+
+function onStart(){
+        $categoryId = 5;
+        $categoryIdPressArticles = 7;
+        $this['press'] = Article::news()->whereHas('categories', function ($query) use ($categoryId) {
+                            $query->where('id', $categoryId);
+                            })->where('published_at', '<=', 'now')
+                            ->where('published', 'true')
+                            ->orderBy('published_at', 'DESC')->get();
+
+        $this['press_articles'] = Article::news()->whereHas('categories', function ($query) use ($categoryIdPressArticles) {
+            $query->where('id', $categoryIdPressArticles);
+            })->where('published_at', '<=', 'now')
+            ->where('published', 'true')
+            ->orderBy('published_at', 'DESC')->get();
+}
+?>
+
+==
+
+{% component 'siteSearchInclude' %}
+{% component 'jumbotron' %}
+<div class="container-fluid about-content-wrap">
+    <div class="layer">
+        <h2 style="text-align: center; padding: 40px 0;">Our BioAgora Press Kit will soon be available</h2>
+    </div>
+</div>
+
+<div class="container news ">
+    <h2 style="text-align: center;">Our <b>press relases</b></h2>
+    <div class="newslist-records">
+        {% partial 'components/newslist-records' records=press %}
+    </div>
+</div>
+
+<div class="container news ">
+    <h2 style="text-align: center;">Our <b>press articles</b></h2>
+    <div class="newslist-records">
+        {% partial 'components/newslist-records' records=press_articles %}
+    </div>
+</div>

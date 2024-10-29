@@ -1,0 +1,47 @@
+url = "/biodiversity-knowledge-agora"
+layout = "default"
+title = "Biodiversity Knowledge Agora"
+
+[jumbotron]
+jumbotron = "biodiversity-knowledge-agora"
+background = "transperant"
+templates = "template3"
+description_limit = 0
+
+[siteSearchInclude]
+
+[jumbotron jumbotron2]
+jumbotron = "why-should-you-join-biodiversity-knowledge-agora"
+title = 0
+background = "transperant"
+templates = "template3"
+description_limit = 0
+
+[jumbotron jumbotron3]
+jumbotron = "join-biodiversity-knowledge-agora"
+background = "transperant"
+templates = "template3"
+description_limit = 0
+
+[jumbotron jumbotron4]
+jumbotron = "explore-other-ways-get-involved-bioagora"
+background = "transperant"
+templates = "template3"
+description_limit = 0
+==
+{% component 'siteSearchInclude' %}
+{% component 'jumbotron' %}
+<div class="container-fluid biodiversity-knowledge-agora-middle">
+    <div class="layer">
+        &nbsp;
+    </div>
+</div>
+{% component 'jumbotron2' %}
+
+<div class="container-fluid science_service_container">
+    {% component 'jumbotron3' %}
+</div>
+
+<div class="container-fluid science_service_container">
+{% component 'jumbotron4' %}
+</div>

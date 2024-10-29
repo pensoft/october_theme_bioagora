@@ -1,0 +1,74 @@
+url = "/our-team"
+layout = "default"
+title = "Our Team"
+
+[siteSearchInclude]
+
+==
+<?php
+use Pensoft\Partners\Models\Partners;
+use Pensoft\CardProfiles\Models\Profiles as Profiles;
+
+function onStart(){
+	$this['partners'] =  Partners::get();
+
+    $this['partner_members'] = new class {
+        public function getProfiles($partnerId) {
+            return Profiles::where('partner_id', $partnerId)->where('category_id', 1)->get();
+}
+};
+
+}
+?>
+==
+{% component 'siteSearchInclude' %}
+<div class="mt-4 mb-4">
+{% for partner in partners %}
+    {% if partner_members.getProfiles(partner.id).count > 0 %}
+        <div class="container work_packages team_container" id="{{ partner.instituion|slug }}">
+            <div class="row middle-xs accordion-toggle">
+                <div class="col-xs start-xs"><h1>{{ partner.instituion }}<span>, {{ partner.country[0].name }}</span></h1></div>
+
+                <div class="col-xs-2 end-xs plusminus"><span class="plus"></span></div>
+            </div>
+
+
+            <div class="accordion-content">
+                <div class="row member-item">
+                    {% for profile in partner_members.getProfiles(partner.id) %}
+                    <div class="col-md-6 col-xs-12">
+                        <div class="avatar-container">
+                            {% if profile.avatar %}
+                            <img class="img-fluid" src="{{ profile.avatar|crop_image }}" alt="{{ profile.names }}">
+                            {% endif %}
+                        </div>
+                        <div class="member-details">
+                            <h2>{{ profile.names }}</h2>
+                            {{ profile.content | raw }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endfor %}
+</div>
+
+<div class="container-fluid science-service">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-xs-12">
+                <h3 class="fl-heading" data-aos="fade-right">
+                    <span class="fl-heading-text">Learn more about our partners</span>
+                </h3>
+            </div>
+            <div class="col-md-2 col-xs-12 end-md center-xs">
+                <a href="{{'our-partners'|page}}" class="btn btn-float" >
+                    Learn more
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>

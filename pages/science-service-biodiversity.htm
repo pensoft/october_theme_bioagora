@@ -1,0 +1,117 @@
+title = "Science Service for Biodiversity"
+layout = "default"
+url = "/science-service-biodiversity"
+
+[jumbotron jumbotron1]
+jumbotron = "develop-science-service"
+background = "transperant"
+templates = "template3"
+description_limit = 0
+
+
+[jumbotron jumbotron2]
+jumbotron = "policy-makers-local-national-and-european-level"
+background = "transperant"
+templates = "template3"
+description_limit = 0
+
+[jumbotron jumbotron3]
+jumbotron = "will-provide-scientific-pillar"
+background = "transperant"
+templates = "template3"
+description_limit = 0
+
+[jumbotron jumbotron4]
+jumbotron = "multi-service-approach-2"
+background = "transperant"
+templates = "template3"
+description_limit = 0
+
+[jumbotron jumbotron5]
+jumbotron = "service-eu-funded"
+background = "transperant"
+templates = "template3"
+description_limit = 0
+==
+
+==
+<div class="container-fluid science-service-biodiversity">
+
+  <div class="container">
+    {% component 'jumbotron1' %}
+  </div>
+
+  <div class="container-fluid science-service-content-wrap">
+    <div class="layer">
+        {% component 'jumbotron2' %}
+    </div>
+  </div>
+
+  <div class="container">
+    {% component 'jumbotron3' %}
+  </div>
+
+  <div class="container timeline-container">
+    <h2 class="text-center mb-2">From 2023 to 2026, BioAgora will:</h2>
+    <div class="timeline">
+      <div class="timeline-item left">
+        <div class="timeline-content">
+          <p>Pilot and test different functions and mechanisms of the SSBD to set up dynamic, inclusive and functional Service</p>
+        </div>
+        <div class="timeline-dot">
+          <span class="timeline-arrow-left">&#10140;</span>
+        </div>
+      </div>
+
+      <div class="timeline-item right">
+        <div class="timeline-dot">
+          <span class="timeline-arrow-right">&#10140;</span>
+        </div>
+        <div class="timeline-content">
+          <p>Establish governing bodies, decision-making mechanisms and ethical infrastructure for the SSBB</p>
+        </div>
+      </div>
+
+      <div class="timeline-item left">
+        <div class="timeline-content">
+          <p>Apply the business plan canvas as a tested approach to define the profile, characteristics and niche, marketing plan, and financial plan of the SSBD</p>
+        </div>
+        <div class="timeline-dot">
+          <span class="timeline-arrow-left">&#10140;</span>
+        </div>
+      </div>
+
+      <div class="timeline-item right">
+        <div class="timeline-dot">
+          <span class="timeline-arrow-right">&#10140;</span>
+        </div>
+        <div class="timeline-content">
+          <p>Develop an interactive and widely accessible web-platform, enabling all relevant actors to use and benefit from this Service</p>
+        </div>
+      </div>
+    </div>
+    <!-- {% component 'timeline' %} -->
+  </div>
+
+  <div class="container-fluid science-service-content-wrap wrap-2">
+    <div class="layer">
+      <div class="container"></div>
+    </div>
+  </div>
+
+  <div class="container-fluid flower-bg">
+    {% component 'jumbotron4' %}
+  </div>
+
+  <div class="container-fluid science-service-content-wrap wrap-3">
+    <div class="layer">
+      <div class="container"></div>
+    </div>
+  </div>
+
+  <div class="container-fluid flower-bg">
+    {% component 'jumbotron5' %}
+  </div>
+
+</div>
+

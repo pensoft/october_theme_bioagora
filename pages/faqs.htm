@@ -1,0 +1,32 @@
+title = "FAQs"
+layout = "default"
+url = "/faqs"
+
+[siteSearchInclude]
+==
+<?php
+use Pensoft\Accordions\Models\Item;
+
+function onStart(){
+	$this['faqs'] =  Item::where('category_id', 2)->get();
+}
+?>
+==
+{% component 'siteSearchInclude' %}
+<div class="container mt-4 mb-4">
+    {% for item in faqs %}
+        <div class="faqs_list team_container" id="{{ item.title|slug }}">
+            <div class="row middle-xs accordion-toggle">
+                <div class="col-xs start-xs"><h1>{{ item.title }}</h1></div>
+
+                <div class="col-xs-2 end-xs plusminus"><span class="plus"></span></div>
+            </div>
+
+            <div class="accordion-content">
+                <div class="row member-item">
+                    {{ item.body|raw }}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>

@@ -1,0 +1,165 @@
+title = "News"
+layout = "default"
+url = "/news/:slug?|[a-zA-Z\-0-9]"
+==
+<?php
+use Pensoft\Articles\Models\Category;
+use Pensoft\Articles\Models\Article;
+
+function onStart()
+{
+    $article = Pensoft\Articles\Models\Article::where('slug', $this->param('slug'))->first();
+
+    if($article){
+        $this['nextArticle'] = Article::where('id', '>', $article->id)
+                                      ->where('published', 'true')
+                                      ->where('published_at', '<=', 'now')
+                                      ->orderBy('id', 'asc')
+                                      ->first();
+
+        $this['previousArticle'] = Article::where('id', '<', $article->id)
+                                          ->where('published', 'true')
+                                          ->where('published_at', '<=', 'now')
+                                          ->orderBy('id', 'desc')
+                                          ->first();
+    }
+
+    $this['article'] = $article;
+    $this['categories'] = Category::orderBy('sort_order')->orderBy('created_at', 'desc')->get();
+
+    $categoryId = input('categoryId', 'all');
+
+    if ($categoryId !== 'all' && !is_numeric($categoryId)) {
+        return redirect('news');
+    }
+
+    $this['categoryId'] = $categoryId;
+
+    if ($categoryId === 'all') {
+        $records = Article::news()->where('published_at', '<=', 'now')
+                                  ->where('published', 'true')
+                                  ->orderBy('published_at', 'DESC')
+                                  ->paginate(12);
+    } else {
+        $records = Article::news()->whereHas('categories', function ($query) use ($categoryId) {
+                     $query->where('id', $categoryId);
+                 })->where('published_at', '<=', 'now')
+                   ->where('published', 'true')
+                   ->orderBy('published_at', 'DESC')
+                   ->paginate(12);
+    }
+
+    if ($categoryId !== 'all') {
+        $records->appends(['categoryId' => $categoryId]);
+    }
+
+    $this['records'] = $records;
+
+    if($this['article']) {
+        $this['is_detail_page'] = true;
+        $this['allow_share'] = $this['article']['allow_share'] == 'yes' ? true : false;
+
+        if($this['is_detail_page']) {
+            $seoTitle = $this['article']['title'];
+            $seoKeywords = $this['article']['meta_keywords'] ?: $this['article']['keywords'];
+            $seoDescription = str_limit(Html::strip($this['article']['content']), 255);
+
+            if (class_exists('\BennoThommo\Meta\Meta')) {
+                \BennoThommo\Meta\Meta::set('title', $seoTitle);
+                \BennoThommo\Meta\Meta::set('keywords', $seoKeywords);
+                \BennoThommo\Meta\Meta::set('description', $seoDescription);
+            }
+        }
+
+        if($this['allow_share']) {
+            $this['page_url'] = $this->pageUrl('');
+            $this['encoded_title'] = urlencode($this['article']['title']);
+            $this['slug'] = $this['article']['slug'];
+            \BennoThommo\Meta\Meta::set('twitter:card', 'summary_large_image');
+            \BennoThommo\Meta\Meta::set('twitter:title', $this['article']['title']);
+            \BennoThommo\Meta\Meta::set('twitter:description', str_limit(Html::strip($this['article']['content']), 255));
+            \BennoThommo\Meta\Meta::set('og:title', $this['article']['title']);
+            \BennoThommo\Meta\Meta::set('og:description', str_limit(Html::strip($this['article']['content']), 255));
+            \BennoThommo\Meta\Meta::set('og:type', 'article');
+            \BennoThommo\Meta\Meta::set('og:url', $this->pageUrl(''));
+
+            if ($this['article']['cover']) {
+                \BennoThommo\Meta\Meta::set('twitter:image', $this['article']['cover']->getThumb(600, null, ['mode' => 'auto']));
+                \BennoThommo\Meta\Meta::set('og:image', $this['article']['cover']->getThumb(600, 314, ['mode' => 'crop']));
+                \BennoThommo\Meta\Meta::set('og:image:width', 600);
+                \BennoThommo\Meta\Meta::set('og:image:height', 314);
+            }
+        }
+    }
+}
+
+?>
+==
+{% if is_detail_page %}
+<div class="row single-news-item">
+    <div class="container-fluid news-header">
+        <div class="img-container">
+            {% if article.cover %}
+            <img src="{{ article.cover.path }}" />
+        {% endif %}
+        </div>
+        <div class="row intro-section">
+            <h1 class="col-xs-12 news-title text-center">{{ article.title }}</h1>
+            <div class="col-xs-12 center-xs">
+                <span>{{ article.date|date("d M Y") }}</span>
+                {% if article.categories.count %}
+                <span> / <a href="/news?categoryId={{ article.categories.first().id }}">{{ article.categories.first().name }}</a></span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="body-content">
+            {% if article.content %}
+            {{ article.content|raw }}
+            {% endif %}
+        </div>
+        <div class="news-separator"></div>
+        <div class="row prev-next-nav between-xs">
+            {% if previousArticle %}
+            <div class="col-md text-start col-xs-12 start-xs">
+                <a href="{{ 'news'|page({ slug: previousArticle.slug }) }}" class="prev">
+                    ← {{ previousArticle.title }}
+                </a>
+            </div>
+            {% endif %}
+            {% if nextArticle %}
+            <div class="col-md text-start col-xs-12 end-xs">
+                <a href="{{ 'news'|page({ slug: nextArticle.slug }) }}" class="prev">
+                     {{ nextArticle.title }} &#10140;
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+{% else %}
+    <div class="container pt-0 mt-0">
+    <h2 class="text-center mt-4 mb-4">Keep up to date with the latest news from the BioAgora project!</h2>
+    <div class="category-tabs-container mb-2">
+        {% if categories.count > 0 %}
+        <div class="row category-tabs" id="category-tabs">
+            <a href="{{ 'news'|page }}" class="{{ 'all' == categoryId ? 'active' : '' }}">All News</a>
+            {% for category in categories %}
+            <a href="{{ 'news'|page }}?categoryId={{ category.id }}" class="{{ category.id == categoryId ? 'active' : '' }}">{{ category.name }}</a>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    <div class="newslist-records" id="newslist-records">
+        {% partial 'components/newslist-records' %}
+    </div>
+    <div class="row container">
+        {{ records.render|raw }}
+    </div>
+</div>
+<div class="containe flower-bg"></div>
+{% endif %}
+</div>

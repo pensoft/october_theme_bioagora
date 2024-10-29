@@ -1,0 +1,118 @@
+.events {
+    .month-year-header {
+        color: #0026bd;
+        font-size: 24px;
+        text-transform: uppercase;
+        font-weight: 600;
+        margin-bottom: 20px;
+        display: block;
+        clear: both;
+    }
+
+    .events_list_container {
+        width: 100%;
+    }
+
+    .month-events {
+        margin-bottom: 20px;
+    }
+    .toggle-back{
+        padding: 20px 0;
+        min-height: 25px;
+        background-color: #F4F4F4;
+    }
+    .body-content{
+        display: flex;
+        align-items: center;
+        padding: 20px 10px;
+        border: 1px solid #eaeaea;
+        border-top: none;
+    }
+
+    .entry_item {
+        display: flex;
+        align-items: center;
+        padding: 20px 10px;
+        border: 1px solid #eaeaea;
+        border-left: 4px solid #00bda7;
+        margin: 0 !important;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        cursor: pointer;
+        background-color: #fff;
+        &:hover {
+            transition: border-left 0.1s ease-in-out;
+            border-left: 10px solid #00bda7;
+        }
+    }
+
+    .date_container {
+        text-align: start;
+    }
+
+    .date-start {
+        display: flex;
+        font-style: normal;
+        text-transform: uppercase;
+        line-height: 110%;
+        font-size: 30px;
+        color: #00bda7;
+        font-weight: 600;
+    }
+
+    .date_day{
+        display: flex;
+        justify-content: start;
+        align-items: start;
+    }
+
+    .date-end{
+        font-style: normal;
+        text-transform: uppercase;
+        line-height: 110%;
+        font-size: 14px;
+        color: #00bda7;
+        font-weight: 600;
+        margin-left: 4px;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .date_month {
+        text-transform: uppercase;
+        margin-left: 2px;
+        font-size: 14px;
+        font-weight: normal;
+        color: #00bda7;
+    }
+
+    .body_container .date_week {
+        font-size: 22px;
+        color: #00bda7;
+        font-weight: bold;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .featured-label{
+        padding: 2px 10px;
+        border-radius: 5px;
+        color: @white-color;
+        text-transform: uppercase;
+        background-color: #ffcb55;
+        width: fit-content;
+        margin-bottom: 10px;
+    }
+
+    .featured-event {
+        background-color: #FFF6E2;
+    }
+    // .date-seperator{
+    //     font-size: 14px;
+    // }
+    // .body_container a:hover {
+    //     color: #2c3e50;
+    // }
+
+}

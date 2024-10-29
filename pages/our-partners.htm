@@ -1,0 +1,106 @@
+url = "/our-partners"
+layout = "default"
+title = "Our Partners"
+
+[siteSearchInclude]
+
+[jumbotron]
+jumbotron = "partners"
+background = "transperant"
+templates = "template3"
+description_limit = 0
+==
+<?php
+use Pensoft\Partners\Models\Partners;
+use Rainlab\User\Models\User as Profiles;
+
+function onStart(){
+	$this['partners'] =  Partners::get();
+
+    $this['partner_members'] = new class {
+        public function getProfiles($partnerId) {
+            return Profiles::where('is_visible', 1)->where('partner_id', $partnerId)->orderBy('name')->get();
+}
+};
+
+}
+
+
+function onPartners(){
+    if(post('code')){
+        $this['partners'] =  Partners::whereRaw('country_code ILIKE \'%'.post('code').'%\'')->where('type', 1)->get();
+    }
+
+    $this['partner_members'] = new class {
+        public function getProfiles($partnerId) {
+            return Profiles::where('is_visible', 1)->where('partner_id', $partnerId)->get();
+        }
+    };
+}
+?>
+==
+{% component 'siteSearchInclude' %}
+{% component 'jumbotron' %}
+<div class="container-fluid page-bg">
+    <div class="container">
+        <span class="tooltiptext" id="tooltip">Bulgaria</span>
+        {% partial 'map' %}
+    </div>
+</div>
+<div class="container-fluid bg-secondary">
+    <div class="container">
+        <div id="mycomponentpartners" class="row">
+
+
+            {% for partner in partners %}
+            <div class="col-md-4 col-xs-12">
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <div class="flip-card-content">
+                                {% if partner.cover %}
+                                    <img alt="{{ partner.instituion }}" src="{{partner.cover.getThumb(178,auto, { mode : 'crop' } )}}">
+                                {% endif %}
+                                <h3>{{ partner.instituion }}<br>{{ partner.country[0].name }}</h3>
+                            </div>
+                        </div>
+                        <div class="flip-card-back">
+                            <div class="row flip-card-content">
+                                <div class="col-xs-12">{{partner.content|raw}}</div>
+                                <div class="col-xs-12">
+                                    <a class="website" href="{{'our-team'|page}}#{{partner.instituion|slug}}">Main contact</a>
+                                </div>
+                                <div class="col-xs-12">
+                                    <a class="website" href="{{partner.instituion_url}}" target="_blank">Website of the partner</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+
+
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid science-service">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-xs-12">
+                <h3 class="fl-heading" data-aos="fade-right">
+                    <span class="fl-heading-text">Learn more about our team</span>
+                </h3>
+            </div>
+            <div class="col-md-2 col-xs-12 end-md center-xs">
+                <a href="{{'our-team'|page}}" class="btn btn-float" >
+                    Learn more
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+

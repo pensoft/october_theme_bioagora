@@ -1,0 +1,32 @@
+
+
+
+
+        {% for partner in partners %}
+        <div class="col-md-4 col-xs-12">
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="flip-card-content">
+                            {% if partner.cover %}
+                            <img alt="{{ partner.instituion }}" src="{{partner.cover.getThumb(178,auto, { mode : 'crop' } )}}">
+                            {% endif %}
+                            <h3>{{ partner.instituion }}<br>{{ partner.country[0].name }}</h3>
+                        </div>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="row flip-card-content">
+                            <div class="col-xs-12">{{partner.content|raw}}</div>
+                            <div class="col-xs-12">
+                                <a class="website" href="{{'our-team'|page}}#{{partner.instituion|slug}}">Main contact</a>
+                            </div>
+                            <div class="col-xs-12">
+                                <a class="website" href="{{partner.instituion_url}}" target="_blank">Website of the partner</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
