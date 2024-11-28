@@ -4,12 +4,75 @@ title = "The Financial Support for Third Parties"
 
 [jumbotron]
 jumbotron = "financial-support-third-parties"
+title = 1
 background = "transperant"
 templates = "template3"
 description_limit = 0
 
 [siteSearchInclude]
+
+[jumbotron jumbotron2]
+jumbotron = "open-funding-calls"
+title = 1
+background = "transperant"
+templates = "template3"
+description_limit = 0
+==
+<?php
+use Pensoft\Accordions\Models\Item;
+use Pensoft\Accordions\Models\Category;
+
+function onStart(){
+    $this['category'] = Category::where('id', 3)->first();
+    $this['accorions'] = Item::where('category_id', 3)->get();
+}
+?>
 ==
 {% component 'siteSearchInclude' %}
 
+{% component 'jumbotron2' %}
 {% component 'jumbotron' %}
+
+<div class="container-fluid science-service">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-xs-12">
+                <h3 class="fl-heading" data-aos="fade-right">
+                    <span class="fl-heading-text">For any questions related to this call for proposals, please contact the BioAgora team</span>
+                </h3>
+            </div>
+            <div class="col-md-4 col-xs-12 end-md center-xs">
+                <a href="{{'our-partners'|page}}" class="btn btn-float" >
+                    calls@bioagora.eu
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<div class="control-popup modal fade" id="openFundingCalls" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h2>{{category.name}}</h2>
+                <div class="funding-calls-accordion">
+                    {% for accorion in accorions %}
+                    <div class="funding-calls">
+                        <div class="row middle-xs accordion-toggle">
+                            <div class="col-xs start-xs"><h1>{{accorion.title}}</h1></div>
+                            <div class="col-xs-2 end-xs plusminus"><span class="plus"></span></div>
+                        </div>
+                        <div class="accordion-content" style="display: none;">
+                            <div>{{accorion.body|raw}}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -29,8 +29,8 @@ description_limit = 0
 
             <div class="navbar-collapse collapse end-xs" id="headerNavbarNav" style="display: none;">
                 {% component 'menu' %}
-
             </div>
+
             <div class="search-and-social-media hidden-xs">
                 {% if enable_twitter and twitter_url %}
                 <a href="{{twitter_url}}" target="_blank" class="pr p-secondary p-twitter normal" target="_blank"></a>
@@ -58,10 +58,9 @@ description_limit = 0
                     </form>
                 </div>
             </div>
+            <div id="google_translate_element"></div>
         </div>
     </div>
-
-
 </nav>
 
 
@@ -108,5 +107,9 @@ description_limit = 0
 </div>
 {% endif %}
 
-
-
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script>
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+    }
+</script>

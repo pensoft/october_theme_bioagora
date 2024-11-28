@@ -70,7 +70,7 @@ $(document).ready(function() {
         $(this).next('.body-content').slideToggle();
     });
 
-    $('body').on('click', '.work_packages .accordion-toggle, .faqs .accordion-toggle', function () {
+    $('body').on('click', '.work_packages .accordion-toggle, .faqs .accordion-toggle, .funding-calls .accordion-toggle', function () {
         if ($(this).next(".accordion-content").is(':visible')) {
             $(this).next(".accordion-content").slideUp(300);
             $(this).children().find(".plusminus").text('+');
@@ -85,11 +85,11 @@ $(document).ready(function() {
         }
     });
 
-    $('.work_packages .accordion-content, .faqs .accordion-content, .messages .accordion-toggle').each(function (index, value) {
+    $('.work_packages .accordion-content, .faqs .accordion-content, .messages .accordion-toggle, .funding-calls .accordion-toggle').each(function (index, value) {
         $(value).find('a').attr("onclick", "window.open(this.href, '_blank');")
     });
 
-    if (window.location.hash) {
+    if (window.location.hash && window.location.hash != '#openFundingCalls') {
         var link = window.location.hash;
         var anchorId = link.substr(link.indexOf("#") + 1);
         if($("#"+anchorId).offset()){
@@ -143,7 +143,7 @@ $(document).ready(function() {
     });
 
 
-    $('.work_packages .accordion-content').each(function( index, value ) {
+    $('.work_packages .accordion-content, .funding-calls .accordion-content').each(function( index, value ) {
         $(value).find('a').attr( "onclick", "window.open(this.href, '_blank');" )
     });
 

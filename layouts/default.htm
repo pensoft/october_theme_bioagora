@@ -33,14 +33,13 @@ update_selector = "#gdpr-reload"
     <link href="{{ ['assets/css/light.css']|theme }}" rel="stylesheet">
     <script src="{{ 'assets/js/jquery.js'|theme }}"></script>
 
-
-
-<!--    <script src="{{ 'assets/js/popper.min.js'|theme }}"></script>-->
-<!--    <script src="{{ 'assets/js/tippy-bundle.umd.min.js'|theme}}"></script>-->
     <script src="{{ 'assets/js/app.js'|theme }}"></script>
     <script src="{{ 'assets/js/jquery-ui.js'|theme }}"></script>
 
-<!--    <script src="{{ 'assets/vendor/bootstrap/js/modal.js'|theme  }}"></script>-->
+    {% if this.page.id == 'financial-support-third-parties' or this.page.id == 'synergies' %}
+    <link href="{{ 'assets/css/bootstrap.min.css'|theme }}" rel="stylesheet">
+    <script src="{{ 'assets/js/bootstrap.min.js'|theme }}"></script>
+    {% endif %}
     <script type="text/javascript" src="{{ 'assets/js/slick.min.js'|theme }}"></script>
     <link rel="stylesheet" href="{{ 'assets/css/aos.css'|theme }}">
     <script src="{{ 'assets/js/aos.js'|theme }}"></script>
@@ -50,6 +49,7 @@ update_selector = "#gdpr-reload"
     <script src="{{ 'assets/js/selectize.min.js'|theme }}"></script>
     <script src="{{ 'assets/js/filter.js'|theme }}"></script>
     {% endif %}
+    <script src="https://cdn.userway.org/widget.js" data-account="dHcqEw1u9a"></script>
 
 
 

@@ -9,6 +9,12 @@
         color: @dark-color;
         text-align: center;
         padding-top: 110px;
+
+        .breakpoint-large-down({
+            margin-bottom: 50px;
+            padding-top: 80px;
+            background-size: 70px!important;
+        });
         &:nth-of-type(1){
             background: url("../../assets/images/numbers1.png") top center no-repeat;
             background-size: 90px;
@@ -289,6 +295,9 @@
             display: flex;
             align-items: center;
             margin: 20px auto;
+            .breakpoint-large-down({
+                height: auto;
+            });
         }
     }
 }
@@ -310,6 +319,10 @@
             align-items: center;
             height: 150px;
             margin: 20px auto;
+
+            .breakpoint-large-down({
+                height: auto;
+            });
         }
         h3{
             font-size: 29px;
@@ -372,6 +385,9 @@
     padding: 40px 80px;
     display: table;
     margin: 0 auto;
+    .breakpoint-large-down({
+        padding: 20px;
+    });
     h3, h2{
         font-size: 24px;
         line-height: 1.4;
@@ -418,7 +434,8 @@
         font-size: 15px;
 
         .profile-position{
-            font: normal normal 300 15px/17px Noto Sans;
+            font-size: 15px;
+            font-weight: 300;
             color: #606060;
         }
     }
@@ -454,4 +471,93 @@
 
 .contact_form_container{
     margin-left: 40px;
+    .breakpoint-large-down({
+        margin-left: 0;
+    });
+}
+
+.financial-support-third-parties{
+    h1.display-1{
+        font-size: 21px;
+        color: #343434;
+        font-weight: bold;
+    }
+
+    .col-md-4{
+        padding-left: 0;
+    }
+
+    .open-funding-calls-content{
+        background: #F4F4F4;
+        border-radius: 5px;
+        position: relative;
+        padding: 18px;
+        height: 219px;
+        font-size: 15px;
+        font-weight: bold;
+        .breakpoint-large-down({
+            height: 136px;
+            margin-bottom: 20px;
+        });
+
+        a.btn-funding{
+            position: absolute;
+            width: 100%;
+            height: 45px;
+            border-bottom-right-radius: 5px;
+            border-bottom-left-radius: 5px;
+            display: flex;
+            align-items: center;
+            bottom: 0;
+            left: 0;
+            font-size: 16px;
+            color: white;
+            background: #00BDA7 url("../../assets/images/arrow.svg") center no-repeat;
+            background-position: right 20px center;
+            transition: all 0.3s ease-in-out;
+            &:hover{
+                background: #0027BE url("../../assets/images/arrow.svg") center no-repeat;
+                background-position: right 15px center;
+            }
+
+            .breakpoint-large-down({
+                padding-left: 10px!important;
+            });
+        }
+
+        .col-md-8.col-xs-12{
+            .breakpoint-large-down({
+                padding: 0!important;
+            });
+        }
+    }
+
+    .modal-body{
+        padding: 0;
+        color: #343434;
+        h2{
+            font-size: 19px;
+            line-height: 24px;
+            font-weight: bold;
+            color: #343434;
+        }
+
+        .close{
+            color: #0027BE;
+            font-weight: 100;
+            font-size: 29px;
+        }
+    }
+
+    .container{
+        .breakpoint-large-down({
+            padding: 20px 10px;
+        });
+    }
+
+    .fl-heading-text{
+        .breakpoint-large-down({
+            margin-bottom: 20px;
+        });
+    }
 }

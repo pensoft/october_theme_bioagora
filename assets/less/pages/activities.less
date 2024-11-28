@@ -154,7 +154,7 @@
 
 
   .services {
-    width: 100%;
+    width: calc(~'100% - 40px');;
     padding: 40px 20px;
 
     h3 {
@@ -187,6 +187,10 @@
         text-align: left;
         width: 60%;
         max-width: 700px;
+          .breakpoint-large-down({
+              width: calc(~'100% - 40px');;
+              max-width: 100%;
+          });
 
         ul {
           list-style-type: none;
@@ -284,6 +288,9 @@
     display: flex;
     justify-self: center;
     align-items: center;
+      .breakpoint-large-down({
+          padding: 20px;
+      });
     ol{
       margin-top: 20px;
     }

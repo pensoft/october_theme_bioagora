@@ -1,0 +1,76 @@
+url = "/synergies"
+layout = "default"
+title = "Synergies"
+
+[siteSearchInclude]
+
+==
+<?php
+use Pensoft\Synergies\Models\Synergy;
+
+function onStart(){
+    $this['items'] = Synergy::orderBy('name')->get();
+}
+?>
+==
+{% component 'siteSearchInclude' %}
+
+<div class="container main_container">
+    <div class="row">
+        {% for record in items %}
+        <div class="col-md-4 col-xs-12 synergy_item">
+            <div class="row start-md center-xs">
+                <a data-toggle="modal" href="#content{{record.id}}">
+
+                    {% if record.logo %}
+                    <div class="synergy-image col-xs-12 center-xs">
+                        <img class="news-img-top" src="{{record.logo.getThumb(auto, 120, {'mode': 'crop'})}}">
+                    </div>
+                    {% endif %}
+                    <div class="synergy-container col-xs-12">
+                        <div class="row between-xs">
+                            <div class="col-md col-xs end-xs">Learn more</div>
+                        </div>
+
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="control-popup modal fade" id="content{{record.id}}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <div class="row middle-md around-xs logo_and_btn">
+                            <div class="col-md col-xs-12"><img class="news-img-top" src="{{record.logo.getThumb(auto, 100, {'mode': 'crop'})}}"></div>
+                            <div class="col-md col-xs-12"><a href="{{record.url}}" class="project_website" target="_blank">Project website</a></div>
+                        </div>
+
+                        <p>{{record.description|raw}}</p>
+
+                        {% if record.newsletter %}
+                        <br><br><a href="{{record.newsletter}}" target="_blank" class="btn btn-primary">Subscribe to newsletter</a>
+                        {% endif %}
+
+                        {% if record.social_media %}
+                        <br><br><h3>Follow the project on social media</h3>
+                        {% for social_item in record.social_media %}
+                        <a href="{{social_item.link}}" target="_blank" class="btn p-primary pr p-{{social_item.media}} big"></a>
+                        {% endfor %}
+                        {% endif %}
+
+
+
+                        {% if record.articles.count > 0 %}
+                        <br><br><h3 style="margin-bottom: 10px;">Related news:</h3>
+                        {% for article in record.articles %}
+                        <a href="{{'news'|page}}/{{article.slug}}" target="_blank" class="related_news">{{article.title}}</a>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
