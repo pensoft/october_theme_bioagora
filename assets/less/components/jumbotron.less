@@ -485,6 +485,69 @@
 
     .col-md-4{
         padding-left: 0;
+        //.breakpoint-large-down({
+        //    padding-left: unset;
+        //});
+    }
+
+    .open-funding-calls{
+        .image_container{
+            position: relative;
+            .breakpoint-large-down({
+                padding: 0;
+            });
+            img{
+                position: absolute;
+                height: -webkit-fill-available;
+                .breakpoint-large-down({
+                    height: auto;
+                });
+            }
+            .apply_info{
+                position: absolute;
+                bottom: 11px;
+                color: white;
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                padding: 0 20px;
+                .breakpoint-large-down({
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-top: 20px;
+                    padding: 0;
+                });
+
+                h3{
+                    margin-bottom: 0;
+                    font-size: 17px;
+                    font-weight: bold;
+                    color: white;
+                }
+
+                a{
+                    color: white;
+                    &.btn-float.mail_icon {
+                        background: url(../../assets/images/email-icon-white.svg) center no-repeat;
+                        background-size: 15px;
+                        background-position: 25px 5px;
+                        padding: 0 0 0 45px;
+                        border: none;
+                        width: fit-content;
+                    }
+                }
+
+                .col-md-8.col-xs-12{
+                    .breakpoint-large-down({
+                        padding: 0!important;
+                        text-align: center;
+                        margin-top: 20px;
+                    });
+                }
+            }
+        }
     }
 
     .open-funding-calls-content{

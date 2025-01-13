@@ -921,4 +921,10 @@ function scrollToTheTop(){
     return false;
 }
 
+function openFundingCallModalBtn(){
+    setTimeout(function() {
+        $(".openFundingCallModalBtn").trigger("click");
+    },10);
+}
+
 init()
