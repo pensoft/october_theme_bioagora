@@ -18,14 +18,22 @@ jumbotron = "you-will-find-page-all-past-and-future-public-events-and-webinars"
 background = "transperant"
 templates = "template3"
 description_limit = 0
-
 ==
 <?php
 use Pensoft\Calendar\Models\Entry;
 use Carbon\Carbon;
+use Pensoft\Articles\Models\Category;
+use Pensoft\Articles\Models\Article;
 
 function onStart(){
 
+
+        $categoryId = 1;
+        $this['events_articles'] = Article::news()->whereHas('categories', function ($query) use ($categoryId) {
+                            $query->where('id', $categoryId);
+                            })->where('published_at', '<=', 'now')
+                            ->where('published', 'true')
+                            ->orderBy('published_at', 'DESC')->get();
 
 
 $this['page_url'] = $this->pageUrl('');
@@ -71,7 +79,7 @@ $this['monthsWithEntries'] = $formattedMonths;
 ==
 <div class="container-fluid events">
     {% component 'jumbotron1' %}
-    <div class="container events-container">
+    <!--<div class="container events-container">
         {% if groupedEntries %}
         <div class="listView" id="listView">
             
@@ -119,12 +127,20 @@ $this['monthsWithEntries'] = $formattedMonths;
         </div>
         {% endif %}
         
-        {% else %}
-        <h2 class="text-center">No records to display</h2>
+       
         {% endif %}
+    </div>-->
+    
+
+
+    <div class="container news ">
+        <!--<h2 style="text-align: center;">Our <b>events articles</b></h2>-->
+        <div class="newslist-records">
+            {% partial 'components/newslist-records' records=events_articles %}
+        </div>
     </div>
+
+
     {% partial 'events-bulletin' %}
 
 </div>
-
-
