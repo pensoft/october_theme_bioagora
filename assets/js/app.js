@@ -89,7 +89,13 @@ $(document).ready(function() {
         $(value).find('a').attr("onclick", "window.open(this.href, '_blank');")
     });
 
-    if (window.location.hash && window.location.hash != '#openFundingCalls') {
+    if (window.location.hash &&
+        window.location.hash != '#openFundingCalls' &&
+        window.location.hash != '#listView' &&
+        window.location.hash != '#calendarView' &&
+        window.location.hash != '#events' &&
+        window.location.hash != '#news-events'
+    ) {
         var link = window.location.hash;
         var anchorId = link.substr(link.indexOf("#") + 1);
         if($("#"+anchorId).offset()){
@@ -201,7 +207,7 @@ $(document).ready(function() {
         }
     });
 
-    $('.events_tabs').each(function(){
+    $('.events .tabs').each(function(){
         // For each set of tabs, we want to keep track of
         // which tab is active and its associated content
         var $active, $content, $links = $(this).find('a');
@@ -276,6 +282,9 @@ $(document).ready(function() {
         });
     });
 
+    $( ".subtabs_events" ).tabs();
+    openParentTab();
+
     $(".readmore-link").click( function(e) {
         // record if our text is expanded
         var isExpanded =  $(e.target).hasClass("expand");
@@ -329,6 +338,27 @@ $(document).ready(function() {
 
 });
 
+function openParentTab() {
+    locationHash = location.hash.substring( 1 );
+    // Check if we have an location Hash
+    if (locationHash) {
+        // Check if the location hash exsist.
+        var hash = jQuery('#'+locationHash);
+        if (hash.length) {
+            // Check of the location Hash is inside a tab.
+            if (hash.closest(".tabContent").length) {
+                // Grab the index number of the parent tab so we can activate it
+                var tabNumber = hash.closest(".tabContent").index();
+                jQuery(".tabs.fix").tabs({ active: tabNumber });
+                // Not need but this puts the focus on the selected hash
+                hash.get(0).scrollIntoView();
+                setTimeout(function() {
+                    hash.get(0).scrollIntoView();
+                }, 1000);
+            }
+        }
+    }
+}
 
 function expandReadMore(el){
     var $el, $ps, $up, totalHeight;

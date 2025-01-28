@@ -12,12 +12,6 @@ category = "null"
 language = "en"
 redirect_to_detailed_page = "false"
 default_view = "dayGridMonth"
-
-[jumbotron jumbotron1]
-jumbotron = "you-will-find-page-all-past-and-future-public-events-and-webinars"
-background = "transperant"
-templates = "template3"
-description_limit = 0
 ==
 <?php
 use Pensoft\Calendar\Models\Entry;
@@ -27,120 +21,223 @@ use Pensoft\Articles\Models\Article;
 
 function onStart(){
 
+    if($this->param('slug')){
+$this['entry'] =  Entry::select(
+'*',
+'title',
+'place',
+'description',
+'url',
 
-        $categoryId = 1;
-        $this['events_articles'] = Article::news()->whereHas('categories', function ($query) use ($categoryId) {
-                            $query->where('id', $categoryId);
-                            })->where('published_at', '<=', 'now')
-                            ->where('published', 'true')
-                            ->orderBy('published_at', 'DESC')->get();
+DB::raw("to_char(\"start\", 'DD') as start_day"),
+DB::raw("to_char(\"start\", 'YYYY') as start_year"),
+DB::raw("to_char(\"end\", 'DD') as end_day"),
+DB::raw("to_char(\"end\", 'YYYY') as end_year"),
+DB::raw("to_char(\"start\", 'month') as start_month"),
+DB::raw("to_char(\"end\", 'month') as end_month"),
+DB::raw("
+\"end\" is not null as has_end
+")
+
+
+)->where('slug', $this->param('slug'))->first();
+
+\BennoThommo\Meta\Meta::set('twitter:card', 'summary_large_image');
+\BennoThommo\Meta\Meta::set('twitter:title', $this['entry']['title']);
+\BennoThommo\Meta\Meta::set('twitter:description', str_limit(Html::strip($this['entry']['description']), 255));
+\BennoThommo\Meta\Meta::set('og:title', $this['entry']['title']);
+\BennoThommo\Meta\Meta::set('og:description', str_limit(Html::strip($this['entry']['description']), 255) );
+\BennoThommo\Meta\Meta::set('og:type', 'article');
+\BennoThommo\Meta\Meta::set('og:url', $this->pageUrl(''));
+if($this['entry']['cover_image']){
+\BennoThommo\Meta\Meta::set('twitter:image', $this['entry']['cover_image']->getThumb(600, null, ['mode' => 'auto']));
+
+
+\BennoThommo\Meta\Meta::set('og:image', $this['entry']['cover_image']->getThumb(600, 314, ['mode' => 'crop']));
+\BennoThommo\Meta\Meta::set('og:image:width', 600);
+\BennoThommo\Meta\Meta::set('og:image:height', 314);
+}
+
+}
+$this['page_url'] = $this->pageUrl('');
+
+$this['entries'] = Entry::where('end', '>=', Carbon::now())->orderBy('start', 'asc')->paginate(20);
+
+$this['past_entries'] = Entry::where('end', '<', Carbon::now())->orderBy('start', 'desc')->paginate(20);
+
+
+$this['slug'] = $this->param('slug');
+
+$categoryId = 1;
+$this['events_articles'] = Article::news()->whereHas('categories', function ($query) use ($categoryId) {
+$query->where('id', $categoryId);
+})->where('published_at', '<=', 'now')
+->where('published', 'true')
+->orderBy('published_at', 'DESC')->get();
 
 
 $this['page_url'] = $this->pageUrl('');
 
-$entries = Entry::where('end', '>=', Carbon::now())
-->orderBy('start', 'asc')
-->get();
-
-$groupedEntries = [];
-
-foreach ($entries as $entry) {
-$monthYear = Carbon::parse($entry->start)->format('F Y');
-
-if (!isset($groupedEntries[$monthYear])) {
-    $groupedEntries[$monthYear] = [];
-}
-
-$groupedEntries[$monthYear][] = $entry;
-}
-
-$this['groupedEntries'] = $groupedEntries;
 
 
-$this['past_entries'] = Entry::where('end', '<', Carbon::now())->orderBy('start', 'desc')->get();
 
-$this['slug'] = $this->param('slug');
-
-$monthsWithEntries = Entry::selectRaw('EXTRACT(YEAR FROM start) as year, EXTRACT(MONTH FROM start) as month')
-    ->where('end', '>=', Carbon::now())
-    ->groupBy(DB::raw('EXTRACT(YEAR FROM start), EXTRACT(MONTH FROM start)'))
-    ->orderBy('year', 'asc')
-    ->orderBy('month', 'asc')
-    ->get();
-
-$formattedMonths = $monthsWithEntries->map(function ($entry) {
-    return Carbon::createFromDate($entry->year, $entry->month, 1)->format('F Y');
-})->toArray();
-
-$this['monthsWithEntries'] = $formattedMonths;
 
 }
 ?>
 ==
+{% if not slug %}
+
 <div class="container-fluid events">
-    {% component 'jumbotron1' %}
-    <!--<div class="container events-container">
-        {% if groupedEntries %}
-        <div class="listView" id="listView">
-            
-            {% for month, events in groupedEntries %}
-                <h2 class="month-year-header">{{ month }}</h2>
-                <div class="month-events">
-                    {% for entry in events %}
-                    <div class="event-item">
-                        {# Add 'featured-event' class if the event is featured #}
-                        <div class="row entry_item middle-xs {% if entry.identifier == 2 %} featured-event {% endif %}">
-                            <div class="col-md-1 col-xs-12 date_container">
-                                <div class="date_day">
-                                    <span class="date-start">{{ entry.start|date("j") }}{% if entry.end and entry.start|date("j") != entry.end|date("j") %} <span class="date-seperator"> - </span> {% endif %} </span> 
-                                    {% if entry.end and entry.start|date("j") != entry.end|date("j") %}
-                                        <span class="date-end">{{ entry.end|date("j M") }}</span>
-                                    {% endif %}
-                                </div>
-                                <div class="date_month">
-                                    {{ entry.start|date("M") }}
-                                </div>
-                            </div>
-                            <div class="col-md-11 col-xs-12 body_container">
-                                {% if entry.identifier == 2 %}
-                                    <div class="featured-label">Featured</div>
-                                {% endif %}
-                                <div class="date_week">
-                                    {{ entry.title|raw }}
-                                </div>
-                            </div>
+    
+<div class="container">
+    <div class="tabs">
+        <a class="" href="#events">Events</a>
+        <a class="" href="#news-events">News about events</a>
+    </div>
+</div>
+
+<div class="container events_container">
+    <div class="row" id="events">
+        <div class="subtabs_events">
+            <ul class="ui-tabs-nav">
+                <li><a href="#listView"></a></li>
+                <li><a href="#calendarView"></a></li>
+            </ul>
+            <div id="listView" class="subtabContent">
+                <div class="events_list_container">
+                    {% for entry in entries %}
+                    {% set url = entry.url ?  entry.url : '/events/' ~ entry.slug %}
+
+                    <div class="row entry_item middle-xs">
+                        <div class="col-md-2 col-xs-12 date_container">
+                            <span class="date_day">{{entry.start|date("j M")}}</span>
+                            <span class="date_year">{{entry.start|date("Y")}}</span>
                         </div>
-                        <div class="body-content" style="display: none;">
-                            {{ entry.description|raw }}
-                            <div class="toggle-back"></div>
+                        <div class="col-md-8 col-xs-12">
+                            {% if entry.cover_image %}
+                            <a href="{{'events'|page}}/{{entry.slug}}">
+                                <img src="{{entry.cover_image|crop_image|resize(174, auto, {'mode': 'crop'})}}">
+                            </a>
+                            {% endif %}
+                            <!--<span class="date_week mb-1">{{entry.start|date("l")}}</span>-->
+                            {{entry.title|raw}}
+                        </div>
+                        <div class="col-md-2 col-xs-12 end-md center-xs">
+                            <a href="{{'events'|page}}/{{entry.slug}}" class="btn btn-primary">Learn more</a>
                         </div>
                     </div>
+
                     {% endfor %}
-                </div> 
-            {% endfor %}
-            
+                </div>
+                {% if entries.count > 20 %}
+                <div class="row container">
+                    {{ entries.fragment('listView').render|raw }}
+                </div>
+                {% endif %}
+
+                {% if past_entries.count > 0 %}
+
+                <div class="col-xs-12">
+                    <h2>Past events</h2>
+                    <div class="events_list_container">
+                        {% for entry in past_entries %}
+                        {% set url = entry.url ?  entry.url : '/events/' ~ entry.slug %}
+
+                        <div class="row entry_item middle-xs">
+                            <div class="col-md-2 col-xs-12 date_container">
+                                <span class="date_day">{{entry.start|date("j M")}}</span>
+                                <span class="date_year">{{entry.start|date("Y")}}</span>
+                            </div>
+                            <div class="col-md-8 col-xs-12">
+                                {% if entry.cover_image %}
+                                <a href="{{'events'|page}}/{{entry.slug}}">
+                                    <img src="{{entry.cover_image|crop_image|resize(174, auto, {'mode': 'crop'})}}">
+                                </a>
+                                {% endif %}
+                                <!--<span class="date_week mb-1">{{entry.start|date("l")}}</span>-->
+                                {{entry.title|raw}}
+                            </div>
+                            <div class="col-md-2 col-xs-12 end-md center-xs">
+                                <a href="{{'events'|page}}/{{entry.slug}}" class="btn btn-primary">Learn more</a>
+                            </div>
+                        </div>
+
+                        {% endfor %}
+                    </div>
+
+                    <div class="row container">
+                        {{ past_entries.fragment('listView').render|raw }}
+                    </div>
+
+                </div>
+                {% endif %}
+            </div>
+            <div id="calendarView" class="subtabContent">
+                {% component 'calendar' %}
+            </div>
         </div>
-
-        {% if entries.count > 20 %}
-        <div class="row container">
-            {{ entries.fragment('listView').render|raw }}
-        </div>
-        {% endif %}
-        
-       
-        {% endif %}
-    </div>-->
-    
-
-
-    <div class="container news ">
-        <!--<h2 style="text-align: center;">Our <b>events articles</b></h2>-->
+    </div>
+    <div class="row news" id="news-events">
         <div class="newslist-records">
             {% partial 'components/newslist-records' records=events_articles %}
         </div>
+
     </div>
+</div>
 
 
-    {% partial 'events-bulletin' %}
+{% partial 'events-bulletin' %}
 
 </div>
+
+
+{% else %}
+
+{% if entry %}
+<div class="container" style="max-width: 950px;">
+    <div class="row single-news-item">
+        <div class="col-md col-xs-12">
+            <div class="news-title">
+                <h1 class="single-new-title">{{entry.title}}</h1>
+            </div>
+
+
+            <div class="text-published">{% if entry.start|date("j") == entry.end|date("j") %} {{entry.start|date("j M Y")}} {% elseif entry.start|date("M") == entry.end|date("M") %} {{entry.start|date("j")}}-{{entry.end|date("j M Y")}} {% else %} {{entry.start|date("d M Y")}} - {{entry.end|date("d M Y")}}{% endif %}<br>{{entry.place}}</div>
+            <div class="text-place"></div>
+
+        </div>
+
+        <div class="col-xs-12">
+            {% if entry.cover_image %}
+            <img class="content" src="{{ entry.cover_image|crop_image|resize(673, auto, { mode: 'crop' }) }}" />
+            {% endif %}
+        </div>
+
+        <div class="col-xs-12">
+            <div class="content">
+                {{entry.description|raw}}
+            </div>
+
+        </div>
+        <div class="col-xs-12">
+
+            {% if entry.url %}
+            <br><br><a href="{{entry.url}}" class="read_more" target="_blank">Go to event website</a>
+            {% endif %}
+
+            <div class="row share_container middle-xs">
+                <div class="col-cx-12 center-xs share_label">Share</div>
+                <div class="col-cx-12 center-xs">
+                    <a href="http://twitter.com/share?text={{entry.title}}&url={{page_url}}" target="_blank" class="pr p-twitter big hexagon"></a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{page_url}}&amp;src=sdkpreparse" target="_blank" class="pr p-facebook big  hexagon"></a>
+                    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{page_url}}" target="_blank" class="pr p-linkedin big hexagon"></a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+{% endif %}
