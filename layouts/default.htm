@@ -95,7 +95,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Matomo Code -->
 </head>
 
-<body>
+<body {% if this.page.id == 'home' %} onload="openFundingCallModalBtn();" {% endif %}>
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PWW5NKQ"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -130,22 +130,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <section id="layout-content" class="{{this.page.id}}" {% if user and this.page.id != 'home' %} style="padding-top: 154px!important;" {% endif %}>
         {% if this.page.id == 'home' %}
         <!-- popup markup -->
-        <a data-toggle="modal" href="#content-confirmation" class="openFundingCallModalBtn" style="display: none;">First BioAgora Cascade Funding Call</a>
+        <a data-toggle="modal" href="#content-confirmation" class="openFundingCallModalBtn" style="display: none;">Engage with BioAgora in the 2025 Horizon Europe call for research projects!</a>
 
         <div class="control-popup modal fade" id="content-confirmation" tabindex="-1" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content center-xs">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <div class="row">
-                        <div class="col-md-6 col-xs-12"><img src="{{'uploaded-files/FST - Image.png'|media}}"></div>
-                        <div class="col-md-6 col-xs-12 funding_content">
-                            <div>
-                                <div class="funding-title">First BioAgora Cascade Funding Call</div>
-                                <div class="funding-date">Apply until 27.01.2025</div>
-                            </div>
 
-                            <a class="read_more" href="{{'financial-support-third-parties'|page}}">Apply</a>
+                    <div class="row">
+
+                        <div class="col-md-7 col-xs-12 funding_content">
+                            <div>
+                                <div class="funding-title">Engage with BioAgora in the 2025 Horizon Europe call for research projects!</div>
+                                <div class="funding-text">The SSBD is set to be a core pillar of the European Commission's Knowledge Centre for Biodiversity (KCBD) by facilitating evidence-based decision-making in line with the 2030 EU Biodiversity Strategy.</div>
+                            </div>
+                            <a class="read_more" href="{{'financial-support-third-parties'|page}}">Find out more</a>
                         </div>
+                        <div class="col-md-5 col-xs-12"><img src="{{'uploaded-files/pop-up-image.png'|media}}"></div>
                     </div>
 
 

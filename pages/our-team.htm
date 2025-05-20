@@ -34,21 +34,26 @@ function onStart(){
 
 
             <div class="accordion-content">
-                <div class="row member-item">
+
                     {% for profile in partner_members.getProfiles(partner.id) %}
-                    <div class="col-md-6 col-xs-12">
-                        <div class="avatar-container">
-                            {% if profile.avatar %}
-                            <img class="img-fluid" src="{{ profile.avatar|crop_image }}" alt="{{ profile.names }}">
-                            {% endif %}
+                <div class="row member-item">
+                        <div class="col-md-2 col-xs-12">
+                            <div class="avatar-container">
+                                {% if profile.avatar %}
+                                <img class="img-fluid" src="{{ profile.avatar|crop_image }}" alt="{{ profile.names }}">
+                                {% endif %}
+                            </div>
                         </div>
-                        <div class="member-details">
-                            <h2>{{ profile.names }}</h2>
-                            {{ profile.content | raw }}
+                        <div class="col-md-10 col-xs-12">
+                            <div class="member-details">
+                                <h2>{{ profile.names }}</h2>
+                                <div class="body" style="display: none;">{{ profile.content | raw }}</div>
+                                <p class="read-more-bio" onclick="expandBiography(this);">Read biography</p>
+                            </div>
                         </div>
-                    </div>
-                    {% endfor %}
                 </div>
+                    {% endfor %}
+
             </div>
         </div>
     {% endif %}

@@ -958,4 +958,16 @@ function openFundingCallModalBtn(){
     },10);
 }
 
+function expandBiography(el){
+    $el = $(el) // read-more link
+    $body  = $el.parent().find('.body');
+    if($body.is(':visible')){
+        $body.slideUp(300);
+        $el.addClass('expanded');
+    }else{
+        $body.slideDown(300);
+        $el.removeClass('expanded');
+    }
+}
+
 init()
