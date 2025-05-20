@@ -858,6 +858,9 @@ footer .align-items-center{
         backdrop-filter: blur(5px);
         -webkit-backdrop-filter: blur(5px);
         padding: 3px;
+        .breakpoint-large-down({
+            margin: 11% auto;
+        });
     }
 
     .row{
@@ -900,6 +903,7 @@ footer .align-items-center{
                 color: #949494;
                 opacity: 1;
                 margin-top: 12px;
+                margin-bottom: 12px;
             }
 
             .funding-date{
@@ -942,6 +946,10 @@ footer .align-items-center{
             width: 100%;
             border-bottom-right-radius: 5px;
             border-top-right-radius: 5px;
+
+            .breakpoint-large-down({
+                border-radius: 5px;
+            });
         }
 
         .close{
