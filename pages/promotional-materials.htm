@@ -60,33 +60,25 @@ return Redirect::to('/media-center/flyer');
 ?>
 ==
 {% component 'siteSearchInclude' %}
-{% component 'jumbotron' %}
 
 {% set records = mediaFlyersList %}
 <div class="container-fluid page-bg">
-    <div class="container">
-        <div class="row materials">
+    <div class="container promotional-materials-content">
+        {% if records.count() %}
+        <div class="row">
             {% for record in records %}
-                <div class="col-md-3 col-xs-12">
-                    {% if record.flyer_image %}
-                        <div class="card-container text-center">
-
-                            <a href="{{ record.file.path }}#{{record.file.file_name}}" target="_blank" title="{{record.name}}">
-                                <div class="card_image_container">
-                                    <img src="{{ record.flyer_image.thumb(100, 100, {'mode': 'crop'})}}" alt="{{record.name}}">
-                                </div>
-                            </a>
-                            <h3>{{record.name}}</h3>
-                            <a href="{{ ''| page }}?{{queries}}&download={{record.file.id}}&file_name={{record.file.file_name|replace({' ': '_'})}}" title="{{record.name}}" class="btn btn-secondary">Download</a>
-
-                        </div>
-
-
-                    {% endif %}
-                </div>
+            <div class="col-md-4 col-xs-12 mb-1">
+                <a href="{{ ''| page }}?{{queries}}&download={{record.file.id}}&file_name={{record.file.file_name|replace({' ': '_'})}}" title="{{record.name}}" class="flyer-container {{record.name|slug}}">
+                    <img src="{{record.flyer_image.path}}" title="{{record.name}}">
+                    <div class="name_label">{{record.name}}</div>
+                    <div class="btn btn-secondary">Download</div>
+                </a>
+            </div>
             {% endfor %}
         </div>
-        {% component 'jumbotron2' %}
+        {% endif %}
+
 
     </div>
 </div>
+
