@@ -41,6 +41,8 @@ function onStart(){
                             <div class="avatar-container">
                                 {% if profile.avatar %}
                                 <img class="img-fluid" src="{{ profile.avatar|crop_image }}" alt="{{ profile.names }}">
+                                {% else %}
+                                <img class="img-fluid" src="{{ 'profile-image-placeholder.png'|media }}" alt="{{ profile.names }}">
                                 {% endif %}
                             </div>
                         </div>
