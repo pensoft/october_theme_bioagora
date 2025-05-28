@@ -28,10 +28,17 @@ description_limit = 0
 <?php
 use Pensoft\Accordions\Models\Item;
 use Pensoft\Accordions\Models\Category;
+use Pensoft\Articles\Models\Article;
 
 function onStart(){
     $this['category'] = Category::where('id', 4)->first();
     $this['accorions'] = Item::where('category_id', 4)->get();
+    $this['news'] = Article::news()->whereHas('categories', function ($query) {
+            $query->where('id', 7);
+            })->where('published_at', '<=', 'now')
+            ->where('published', 'true')
+            ->orderBy('published_at', 'DESC')
+            ->take(3)->get();
 }
 ?>
 ==
@@ -41,6 +48,46 @@ function onStart(){
 {% component 'jumbotron' %}
 
 {% component 'jumbotron3' %}
+
+
+
+{% if news.count > 0 %}
+
+<div class="container newslist-records news" id="newslist-records">
+    <h1 class="base_heading highlight_new_template_3">News</h1>
+    <div class="row newslist">
+        {% for highlight in news %}
+        <div class="col-xs-12 col-md-4 news-item item-{{highlight.slug}}">
+            <div class="row news_column">
+                {% if highlight.cover %}
+                <a class="news-image col-xs-12 center-xs" href="{{'news'|page}}/{{highlight.slug}}">
+                    <img class="news-img-top" src="{{highlight.cover.getThumb(370, 212, {'mode': 'crop'})}}">
+                </a>
+                {% else %}
+                <a class="news-image col-xs-12 center-xs" href="{{'news'|page}}/{{highlight.slug}}">
+                    <img class="news-img-top" src="{{'pensoft/No_Image_Available.jpg'|media }}" style="height: 212px; width: 370px;">
+                </a>
+                {% endif %}
+                <div class="news-container col-xs-12">
+                    <div class="text-published">{{ highlight.published_at|date("d M Y") }}</div>
+                    <div class="news-title">
+                        <h3 class="card-title"><a href="{{'news'|page}}/{{highlight.slug}}">{{ highlight.title|length > 99 ? highlight.title|slice(0, 99) ~ '...' : highlight.title  }}</a></h3>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="{{'news'|page}}/{{highlight.slug}}" class="btn btn-primary">{{'Read article' |_}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endif %}
+
 
 <div class="container-fluid science-service">
     <div class="container">
