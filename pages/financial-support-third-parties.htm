@@ -1,6 +1,6 @@
 url = "/financial-support-third-parties"
 layout = "default"
-title = "The Financial Support for Third Parties"
+title = "Financial Support for Third Parties"
 
 [jumbotron]
 jumbotron = "financial-support-third-parties"
@@ -30,8 +30,8 @@ use Pensoft\Accordions\Models\Item;
 use Pensoft\Accordions\Models\Category;
 
 function onStart(){
-    $this['category'] = Category::where('id', 3)->first();
-    $this['accorions'] = Item::where('category_id', 3)->get();
+    $this['category'] = Category::where('id', 4)->first();
+    $this['accorions'] = Item::where('category_id', 4)->get();
 }
 ?>
 ==

@@ -323,6 +323,7 @@ $(document).ready(function() {
         'privacy',
         'notice',
         'FAQ',
+        'Financial Support',
     ];
 
     $.each(hedingsArray, function (index, value) {
