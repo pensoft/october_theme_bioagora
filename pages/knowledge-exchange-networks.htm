@@ -1,0 +1,285 @@
+title = "Knowledge Exchange Networks"
+layout = "default"
+url = "/knowledge-exchange-networks/:slug?|[a-zA-Z\-0-9]"
+
+[siteSearchInclude]
+
+[jumbotron about_ken]
+jumbotron = "about-ken"
+title = 1
+background = "transperant"
+templates = "template3"
+description_limit = 0
+==
+<?php
+use Pensoft\Networks\Models\Data;
+use Pensoft\Articles\Models\Article;
+use Pensoft\Articles\Models\Category;
+use Pensoft\Calendar\Models\Entry;
+use System\Models\File;
+
+function onStart(){
+    $this['items'] = Data::get();
+    $this['news'] = Article::news()->whereHas('categories', function ($query) {
+                                                $query->where('id', 8);
+                                            })->where('published_at', '<=', 'now')
+                                            ->where('published', 'true')
+                                            ->orderBy('published_at', 'DESC')
+                                            ->take(3)
+                                            ->get();
+
+    $ken = Data::where('slug', $this->param('slug'))->first();
+
+    if($ken){
+        $this['ken'] = $ken;
+        $this['ken_detail_page'] = true;
+        $this['ken_title'] = $ken->title;
+
+        $this['ken_news'] = Article::news()->whereHas('categories', function ($query) use ($ken) {
+            $query->where('id', $ken->news_category_id);
+        })->where('published_at', '<=', 'now')
+        ->where('published', 'true')
+        ->orderBy('published_at', 'DESC')
+        ->take(3)
+        ->get();
+    }
+
+
+if(get('download')){
+$file = File::find((int)get('download'));
+$file_name = $file->getLocalPath();
+$recordName = get('file_name') ? get('file_name') : 'REST-COAST_flyer';
+$ext= $file->getExtension();
+
+if (file_exists($file_name)) {
+header('Content-Description: File Transfer');
+header('Content-Type: application/octet-stream');
+header("Content-Type: application/force-download");
+header('Content-Disposition: attachment; filename='.$recordName .'.'. $ext);
+header('Content-Transfer-Encoding: binary');
+header('Expires: 0');
+header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+header('Pragma: public');
+header('Content-Length: ' . filesize($file_name));
+ob_clean();
+flush();
+readfile($file_name);
+exit();
+}
+return Redirect::to('/knowledge-exchange-networks');
+}
+
+
+}
+?>
+==
+{% component 'siteSearchInclude' %}
+
+
+{% if ken_detail_page %}
+
+<div class="ken_detailed_info_container">
+    <div class="container about_info">
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <h1 class="display-1">About</h1>
+                {{ ken.about|raw }}
+            </div>
+            <div class="col-md-6 col-xs-12 end-md center-xs">
+                <img src="{{ken.about_image.path}}">
+            </div>
+        </div>
+    </div>
+
+    {% if ken.get_in_touch_url %}
+    <div class="container-fluid science-service">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-xs-12">
+                    <h3 class="fl-heading aos-init aos-animate" data-aos="fade-right">
+                        <span class="fl-heading-text">Become a part of the {{ken_title}} KEN!</span>
+                    </h3>
+                </div>
+                <div class="col-md-2 col-xs-12 end-md center-xs">
+                    <a href="{{ken.get_in_touch_url}}" target="_blank" class="btn btn-float">
+                        Get in touch
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {% endif %}
+
+
+    {% if ken.knowege_requests %}
+        <div class="container knowledge_requests_table">
+        <h1 class="display-1">Knowledge Requests</h1>
+        <div class="row">
+            <div class="col-md">Type</div>
+            <div class="col-md">Title</div>
+            <div class="col-md">Coordinator</div>
+            <div class="col-md">Estimated submission</div>
+            <div class="col-md">Status</div>
+        </div>
+            {% for item in ken.knowege_requests %}
+        <div class="row">
+                <div class="col-md type"><span class="{{item.type|slug}}">{{item.type}}</span></div>
+                <div class="col-md ken_title">{{item.title}}</div>
+                <div class="col-md coordinator">{{item.coordinator}}</div>
+                <div class="col-md estimate">{{item.estimate}}</div>
+                <div class="col-md status"><span class="{{item.status|slug}}">{{item.status}}</span></div>
+        </div>
+            {% endfor %}
+
+    </div>
+    {% endif %}
+
+    {% if ken.event.count > 0 %}
+    <div class="container events_list_container">
+        <h1 class="display-1">Activities and Events</h1>
+    {% for entry in ken.event %}
+        {% set url = entry.url ?  entry.url : '/events/' ~ entry.slug %}
+        <div class="row entry_item middle-xs">
+            <div class="col-md-2 col-xs-12 date_container">
+                <span class="date_day">{{entry.start|date("j M")}}</span>
+                <span class="date_year">{{entry.start|date("Y")}}</span>
+            </div>
+            <div class="col-md-8 col-xs-12">
+                {% if entry.cover_image %}
+                <a href="{{'events'|page}}/{{entry.slug}}">
+                    <img src="{{entry.cover_image|crop_image|resize(174, auto, {'mode': 'crop'})}}">
+                </a>
+                {% endif %}
+                <!--<span class="date_week mb-1">{{entry.start|date("l")}}</span>-->
+                {{entry.title|raw}}
+            </div>
+            <div class="col-md-2 col-xs-12 end-md center-xs">
+                <a href="{{'events'|page}}/{{entry.slug}}" class="btn btn-primary">Learn more</a>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+    {% endif %}
+
+
+    {% if ken.files.count > 0 %}
+    <div class="container files_list_container">
+        <h1 class="display-1">Publications and key documents</h1>
+        {% for file in ken.files %}
+        <div class="row file_item">
+            <div class="col-md-10 col-xs-12 file_name">
+                {% if  file.extension == 'docx' or  file.extension == 'doc' %}
+                <i class="files_doc"></i>
+                {% elseif file.extension == 'pdf' %}
+                <i class="files_pdf"></i>
+                {% else %}
+                <i class="files_file"></i>
+                {% endif %}
+
+                {{file.file_name}}
+            </div>
+            <div class="col-md-2 col-xs-12 end-md center-xs">
+                <a href="{{ ''| page }}?{{queries}}&download={{file.id}}&file_name={{file.file_name|replace({' ': '_'})}}" title="{{file.file_name}}">Download</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+
+    {% if ken_news.count > 0 %}
+    <div class="container newslist-records news">
+        <h1 class="display-1">News</h1>
+        <div class="row newslist">
+            {% for highlight in ken_news %}
+            <div class="col-xs-12 col-md-4 news-item item-{{highlight.slug}}">
+                <div class="row news_column">
+                    {% if highlight.cover %}
+                    <a class="news-image col-xs-12 center-xs" href="{{'news'|page}}/{{highlight.slug}}">
+                        <img class="news-img-top" src="{{highlight.cover.getThumb(370, 212, {'mode': 'crop'})}}">
+                    </a>
+                    {% else %}
+                    <a class="news-image col-xs-12 center-xs" href="{{'news'|page}}/{{highlight.slug}}">
+                        <img class="news-img-top" src="{{'pensoft/No_Image_Available.jpg'|media }}" style="height: 212px; width: 370px;">
+                    </a>
+                    {% endif %}
+                    <div class="news-container col-xs-12">
+                        <div class="text-published">{{ highlight.published_at|date("d M Y") }}</div>
+                        <div class="news-title">
+                            <h3 class="card-title"><a href="{{'news'|page}}/{{highlight.slug}}">{{ highlight.title|length > 99 ? highlight.title|slice(0, 99) ~ '...' : highlight.title  }}</a></h3>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <a href="{{'news'|page}}/{{highlight.slug}}" class="btn btn-primary">{{'Read article' |_}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+
+{% else %}
+<div class="about_ken">
+    {% component 'about_ken' %}
+</div>
+
+<div class="container ken_list">
+    <h2>Knowledge Exchange Networks Currently Active</h2>
+    <div class="row">
+        {% for record in items %}
+        <div class="col-md-6 col-xs-12 case">
+            <div class="ken_item">
+                <div class="row info_container">
+                    <div class="col-md-3 col-xs-12"><div class="icon_container"><img src="{{record.icon.path}}"></div></div>
+                    <div class="col-md-6 col-xs-12"><div class="title_container">{{record.title}}</div></div>
+                    <div class="col-md-3 col-xs-12 end-md center-xs"><a class="arrow_container" href="{{'knowledge-exchange-networks'|page}}/{{record.slug}}">&nbsp;</a></div>
+                </div>
+                <div class="col-xs-12 center-xs url_container"><a class="btn btn-primary" href="{{record.get_in_touch}}" target="_blank">Get in touch</a></div></div>
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+
+    {% if news.count > 0 %}
+    <div class="container newslist-records news" id="newslist-records">
+        <h1 class="display-1">News</h1>
+        <div class="row newslist">
+            {% for highlight in news %}
+            <div class="col-xs-12 col-md-4 news-item item-{{highlight.slug}}">
+                <div class="row news_column">
+                    {% if highlight.cover %}
+                    <a class="news-image col-xs-12 center-xs" href="{{'news'|page}}/{{highlight.slug}}">
+                        <img class="news-img-top" src="{{highlight.cover.getThumb(370, 212, {'mode': 'crop'})}}">
+                    </a>
+                    {% else %}
+                    <a class="news-image col-xs-12 center-xs" href="{{'news'|page}}/{{highlight.slug}}">
+                        <img class="news-img-top" src="{{'pensoft/No_Image_Available.jpg'|media }}" style="height: 212px; width: 370px;">
+                    </a>
+                    {% endif %}
+                    <div class="news-container col-xs-12">
+                        <div class="text-published">{{ highlight.published_at|date("d M Y") }}</div>
+                        <div class="news-title">
+                            <h3 class="card-title"><a href="{{'news'|page}}/{{highlight.slug}}">{{ highlight.title|length > 99 ? highlight.title|slice(0, 99) ~ '...' : highlight.title  }}</a></h3>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <a href="{{'news'|page}}/{{highlight.slug}}" class="btn btn-primary">{{'Read article' |_}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+{% endif %}

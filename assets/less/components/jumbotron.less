@@ -479,7 +479,7 @@
 .financial-support-third-parties{
     h1.display-1{
         font-size: 21px;
-        color: #343434;
+        color: @h1-text-color;
         font-weight: bold;
     }
 
@@ -597,12 +597,12 @@
 
     .modal-body{
         padding: 0;
-        color: #343434;
+        color: @h1-text-color;
         h2{
             font-size: 19px;
             line-height: 24px;
             font-weight: bold;
-            color: #343434;
+            color: @h1-text-color;
         }
 
         .close{
@@ -622,5 +622,202 @@
         .breakpoint-large-down({
             margin-bottom: 20px;
         });
+    }
+}
+
+.about_ken{
+    h1{
+        text-align: left;
+        font-weight: 600;
+        font-size: 25px;
+        line-height: 17px;
+        letter-spacing: 0px;
+        color: @h1-text-color;
+    }
+}
+
+.ken_list{
+
+    h2{
+        text-align: center;
+        font-weight: 600;
+        font-size: 27px;
+        line-height: 34px;
+        letter-spacing: 0px;
+        color: @h1-text-color;
+    }
+
+    .ken_item{
+        background: @secondary-color;
+        border-radius: 5px;
+        padding: 0;
+        margin-bottom: 30px;
+
+        .info_container{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 19px 10px;
+            .icon_container{
+                background: #ECECEC;
+                border-radius: 15px;
+                padding: 15px;
+                width: 91px;
+                height: 82px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                img{
+                    width: 52px;
+                    height: 52px;
+                    object-fit: contain;
+                }
+            }
+
+            .title_container{
+                font-size: 19px;
+                font-weight: bold;
+                margin-left: 15px;
+            }
+
+            .arrow_container{
+                background: url("../../assets/images/arrow_events.svg") center no-repeat;
+                height: 16px;
+                background-size: contain;
+                display: flex;
+                align-items: center;
+                justify-content: end;
+                width: 100%;
+                &:hover{
+                    opacity: 0.5;
+                }
+            }
+        }
+
+        .url_container{
+            padding: 0;
+
+            .btn-primary{
+                width: 100%;
+                border-radius: 0px 0px 5px 5px;
+                font-size: 16px;
+            }
+        }
+
+    }
+}
+
+.ken_detailed_info_container{
+    .about_info{
+        h1{
+            font-size: 21px;
+            font-weight: bold;
+            color: @h1-text-color;
+        }
+
+        img{
+            width: 378px;
+            max-width: 100%;
+            height: 253px;
+            border-radius: 5px;
+        }
+    }
+
+    .knowledge_requests_table{
+        h1{
+            font-size: 21px;
+            font-weight: bold;
+            color: @h1-text-color;
+        }
+
+        .row + .row {
+            margin-top: 0;
+        }
+
+        .row{
+            font-size: 13px;
+            line-height: 21px;
+            padding: 8px 19px;
+            background: #F4F4F4;
+            border-top: 1px solid #E2E2E2;
+            color: @h1-text-color;
+            font-weight: 500;
+            &:nth-of-type(1){
+                color: #8E8E8E;
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+                border-top: none;
+                font-weight: normal;
+            }
+
+            &:last-of-type{
+                border-bottom-left-radius: 5px;
+                border-bottom-right-radius: 5px;
+            }
+
+            .type{
+                color: #FFA200;
+                .urgent{
+                    color: #FFA200;
+                }
+                .in-depth{
+                    color: #C47D01;
+                }
+            }
+
+            .status{
+                span{
+                    background: #D2E6CD;
+                    border: 1px solid #78A359;
+                    border-radius: 5px;
+                    color: #78A359;
+                    padding: 4px 7px;
+                }
+            }
+        }
+
+    }
+
+}
+
+.knowledge-exchange-networks{
+    h1.display-1{
+        font-size: 21px;
+        color: @h1-text-color;
+        font-weight: bold;
+    }
+
+    .file_item{
+        background: #F4F4F4;
+        border-radius: 5px;
+        padding: 15px;
+
+        a{
+            background: url("../../assets/images/download-icon-green.svg") left center no-repeat;
+            background-size: 14px;
+            padding-left: 20px;
+            &:hover{
+                opacity: 0.5;
+            }
+        }
+
+        i{
+            background: url("../../assets/images/files_file.svg") left center no-repeat;
+            background-size: 36px;
+            padding-left: 45px;
+
+            &.files_doc{
+                background: url("../../assets/images/files_doc.svg") left center no-repeat;
+                background-size: 36px;
+            }
+            &.files_pdf{
+                background: url("../../assets/images/files_pdf.svg") left center no-repeat;
+                background-size: 36px;
+            }
+        }
+    }
+
+    .file_item + .file_item {
+        margin-top: 5px;
     }
 }

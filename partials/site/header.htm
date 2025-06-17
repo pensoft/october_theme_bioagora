@@ -92,7 +92,11 @@ description_limit = 0
                 <div class="jumbotron container">
                     {% if page_id != 'home' and page_id != 'search' %}
                     <h1 class="underline white">
-                        {% if page_title %} {{ page_title }} {% else %} {{ site_name }} {% endif %}
+                        {% if ken_detail_page %}
+                            <b>{{ken_title}}</b>
+                        {% else %}
+                            {% if page_title %} {{ page_title }} {% else %} {{ site_name }} {% endif %}
+                        {% endif %}
                     </h1>
                     {% endif %}
                 </div>
@@ -102,7 +106,11 @@ description_limit = 0
                 <div class="jumbotron container">
                     {% if page_id != 'home' and page_id != 'search' %}
                     <h1 class="underline white">
-                        {% if page_title %} {{ page_title }} {% else %} {{ site_name }} {% endif %}
+                        {% if ken_detail_page %}
+                            <b>{{ken_title}}</b>
+                        {% else %}
+                            {% if page_title %} {{ page_title }} {% else %} {{ site_name }} {% endif %}
+                        {% endif %}
                     </h1>
                     {% endif %}
                 </div>
