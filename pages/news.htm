@@ -25,7 +25,7 @@ function onStart()
     }
 
     $this['article'] = $article;
-    $this['categories'] = Category::orderBy('sort_order')->orderBy('created_at', 'desc')->get();
+    $this['categories'] = Category::whereNotIn('id', [9, 10, 11, 12, 13, 14, 15])->orderBy('sort_order')->orderBy('created_at', 'desc')->get();
 
     $categoryId = input('categoryId', 'all');
 

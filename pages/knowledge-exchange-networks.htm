@@ -80,7 +80,7 @@ return Redirect::to('/knowledge-exchange-networks');
 
 <div class="ken_detailed_info_container">
     <div class="container about_info">
-        <div class="row">
+        <div class="row middle-xs">
             <div class="col-md-6 col-xs-12">
                 <h1 class="display-1">About</h1>
                 {{ ken.about|raw }}
@@ -89,6 +89,16 @@ return Redirect::to('/knowledge-exchange-networks');
                 <img src="{{ken.about_image.path}}">
             </div>
         </div>
+        {% if ken.about2 %}
+        <div class="row middle-xs">
+            <div class="col-md-6 col-xs-12 start-md center-xs">
+                <img src="{{ken.about_image2.path}}">
+            </div>
+            <div class="col-md-6 end-md center-xs col-xs-12">
+                <div style="float: right">{{ ken.about2|raw }}</div>
+            </div>
+        </div>
+        {%endif %}
     </div>
 
     {% if ken.get_in_touch_url %}
