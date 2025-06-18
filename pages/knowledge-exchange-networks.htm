@@ -240,7 +240,7 @@ return Redirect::to('/knowledge-exchange-networks');
                     <div class="col-md-6 col-xs-12"><div class="title_container">{{record.title}}</div></div>
                     <div class="col-md-3 col-xs-12 end-md center-xs"><a class="arrow_container" href="{{'knowledge-exchange-networks'|page}}/{{record.slug}}">&nbsp;</a></div>
                 </div>
-                <div class="col-xs-12 center-xs url_container"><a class="btn btn-primary" href="{{record.get_in_touch}}" target="_blank">Get in touch</a></div></div>
+                <div class="col-xs-12 center-xs url_container"><a class="btn btn-primary" href="{{record.get_in_touch_url}}" target="_blank">Get in touch</a></div></div>
             </div>
         {% endfor %}
     </div>
