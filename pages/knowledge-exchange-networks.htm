@@ -1,4 +1,4 @@
-url = "/knowledge-exchange-networks/:slug?|[a-zA-Z\-0-9]"
+url = "/knowledge-exchange-networks-new/:slug?|[a-zA-Z\-0-9]"
 layout = "default"
 title = "Knowledge Exchange Networks"
 
@@ -126,19 +126,19 @@ return Redirect::to('/knowledge-exchange-networks');
         <div class="container knowledge_requests_table">
         <h1 class="display-1">Knowledge Requests</h1>
         <div class="row">
-            <div class="col-md">Type</div>
-            <div class="col-md">Title</div>
-            <div class="col-md">Coordinator</div>
-            <div class="col-md">Estimated submission</div>
-            <div class="col-md">Status</div>
+            <div class="col-md-1">Type</div>
+            <div class="col-md-4">Title</div>
+            <div class="col-md-2">Coordinator</div>
+            <div class="col-md-3">Estimated submission</div>
+            <div class="col-md-2">Status</div>
         </div>
             {% for item in ken.knowege_requests %}
         <div class="row">
-                <div class="col-md type"><span class="{{item.type|slug}}">{{item.type}}</span></div>
-                <div class="col-md ken_title">{{item.title}}</div>
-                <div class="col-md coordinator">{{item.coordinator}}</div>
-                <div class="col-md estimate">{{item.estimate}}</div>
-                <div class="col-md status"><span class="{{item.status|slug}}">{{item.status}}</span></div>
+                <div class="col-md-1 type"><span class="{{item.type|slug}}">{{item.type}}</span></div>
+                <div class="col-md-4 ken_title">{{item.title}}</div>
+                <div class="col-md-2 coordinator">{{item.coordinator}}</div>
+                <div class="col-md-3 estimate">{{item.estimate}}</div>
+                <div class="col-md-2 status"><span class="{{item.status|slug}}">{{item.status}}</span></div>
         </div>
             {% endfor %}
 
