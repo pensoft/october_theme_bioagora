@@ -96,9 +96,12 @@
 
     &.fixed {
         position: fixed;
-        top: 0;
+        top: 45px;
         z-index: 2;
         background: none;
+        .breakpoint-large-down({
+            top: 105px;
+        });
     }
 
     .navbar-brand {

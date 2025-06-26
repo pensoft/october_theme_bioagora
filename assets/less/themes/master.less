@@ -181,6 +181,7 @@ ul.pagination{
         justify-content: center;
         .breakpoint-large-down({
             height: 140px;
+            margin-top: 234px;
         });
     }
 
@@ -1039,11 +1040,38 @@ iframe{
     });
 }
 
+.save_the_date_banner{
+    width: 100%;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    background: #0027BE;
+    color: white;
+    position: fixed;
+    top: 0;
+    z-index: 99;
+    font-size: 12px;
 
-//body .uwy.userway_p1 .userway_buttons_wrapper {
-//    top: 13px;
-//    left: 50px!important;
-//    bottom: auto;
-//    right: calc(100vw - 21px);
-//    transform: translate(-100%);
-//}
+    .breakpoint-large-down({
+        height: auto;
+        padding: 10px;
+        flex-direction: column;
+        text-align: center;
+        width: fit-content;
+    });
+
+    .btn-primary{
+        padding: 5px 10px;
+        font-size: 12px;
+        width: fit-content;
+        &:hover{
+            background: #00BDA7!important;
+            opacity: 0.6;
+        }
+
+        .breakpoint-large-down({
+            margin-top: 10px;
+        });
+    }
+}
