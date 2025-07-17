@@ -324,6 +324,10 @@ $(document).ready(function() {
         'notice',
         'FAQ',
         'Financial Support',
+        'knowledge and expertise',
+        'policy requests',
+        'policy dialogues',
+        'Knowledge Exchange Network',
     ];
 
     $.each(hedingsArray, function (index, value) {
