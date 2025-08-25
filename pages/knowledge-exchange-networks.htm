@@ -77,9 +77,6 @@ return Redirect::to('/knowledge-exchange-networks');
 
 
 {% if ken_detail_page %}
-<!-- Skip Links for Screen Readers -->
-<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
-<a href="#navigation" class="sr-only sr-only-focusable">Skip to navigation</a>
 
 <main id="main-content" class="ken_detailed_info_container" role="main" aria-labelledby="ken-page-title">
     <!-- About Section -->
@@ -338,8 +335,6 @@ return Redirect::to('/knowledge-exchange-networks');
 
 {% else %}
 <!-- KEN List View -->
-<!-- Skip Links -->
-<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
 
 <main id="main-content" role="main" aria-labelledby="ken-list-title">
     <!-- About KEN Section -->

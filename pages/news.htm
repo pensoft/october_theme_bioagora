@@ -95,8 +95,6 @@ function onStart()
 ?>
 ==
 {% if is_detail_page %}
-<!-- Skip Link for Screen Readers -->
-<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
 
 <article class="single-news-item" role="main" aria-labelledby="article-title">
     <header class="container-fluid news-header" role="banner">
@@ -174,8 +172,6 @@ function onStart()
 
 {% else %}
 <!-- News List View -->
-<!-- Skip Link for Screen Readers -->
-<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
 
 <main id="main-content" class="container pt-0 mt-0" role="main" aria-labelledby="news-page-title">
     <header class="news-page-header">

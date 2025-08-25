@@ -86,9 +86,6 @@ $this['page_url'] = $this->pageUrl('');
 ?>
 ==
 {% if not slug %}
-<!-- Skip Links for Screen Readers -->
-<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
-<a href="#events-navigation" class="sr-only sr-only-focusable">Skip to events navigation</a>
 
 <main id="main-content" class="container-fluid events" role="main" aria-labelledby="events-page-title">
     <header class="container">
@@ -359,10 +356,6 @@ $this['page_url'] = $this->pageUrl('');
 </main>
 
 {% else %}
-<!-- Single Event Detail View -->
-<!-- Skip Links -->
-<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
-<a href="#event-actions" class="sr-only sr-only-focusable">Skip to event actions</a>
 
 <main id="main-content" class="container" style="max-width: 950px;" role="main" aria-labelledby="event-title">
     <article class="row single-news-item" role="article">
