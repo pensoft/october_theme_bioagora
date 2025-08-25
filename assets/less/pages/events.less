@@ -275,6 +275,24 @@
     h1{
         //margin-top: 50px;
     }
+
+
+    h3{
+        font-size: 30px;
+        font-weight: 300;
+        line-height: 1.4;
+        letter-spacing: 0px;
+        margin-bottom: 20px;
+        margin-top: 20px;
+
+        //font-size: 30px;
+        //color: @white-color;
+        //font-weight: bold;
+        //text-align: left!important;
+        //.breakpoint-large-down({
+        //    text-align: center!important;
+        //});
+    }
 }
 
 
@@ -296,6 +314,8 @@
     h1{
         color: @dark-color;
     }
+
+
     .entry_item{
         color: @dark-color;
         font-size: 20px;
@@ -344,14 +364,21 @@
         }
 
 
-        h3{
-            font-size: 24px;
-            color: @white-color;
-            font-weight: bold;
-            text-align: left!important;
-            .breakpoint-large-down({
-                text-align: center!important;
-            });
+
+
+        h3.event-title, h4.event-title{
+            padding-left: 20px;
+            display: flex;
+            align-items: center;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0px;
+            color: #343434;
+            margin-bottom: 0;
+
+            a{
+                color: #343434;
+            }
         }
 
         .col-md-8.col-xs-12{

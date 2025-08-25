@@ -77,219 +77,395 @@ return Redirect::to('/knowledge-exchange-networks');
 
 
 {% if ken_detail_page %}
+<!-- Skip Links for Screen Readers -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+<a href="#navigation" class="sr-only sr-only-focusable">Skip to navigation</a>
 
-<div class="ken_detailed_info_container">
-    <div class="container about_info">
+<main id="main-content" class="ken_detailed_info_container" role="main" aria-labelledby="ken-page-title">
+    <!-- About Section -->
+    <section class="container about_info" aria-labelledby="about-heading">
         <div class="row middle-xs">
             <div class="col-md-6 col-xs-12">
-                <h1 class="display-1">About</h1>
-                {{ ken.about|raw }}
+                <header>
+                    <h1 id="ken-page-title" class="display-1">About {{ ken_title }} KEN</h1>
+                </header>
+                <div class="about-content" role="document">
+                    {{ ken.about|raw }}
+                </div>
             </div>
             <div class="col-md-6 col-xs-12 end-md center-xs">
-                <img src="{{ken.about_image.path}}">
+                <figure class="about-image-container">
+                    <img src="{{ken.about_image.path}}"
+                         alt="Image representing {{ ken_title }} Knowledge Exchange Network"
+                         role="img"
+                         aria-describedby="about-image-desc">
+                    <figcaption id="about-image-desc" class="sr-only">
+                        Visual representation of the {{ ken_title }} Knowledge Exchange Network
+                    </figcaption>
+                </figure>
             </div>
         </div>
+
         {% if ken.about2 %}
         <div class="row middle-xs">
             <div class="col-md-6 col-xs-12 start-md center-xs">
-                <img src="{{ken.about_image2.path}}">
+                <figure class="about-image-container">
+                    <img src="{{ken.about_image2.path}}"
+                         alt="Additional image for {{ ken_title }} Knowledge Exchange Network"
+                         role="img"
+                         aria-describedby="about-image2-desc">
+                    <figcaption id="about-image2-desc" class="sr-only">
+                        Additional visual content for {{ ken_title }} KEN
+                    </figcaption>
+                </figure>
             </div>
             <div class="col-md-6 end-md center-xs col-xs-12">
-                <div style="float: right">{{ ken.about2|raw }}</div>
+                <div class="about-content-secondary" role="document">
+                    {{ ken.about2|raw }}
+                </div>
             </div>
         </div>
-        {%endif %}
-    </div>
+        {% endif %}
+    </section>
 
+    <!-- Get in Touch Section -->
     {% if ken.get_in_touch_url %}
-    <div class="container-fluid science-service">
+    <section class="container-fluid science-service" aria-labelledby="get-in-touch-heading">
         <div class="container">
             <div class="row">
                 <div class="col-md-10 col-xs-12">
-                    <h3 class="fl-heading aos-init aos-animate" data-aos="fade-right">
+                    <h2 id="get-in-touch-heading" class="fl-heading aos-init aos-animate" data-aos="fade-right">
                         <span class="fl-heading-text">Become a part of the {{ken_title}} KEN!</span>
+                    </h2>
+                </div>
+                <div class="col-md-2 col-xs-12 end-md center-xs">
+                    <a href="{{ken.get_in_touch_url}}"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="btn btn-float"
+                       aria-describedby="get-in-touch-desc">
+                        Get in touch
+                        <span class="sr-only">(opens in new window)</span>
+                    </a>
+                    <span id="get-in-touch-desc" class="sr-only">
+                        Contact the {{ ken_title }} Knowledge Exchange Network team
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Knowledge Requests Table -->
+
+    {% if ken.knowege_requests %}
+    <section class="container knowledge_requests_table" aria-labelledby="knowledge-requests-heading">
+        <h2 id="knowledge-requests-heading" class="display-1">Knowledge Requests</h2>
+        <div class="row" role="region" aria-labelledby="knowledge-requests-heading">
+            <div class="col-md-1" id="type-header">Type</div>
+            <div class="col-md-4" id="title-header">Title</div>
+            <div class="col-md-2" id="coordinator-header">Coordinator</div>
+            <div class="col-md-3" id="submission-header">Estimated submission</div>
+            <div class="col-md-2" id="status-header">Status</div>
+        </div>
+        {% for item in ken.knowege_requests %}
+        <div class="row">
+            <div class="col-md-1 type"><span class="{{item.type|slug}} status-badge"
+                                             aria-label="Request type: {{item.type}}">
+                                {{item.type}}
+                            </span></div>
+            <div class="col-md-4 ken_title"><span aria-label="Request title">{{item.title}}</span></div>
+            <div class="col-md-2 coordinator"><span aria-label="Coordinator">{{item.coordinator}}</span></div>
+            <div class="col-md-3 estimate"><time aria-label="Estimated submission date">{{item.estimate}}</time></div>
+            <div class="col-md-2 status"><span class="{{item.status|slug}} status-badge"
+                                               aria-label="Request status: {{item.status}}">
+                                {{item.status}}
+                            </span></div>
+        </div>
+        {% endfor %}
+
+    </section>
+    {% endif %}
+
+
+    <!-- Activities and Events Section -->
+    {% if ken.event.count > 0 %}
+    <section class="container events_list_container" aria-labelledby="events-heading">
+        <h2 id="events-heading" class="display-1">Activities and Events</h2>
+
+        <div class="events-list" role="list" aria-label="List of {{ ken_title }} KEN events">
+            {% for entry in ken.event %}
+            {% set url = entry.url ? entry.url : '/events/' ~ entry.slug %}
+            <article class="row entry_item middle-xs" role="listitem">
+                <div class="col-md-2 col-xs-12 date_container">
+                    <time datetime="{{entry.start|date('c')}}" aria-label="Event date">
+                        <span class="date_day" aria-label="Date">{{entry.start|date("j M")}}</span>
+                        <span class="date_year" aria-label="Year">{{entry.start|date("Y")}}</span>
+                    </time>
+                </div>
+                <div class="col-md-8 col-xs-12">
+                    {% if entry.cover_image %}
+                    <a href="{{'events'|page}}/{{entry.slug}}"
+                       aria-describedby="event-{{entry.slug}}-desc">
+                        <img src="{{entry.cover_image|crop_image|resize(174, auto, {'mode': 'crop'})}}"
+                             alt="Cover image for {{ entry.title }}"
+                             role="img"
+                             loading="lazy">
+                    </a>
+                    {% endif %}
+                    <h3 class="event-title">
+                        <a href="{{'events'|page}}/{{entry.slug}}"
+                           id="event-{{entry.slug}}-desc">
+                            {{entry.title|raw}}
+                        </a>
                     </h3>
                 </div>
                 <div class="col-md-2 col-xs-12 end-md center-xs">
-                    <a href="{{ken.get_in_touch_url}}" target="_blank" class="btn btn-float">
-                        Get in touch
+                    <a href="{{'events'|page}}/{{entry.slug}}"
+                       class="btn btn-primary"
+                       aria-describedby="event-learn-more-{{entry.slug}}">
+                        Learn more
                     </a>
+                    <span id="event-learn-more-{{entry.slug}}" class="sr-only">
+                        Learn more about {{ entry.title }}
+                    </span>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Publications and Documents Section -->
+    {% if ken.files.count > 0 %}
+    <section class="container files_list_container" aria-labelledby="files-heading">
+        <h2 id="files-heading" class="display-1">Publications and key documents</h2>
+
+        <div class="files-list" role="list" aria-label="List of publications and documents">
+            {% for file in ken.files %}
+            <div class="row file_item" role="listitem">
+                <div class="col-md-10 col-xs-12 file_name">
+                    <span class="file-icon" aria-hidden="true">
+                        {% if file.extension == 'docx' or file.extension == 'doc' %}
+                        <i class="files_doc" aria-label="Word document"></i>
+                        {% elseif file.extension == 'pdf' %}
+                        <i class="files_pdf" aria-label="PDF document"></i>
+                        {% else %}
+                        <i class="files_file" aria-label="File"></i>
+                        {% endif %}
+                    </span>
+                    <span class="file-name-text">{{file.file_name}}</span>
+                    <span class="sr-only">File type: {{ file.extension|upper }}</span>
+                </div>
+                <div class="col-md-2 col-xs-12 end-md center-xs">
+                    <a href="{{ ''|page }}?{{queries}}&download={{file.id}}&file_name={{file.file_name|replace({' ': '_'})}}"
+                       class="download-link"
+                       aria-describedby="download-{{file.id}}-desc"
+                       download="{{file.file_name}}">
+                        Download
+                        <span class="sr-only">({{ file.extension|upper }} file)</span>
+                    </a>
+                    <span id="download-{{file.id}}-desc" class="sr-only">
+                        Download {{ file.file_name }}
+                    </span>
                 </div>
             </div>
-
-        </div>
-    </div>
-    {% endif %}
-
-
-    {% if ken.knowege_requests %}
-        <div class="container knowledge_requests_table">
-        <h1 class="display-1">Knowledge Requests</h1>
-        <div class="row">
-            <div class="col-md-1">Type</div>
-            <div class="col-md-4">Title</div>
-            <div class="col-md-2">Coordinator</div>
-            <div class="col-md-3">Estimated submission</div>
-            <div class="col-md-2">Status</div>
-        </div>
-            {% for item in ken.knowege_requests %}
-        <div class="row">
-                <div class="col-md-1 type"><span class="{{item.type|slug}}">{{item.type}}</span></div>
-                <div class="col-md-4 ken_title">{{item.title}}</div>
-                <div class="col-md-2 coordinator">{{item.coordinator}}</div>
-                <div class="col-md-3 estimate">{{item.estimate}}</div>
-                <div class="col-md-2 status"><span class="{{item.status|slug}}">{{item.status}}</span></div>
-        </div>
             {% endfor %}
-
-    </div>
-    {% endif %}
-
-    {% if ken.event.count > 0 %}
-    <div class="container events_list_container">
-        <h1 class="display-1">Activities and Events</h1>
-    {% for entry in ken.event %}
-        {% set url = entry.url ?  entry.url : '/events/' ~ entry.slug %}
-        <div class="row entry_item middle-xs">
-            <div class="col-md-2 col-xs-12 date_container">
-                <span class="date_day">{{entry.start|date("j M")}}</span>
-                <span class="date_year">{{entry.start|date("Y")}}</span>
-            </div>
-            <div class="col-md-8 col-xs-12">
-                {% if entry.cover_image %}
-                <a href="{{'events'|page}}/{{entry.slug}}">
-                    <img src="{{entry.cover_image|crop_image|resize(174, auto, {'mode': 'crop'})}}">
-                </a>
-                {% endif %}
-                <!--<span class="date_week mb-1">{{entry.start|date("l")}}</span>-->
-                {{entry.title|raw}}
-            </div>
-            <div class="col-md-2 col-xs-12 end-md center-xs">
-                <a href="{{'events'|page}}/{{entry.slug}}" class="btn btn-primary">Learn more</a>
-            </div>
         </div>
-    {% endfor %}
-    </div>
+    </section>
     {% endif %}
 
-
-    {% if ken.files.count > 0 %}
-    <div class="container files_list_container">
-        <h1 class="display-1">Publications and key documents</h1>
-        {% for file in ken.files %}
-        <div class="row file_item">
-            <div class="col-md-10 col-xs-12 file_name">
-                {% if  file.extension == 'docx' or  file.extension == 'doc' %}
-                <i class="files_doc"></i>
-                {% elseif file.extension == 'pdf' %}
-                <i class="files_pdf"></i>
-                {% else %}
-                <i class="files_file"></i>
-                {% endif %}
-
-                {{file.file_name}}
-            </div>
-            <div class="col-md-2 col-xs-12 end-md center-xs">
-                <a href="{{ ''| page }}?{{queries}}&download={{file.id}}&file_name={{file.file_name|replace({' ': '_'})}}" title="{{file.file_name}}">Download</a>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %}
-
-
+    <!-- News Section -->
     {% if ken_news.count > 0 %}
-    <div class="container newslist-records news">
-        <h1 class="display-1">News</h1>
-        <div class="row newslist">
+    <section class="container newslist-records news" aria-labelledby="ken-news-heading">
+        <h2 id="ken-news-heading" class="display-1">News</h2>
+
+        <div class="row newslist" role="list" aria-label="News articles related to {{ ken_title }} KEN">
             {% for highlight in ken_news %}
-            <div class="col-xs-12 col-md-4 news-item item-{{highlight.slug}}">
+            <article class="col-xs-12 col-md-4 news-item item-{{highlight.slug}}" role="listitem">
                 <div class="row news_column">
-                    {% if highlight.cover %}
-                    <a class="news-image col-xs-12 center-xs" href="{{'news'|page}}/{{highlight.slug}}">
-                        <img class="news-img-top" src="{{highlight.cover.getThumb(370, 212, {'mode': 'crop'})}}">
-                    </a>
-                    {% else %}
-                    <a class="news-image col-xs-12 center-xs" href="{{'news'|page}}/{{highlight.slug}}">
-                        <img class="news-img-top" src="{{'pensoft/No_Image_Available.jpg'|media }}" style="height: 212px; width: 370px;">
-                    </a>
-                    {% endif %}
+                    <div class="news-image col-xs-12 center-xs">
+                        <a href="{{'news'|page}}/{{highlight.slug}}"
+                           aria-describedby="news-{{highlight.slug}}-desc">
+                            {% if highlight.cover %}
+                            <img class="news-img-top"
+                                 src="{{highlight.cover.getThumb(370, 212, {'mode': 'crop'})}}"
+                                 alt="Cover image for {{ highlight.title }}"
+                                 loading="lazy">
+                            {% else %}
+                            <img class="news-img-top"
+                                 src="{{'pensoft/No_Image_Available.jpg'|media }}"
+                                 alt="No image available for {{ highlight.title }}"
+                                 style="height: 212px; width: 370px;"
+                                 loading="lazy">
+                            {% endif %}
+                        </a>
+                    </div>
                     <div class="news-container col-xs-12">
-                        <div class="text-published">{{ highlight.published_at|date("d M Y") }}</div>
+                        <time class="text-published"
+                              datetime="{{ highlight.published_at|date('c') }}"
+                              aria-label="Published on">
+                            {{ highlight.published_at|date("d M Y") }}
+                        </time>
                         <div class="news-title">
-                            <h3 class="card-title"><a href="{{'news'|page}}/{{highlight.slug}}">{{ highlight.title|length > 99 ? highlight.title|slice(0, 99) ~ '...' : highlight.title  }}</a></h3>
+                            <h3 class="card-title">
+                                <a href="{{'news'|page}}/{{highlight.slug}}"
+                                   id="news-{{highlight.slug}}-desc">
+                                    {{ highlight.title|length > 99 ? highlight.title|slice(0, 99) ~ '...' : highlight.title }}
+                                </a>
+                            </h3>
                         </div>
                         <div class="row">
                             <div class="col-xs-6">
-                                <a href="{{'news'|page}}/{{highlight.slug}}" class="btn btn-primary">{{'Read article' |_}}</a>
+                                <a href="{{'news'|page}}/{{highlight.slug}}"
+                                   class="btn btn-primary"
+                                   aria-describedby="read-article-{{highlight.slug}}-desc">
+                                    {{'Read article'|_}}
+                                </a>
+                                <span id="read-article-{{highlight.slug}}-desc" class="sr-only">
+                                    Read full article: {{ highlight.title }}
+                                </span>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </article>
             {% endfor %}
         </div>
-    </div>
+    </section>
     {% endif %}
-
-</div>
+</main>
 
 {% else %}
-<div class="about_ken">
-    {% component 'about_ken' %}
-</div>
+<!-- KEN List View -->
+<!-- Skip Links -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
 
-<div class="container ken_list">
-    <h2>Knowledge Exchange Networks Currently Active</h2>
-    <div class="row">
-        {% for record in items %}
-        <div class="col-md-6 col-xs-12 case">
-            <div class="ken_item">
-                <div class="row info_container">
-                    <div class="col-md-3 col-xs-12"><div class="icon_container"><img src="{{record.icon.path}}"></div></div>
-                    <div class="col-md-6 col-xs-12"><div class="title_container">{{record.title}}</div></div>
-                    <div class="col-md-3 col-xs-12 end-md center-xs"><a class="arrow_container" href="{{'knowledge-exchange-networks'|page}}/{{record.slug}}">&nbsp;</a></div>
+<main id="main-content" role="main" aria-labelledby="ken-list-title">
+    <!-- About KEN Section -->
+    <section class="about_ken" aria-labelledby="about-ken-heading">
+        <h1 id="ken-list-title" class="sr-only">Knowledge Exchange Networks</h1>
+        {% component 'about_ken' %}
+    </section>
+
+    <!-- KEN List Section -->
+    <section class="container ken_list" aria-labelledby="ken-list-heading">
+        <h2 id="ken-list-heading">Knowledge Exchange Networks Currently Active</h2>
+
+        <div class="row" role="list" aria-label="List of active Knowledge Exchange Networks">
+            {% for record in items %}
+            <article class="col-md-6 col-xs-12 case" role="listitem">
+                <div class="ken_item">
+                    <header class="row info_container">
+                        <div class="col-md-3 col-xs-12">
+                            <div class="icon_container">
+                                <img src="{{record.icon.path}}"
+                                     alt="Icon for {{ record.title }} KEN"
+                                     role="img">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <div class="title_container">
+                                <h3>
+                                    <a href="{{'knowledge-exchange-networks'|page}}/{{record.slug}}"
+                                       aria-describedby="ken-{{record.slug}}-desc">
+                                        {{record.title}}
+                                    </a>
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-xs-12 end-md center-xs">
+                            <a class="arrow_container"
+                               href="{{'knowledge-exchange-networks'|page}}/{{record.slug}}"
+                               aria-label="Learn more about {{ record.title }}"
+                               aria-describedby="ken-{{record.slug}}-desc">
+                                <span class="sr-only">Learn more</span>
+                                <span aria-hidden="true">&nbsp;</span>
+                            </a>
+                        </div>
+                    </header>
+                    <div class="col-xs-12 center-xs url_container">
+                        <a class="btn btn-primary"
+                           href="{{record.get_in_touch_url}}"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           aria-describedby="contact-{{record.slug}}-desc">
+                            Get in touch
+                            <span class="sr-only">(opens in new window)</span>
+                        </a>
+                        <span id="contact-{{record.slug}}-desc" class="sr-only">
+                            Contact the {{ record.title }} team
+                        </span>
+                        <span id="ken-{{record.slug}}-desc" class="sr-only">
+                            {{ record.title }} Knowledge Exchange Network
+                        </span>
+                    </div>
                 </div>
-                <div class="col-xs-12 center-xs url_container"><a class="btn btn-primary" href="{{record.get_in_touch_url}}" target="_blank">Get in touch</a></div></div>
-            </div>
-        {% endfor %}
-    </div>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
 
-</div>
-
-
+    <!-- News Section -->
     {% if news.count > 0 %}
-    <div class="container newslist-records news" id="newslist-records">
-        <h1 class="display-1">News</h1>
-        <div class="row newslist">
+    <section class="container newslist-records news"
+             id="newslist-records"
+             aria-labelledby="general-news-heading">
+        <h2 id="general-news-heading" class="display-1">News</h2>
+
+        <div class="row newslist" role="list" aria-label="Latest news articles">
             {% for highlight in news %}
-            <div class="col-xs-12 col-md-4 news-item item-{{highlight.slug}}">
+            <article class="col-xs-12 col-md-4 news-item item-{{highlight.slug}}" role="listitem">
                 <div class="row news_column">
-                    {% if highlight.cover %}
-                    <a class="news-image col-xs-12 center-xs" href="{{'news'|page}}/{{highlight.slug}}">
-                        <img class="news-img-top" src="{{highlight.cover.getThumb(370, 212, {'mode': 'crop'})}}">
-                    </a>
-                    {% else %}
-                    <a class="news-image col-xs-12 center-xs" href="{{'news'|page}}/{{highlight.slug}}">
-                        <img class="news-img-top" src="{{'pensoft/No_Image_Available.jpg'|media }}" style="height: 212px; width: 370px;">
-                    </a>
-                    {% endif %}
+                    <div class="news-image col-xs-12 center-xs">
+                        <a href="{{'news'|page}}/{{highlight.slug}}"
+                           aria-describedby="general-news-{{highlight.slug}}-desc">
+                            {% if highlight.cover %}
+                            <img class="news-img-top"
+                                 src="{{highlight.cover.getThumb(370, 212, {'mode': 'crop'})}}"
+                                 alt="Cover image for {{ highlight.title }}"
+                                 loading="lazy">
+                            {% else %}
+                            <img class="news-img-top"
+                                 src="{{'pensoft/No_Image_Available.jpg'|media }}"
+                                 alt="No image available for {{ highlight.title }}"
+                                 style="height: 212px; width: 370px;"
+                                 loading="lazy">
+                            {% endif %}
+                        </a>
+                    </div>
                     <div class="news-container col-xs-12">
-                        <div class="text-published">{{ highlight.published_at|date("d M Y") }}</div>
+                        <time class="text-published"
+                              datetime="{{ highlight.published_at|date('c') }}"
+                              aria-label="Published on">
+                            {{ highlight.published_at|date("d M Y") }}
+                        </time>
                         <div class="news-title">
-                            <h3 class="card-title"><a href="{{'news'|page}}/{{highlight.slug}}">{{ highlight.title|length > 99 ? highlight.title|slice(0, 99) ~ '...' : highlight.title  }}</a></h3>
+                            <h3 class="card-title">
+                                <a href="{{'news'|page}}/{{highlight.slug}}"
+                                   id="general-news-{{highlight.slug}}-desc">
+                                    {{ highlight.title|length > 99 ? highlight.title|slice(0, 99) ~ '...' : highlight.title }}
+                                </a>
+                            </h3>
                         </div>
                         <div class="row">
                             <div class="col-xs-6">
-                                <a href="{{'news'|page}}/{{highlight.slug}}" class="btn btn-primary">{{'Read article' |_}}</a>
+                                <a href="{{'news'|page}}/{{highlight.slug}}"
+                                   class="btn btn-primary"
+                                   aria-describedby="read-general-article-{{highlight.slug}}-desc">
+                                    {{'Read article'|_}}
+                                </a>
+                                <span id="read-general-article-{{highlight.slug}}-desc" class="sr-only">
+                                    Read full article: {{ highlight.title }}
+                                </span>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </article>
             {% endfor %}
         </div>
-    </div>
+    </section>
     {% endif %}
-
+</main>
 {% endif %}
