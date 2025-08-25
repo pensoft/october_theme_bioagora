@@ -35,23 +35,134 @@ function onStart(){
 ==
 
 {% component 'siteSearchInclude' %}
-{% component 'jumbotron' %}
-<div class="container-fluid about-content-wrap">
-    <div class="layer">
-        <h2 style="text-align: center; padding: 40px 0;">Our BioAgora Press Kit will soon be available</h2>
-    </div>
-</div>
 
-<div class="container news ">
-    <h2 style="text-align: center;">Our <b>press relases</b></h2>
-    <div class="newslist-records">
-        {% partial 'components/newslist-records' records=press %}
-    </div>
-</div>
+<!-- Skip Links for Screen Readers -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+<a href="#press-kit-info" class="sr-only sr-only-focusable">Skip to press kit information</a>
+<a href="#press-releases" class="sr-only sr-only-focusable">Skip to press releases</a>
+<a href="#press-articles" class="sr-only sr-only-focusable">Skip to press articles</a>
 
-<div class="container news ">
-    <h2 style="text-align: center;">Our <b>press articles</b></h2>
-    <div class="newslist-records">
-        {% partial 'components/newslist-records' records=press_articles %}
-    </div>
+<main id="main-content" role="main" aria-labelledby="press-page-title">
+    <!-- Page Title (screen reader only) -->
+    <h1 id="press-page-title" class="sr-only">Press Kit and Media Resources</h1>
+
+    <!-- Jumbotron Section -->
+    <section role="banner"
+             aria-labelledby="featured-content-heading"
+             aria-describedby="featured-content-description">
+        <h2 id="featured-content-heading" class="sr-only">Featured Content</h2>
+        <div id="featured-content-description" class="sr-only">
+            Introduction and overview of BioAgora press and media resources
+        </div>
+        {% component 'jumbotron' %}
+    </section>
+
+    <!-- Press Kit Information Section -->
+    <section id="press-kit-info"
+             class="container-fluid about-content-wrap"
+             role="region"
+             aria-labelledby="press-kit-heading"
+             aria-describedby="press-kit-description">
+
+        <div class="layer">
+            <header>
+                <h2 id="press-kit-heading"
+                    style="text-align: center; padding: 40px 0;"
+                    aria-describedby="press-kit-availability">
+                    Our BioAgora Press Kit will soon be available
+                </h2>
+                <div id="press-kit-description" class="sr-only">
+                    Information about the upcoming availability of our comprehensive press kit
+                </div>
+                <div id="press-kit-availability" class="sr-only">
+                    The BioAgora press kit is currently being prepared and will include logos, fact sheets, images, and other media resources for journalists and media professionals.
+                </div>
+            </header>
+        </div>
+    </section>
+
+    <!-- Press Releases Section -->
+    <section id="press-releases"
+             class="container news press-releases-section"
+             role="region"
+             aria-labelledby="press-releases-heading"
+             aria-describedby="press-releases-description">
+
+        <header>
+            <h2 id="press-releases-heading" style="text-align: center;">
+                Our <strong>press releases</strong>
+            </h2>
+            <div id="press-releases-description" class="sr-only">
+                Official press releases from BioAgora covering announcements, research findings, and project updates.
+                {% if press.count %}
+                {{ press.count }} press releases available.
+                {% else %}
+                No press releases currently available.
+                {% endif %}
+            </div>
+        </header>
+
+        <div class="newslist-records press-releases-container"
+             role="region"
+             aria-labelledby="press-releases-list-heading"
+             aria-describedby="press-releases-list-description">
+
+            <h3 id="press-releases-list-heading" class="sr-only">Press Releases List</h3>
+            <div id="press-releases-list-description" class="sr-only">
+                Browse our official press releases with publication dates and full content access
+            </div>
+
+            {% partial 'components/newslist-records' records=press %}
+        </div>
+    </section>
+
+    <!-- Press Articles Section -->
+    <section id="press-articles"
+             class="container news press-articles-section"
+             role="region"
+             aria-labelledby="press-articles-heading"
+             aria-describedby="press-articles-description">
+
+        <header>
+            <h2 id="press-articles-heading" style="text-align: center;">
+                Our <strong>press articles</strong>
+            </h2>
+            <div id="press-articles-description" class="sr-only">
+                Media coverage and press articles featuring BioAgora in various publications and news outlets.
+                {% if press_articles.count %}
+                {{ press_articles.count }} press articles available.
+                {% else %}
+                No press articles currently available.
+                {% endif %}
+            </div>
+        </header>
+
+        <div class="newslist-records press-articles-container"
+             role="region"
+             aria-labelledby="press-articles-list-heading"
+             aria-describedby="press-articles-list-description">
+
+            <h3 id="press-articles-list-heading" class="sr-only">Press Articles List</h3>
+            <div id="press-articles-list-description" class="sr-only">
+                View articles and media coverage about BioAgora from external publications and news sources
+            </div>
+
+            {% partial 'components/newslist-records' records=press_articles %}
+        </div>
+    </section>
+
+    <!-- Press Kit Summary -->
+    <footer class="press-kit-summary sr-only" role="contentinfo">
+        End of press kit page. Resources include: upcoming press kit materials,
+        {% if press.count %}{{ press.count }} press releases{% else %}no press releases{% endif %},
+        and {% if press_articles.count %}{{ press_articles.count }} press articles{% else %}no press articles{% endif %}.
+    </footer>
+</main>
+
+<!-- Live Region for Dynamic Announcements -->
+<div id="press-live-region"
+     aria-live="polite"
+     aria-atomic="true"
+     class="sr-only"
+     role="status">
 </div>

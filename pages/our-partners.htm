@@ -40,67 +40,228 @@ function onPartners(){
 ?>
 ==
 {% component 'siteSearchInclude' %}
-{% component 'jumbotron' %}
-<div class="container-fluid page-bg">
-    <div class="container">
-        <span class="tooltiptext" id="tooltip">Bulgaria</span>
-        {% partial 'map' %}
-    </div>
-</div>
-<div class="container-fluid bg-secondary">
-    <div class="container">
-        <div id="mycomponentpartners" class="row">
+<!-- Skip Links for Screen Readers -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+<a href="#partners-map" class="sr-only sr-only-focusable">Skip to partners map</a>
+<a href="#partners-cards" class="sr-only sr-only-focusable">Skip to partner organizations</a>
+<a href="#team-info" class="sr-only sr-only-focusable">Skip to team information</a>
 
+<main id="main-content" role="main" aria-labelledby="partners-page-title">
+    <!-- Page Title (screen reader only) -->
+    <h1 id="partners-page-title" class="sr-only">Our Partners</h1>
 
-            {% for partner in partners %}
-            <div class="col-md-4 col-xs-12">
-                <div class="flip-card">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <div class="flip-card-content">
-                                {% if partner.cover %}
-                                    <img alt="{{ partner.instituion }}" src="{{partner.cover.getThumb(178,auto, { mode : 'crop' } )}}">
-                                {% endif %}
-                                <h3>{{ partner.instituion }}<br>{{ partner.country[0].name }}</h3>
+    <!-- Jumbotron Section -->
+    <section role="banner"
+             aria-labelledby="featured-content-heading"
+             aria-describedby="featured-content-description">
+        <h2 id="featured-content-heading" class="sr-only">Featured Content</h2>
+        <div id="featured-content-description" class="sr-only">
+            Introduction and overview of our partner organizations and their locations
+        </div>
+        {% component 'jumbotron' %}
+    </section>
+
+    <!-- Partners Map Section -->
+    <section id="partners-map"
+             class="container-fluid page-bg map-section"
+             role="region"
+             aria-labelledby="partners-map-heading"
+             aria-describedby="partners-map-description">
+
+        <div class="container">
+            <header>
+                <h2 id="partners-map-heading" class="sr-only">Partners Location Map</h2>
+                <div id="partners-map-description" class="sr-only">
+                    Interactive map showing the geographical locations of our partner organizations across different countries
+                </div>
+            </header>
+
+            <!-- Tooltip for Map Interactions -->
+            <div class="tooltiptext"
+                 id="tooltip"
+                 role="tooltip"
+                 aria-hidden="true"
+                 aria-live="polite">
+                Bulgaria
+            </div>
+
+            <!-- Map Component -->
+            <div role="img"
+                 aria-labelledby="map-heading"
+                 aria-describedby="map-instructions">
+                <h3 id="map-heading" class="sr-only">Interactive Partners Map</h3>
+                <div id="map-instructions" class="sr-only">
+                    Use keyboard navigation to explore partner locations. Map shows {{ partners|length }} partner organizations.
+                </div>
+                {% partial 'map' %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners Cards Section -->
+    <section id="partners-cards"
+             class="container-fluid bg-secondary partners-cards-section"
+             role="region"
+             aria-labelledby="partners-cards-heading"
+             aria-describedby="partners-cards-description">
+
+        <div class="container">
+            <header>
+                <h2 id="partners-cards-heading" class="sr-only">Partner Organizations</h2>
+                <div id="partners-cards-description" class="sr-only">
+                    Interactive cards showing {{ partners|length }} partner organizations. Each card can be activated to reveal detailed information, contact links, and partner websites.
+                </div>
+            </header>
+
+            <div id="mycomponentpartners"
+                 class="row partners-grid"
+                 role="list"
+                 aria-label="List of {{ partners|length }} partner organizations">
+
+                {% for partner in partners %}
+                <article class="col-md-4 col-xs-12 partner-card-container"
+                         role="listitem"
+                         aria-labelledby="partner-name-{{ loop.index }}">
+
+                    <div class="flip-card partner-flip-card"
+                         role="button"
+                         tabindex="0"
+                         aria-expanded="false"
+                         aria-describedby="partner-card-instructions-{{ loop.index }}"
+                         data-partner-id="{{ loop.index }}">
+
+                        <div class="flip-card-inner" aria-hidden="true">
+                            <!-- Front of Card -->
+                            <div class="flip-card-front"
+                                 role="presentation"
+                                 aria-hidden="false">
+                                <div class="flip-card-content">
+                                    {% if partner.cover %}
+                                    <figure class="partner-logo-container">
+                                        <img alt="Logo of {{ partner.instituion }}"
+                                             src="{{partner.cover.getThumb(178,auto, { mode : 'crop' } )}}"
+                                             role="img"
+                                             aria-describedby="partner-logo-{{ loop.index }}-desc"
+                                             loading="lazy">
+                                        <figcaption id="partner-logo-{{ loop.index }}-desc" class="sr-only">
+                                            Official logo for {{ partner.instituion }}
+                                        </figcaption>
+                                    </figure>
+                                    {% endif %}
+
+                                    <header class="partner-basic-info">
+                                        <h3 id="partner-name-{{ loop.index }}" class="partner-name">
+                                            {{ partner.instituion }}
+                                            <br>
+                                            <span class="partner-country" aria-label="Located in">{{ partner.country[0].name }}</span>
+                                        </h3>
+                                    </header>
+                                </div>
+                            </div>
+
+                            <!-- Back of Card -->
+                            <div class="flip-card-back"
+                                 role="presentation"
+                                 aria-hidden="true">
+                                <div class="row flip-card-content partner-details">
+                                    <!-- Partner Description -->
+                                    <div class="col-xs-12 partner-description" role="document">
+                                        <div class="sr-only">Details about {{ partner.instituion }}:</div>
+                                        {{partner.content|raw}}
+                                    </div>
+
+                                    <!-- Main Contact Link -->
+                                    <div class="col-xs-12 contact-link-container">
+                                        <a class="website main-contact-link"
+                                           href="{{'our-team'|page}}#{{partner.instituion|slug}}"
+                                           aria-describedby="contact-{{ loop.index }}-desc">
+                                            Contact {{ partner.instituion }} team
+                                        </a>
+                                        <span id="contact-{{ loop.index }}-desc" class="sr-only">
+                                            View team members and contact information for {{ partner.instituion }}
+                                        </span>
+                                    </div>
+
+                                    <!-- Partner Website Link -->
+                                    <div class="col-xs-12 website-link-container">
+                                        <a class="website partner-website-link"
+                                           href="{{partner.instituion_url}}"
+                                           target="_blank"
+                                           rel="noopener noreferrer"
+                                           aria-describedby="website-{{ loop.index }}-desc">
+                                            Visit {{ partner.instituion }} website
+                                            <span class="sr-only">(opens in new window)</span>
+                                        </a>
+                                        <span id="website-{{ loop.index }}-desc" class="sr-only">
+                                            Visit the official website of {{ partner.instituion }} in {{ partner.country[0].name }}
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="flip-card-back">
-                            <div class="row flip-card-content">
-                                <div class="col-xs-12">{{partner.content|raw}}</div>
-                                <div class="col-xs-12">
-                                    <a class="website" href="{{'our-team'|page}}#{{partner.instituion|slug}}">Main contact</a>
-                                </div>
-                                <div class="col-xs-12">
-                                    <a class="website" href="{{partner.instituion_url}}" target="_blank">Website of the partner</a>
-                                </div>
-                            </div>
+
+                        <!-- Screen Reader Instructions -->
+                        <div id="partner-card-instructions-{{ loop.index }}" class="sr-only">
+                            Interactive card for {{ partner.instituion }} from {{ partner.country[0].name }}.
+                            Press Enter or Space to view detailed information including description, team contacts, and website link.
+                        </div>
+
+                        <!-- Card State Announcement -->
+                        <div class="sr-only card-state" aria-live="polite" aria-atomic="true">
+                            <span class="front-state">Showing basic information for {{ partner.instituion }}</span>
+                            <span class="back-state" style="display: none;">Showing detailed information for {{ partner.instituion }}</span>
                         </div>
                     </div>
+                </article>
+                {% endfor %}
+            </div>
+
+            <!-- Partners Summary -->
+            <footer class="partners-cards-summary sr-only" role="contentinfo">
+                End of partner organizations section. {{ partners|length }} partner organizations from various countries, each with contact information and official websites.
+            </footer>
+        </div>
+    </section>
+
+    <!-- Team Information Call-to-Action -->
+    <section id="team-info"
+             class="container-fluid science-service team-cta-section"
+             role="region"
+             aria-labelledby="team-cta-heading"
+             aria-describedby="team-cta-description">
+
+        <div class="container">
+            <div class="row">
+                <header class="col-md-10 col-xs-12">
+                    <h2 id="team-cta-heading" class="fl-heading" data-aos="fade-right">
+                        <span class="fl-heading-text">Learn more about our team</span>
+                    </h2>
+                    <div id="team-cta-description" class="sr-only">
+                        Discover detailed information about team members from all partner organizations
+                    </div>
+                </header>
+                <div class="col-md-2 col-xs-12 end-md center-xs">
+                    <nav aria-label="Team navigation">
+                        <a href="{{'our-team'|page}}"
+                           class="btn btn-float team-link"
+                           aria-describedby="team-link-desc">
+                            Meet our team
+                        </a>
+                        <span id="team-link-desc" class="sr-only">
+                            Visit the team page to learn about individual team members from all partner organizations
+                        </span>
+                    </nav>
                 </div>
             </div>
-            {% endfor %}
-
-
-
         </div>
-    </div>
-</div>
+    </section>
+</main>
 
-<div class="container-fluid science-service">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-10 col-xs-12">
-                <h3 class="fl-heading" data-aos="fade-right">
-                    <span class="fl-heading-text">Learn more about our team</span>
-                </h3>
-            </div>
-            <div class="col-md-2 col-xs-12 end-md center-xs">
-                <a href="{{'our-team'|page}}" class="btn btn-float" >
-                    Learn more
-                </a>
-            </div>
-        </div>
-
-    </div>
+<!-- Live Region for Card Flip Announcements -->
+<div id="partners-live-region"
+     aria-live="polite"
+     aria-atomic="true"
+     class="sr-only"
+     role="status">
 </div>
 

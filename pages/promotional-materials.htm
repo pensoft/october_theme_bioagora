@@ -61,24 +61,137 @@ return Redirect::to('/media-center/flyer');
 ==
 {% component 'siteSearchInclude' %}
 
+<!-- Skip Links for Screen Readers -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+<a href="#promotional-materials" class="sr-only sr-only-focusable">Skip to promotional materials</a>
+
 {% set records = mediaFlyersList %}
-<div class="container-fluid page-bg">
-    <div class="container promotional-materials-content">
-        {% if records.count() %}
-        <div class="row">
-            {% for record in records %}
-            <div class="col-md-4 col-xs-12 mb-1">
-                <a href="{{ ''| page }}?{{queries}}&download={{record.file.id}}&file_name={{record.file.file_name|replace({' ': '_'})}}" title="{{record.name}}" class="flyer-container {{record.name|slug}}">
-                    <img src="{{record.flyer_image.path}}" title="{{record.name}}">
-                    <div class="name_label">{{record.name}}</div>
-                    <div class="btn btn-secondary">Download</div>
-                </a>
+
+<main id="main-content" role="main" aria-labelledby="promotional-page-title">
+    <!-- Page Title (screen reader only) -->
+    <h1 id="promotional-page-title" class="sr-only">Promotional Materials</h1>
+
+    <section id="promotional-materials"
+             class="container-fluid page-bg"
+             role="region"
+             aria-labelledby="materials-section-heading"
+             aria-describedby="materials-section-description">
+
+        <div class="container promotional-materials-content">
+            <header>
+                <h2 id="materials-section-heading" class="sr-only">Available Promotional Materials</h2>
+                <div id="materials-section-description" class="sr-only">
+                    {% if records.count() %}
+                    Download our promotional materials including flyers, brochures, and informational documents. {{ records.count() }} materials available.
+                    {% else %}
+                    No promotional materials are currently available.
+                    {% endif %}
+                </div>
+            </header>
+
+            {% if records.count() %}
+            <div class="row materials-grid"
+                 role="list"
+                 aria-label="List of {{ records.count() }} promotional materials">
+
+                {% for record in records %}
+                <article class="col-md-4 col-xs-12 mb-1 material-item"
+                         role="listitem"
+                         aria-labelledby="material-title-{{ loop.index }}">
+
+                    <div class="flyer-container {{record.name|slug}} material-card"
+                         role="region"
+                         aria-labelledby="material-title-{{ loop.index }}"
+                         aria-describedby="material-description-{{ loop.index }}">
+
+                        <!-- Material Image -->
+                        <figure class="material-image-container">
+                            <img src="{{record.flyer_image.path}}"
+                                 alt="Preview image for {{record.name}} promotional material"
+                                 role="img"
+                                 aria-describedby="material-image-{{ loop.index }}-desc"
+                                 loading="lazy">
+                            <figcaption id="material-image-{{ loop.index }}-desc" class="sr-only">
+                                Preview of the {{record.name}} promotional material
+                            </figcaption>
+                        </figure>
+
+                        <!-- Material Information -->
+                        <header class="material-info">
+                            <h3 id="material-title-{{ loop.index }}" class="name_label material-title">
+                                {{record.name}}
+                            </h3>
+
+                            <div id="material-description-{{ loop.index }}" class="sr-only">
+                                Promotional material: {{record.name}}.
+                                {% if record.file.file_name %}
+                                File: {{ record.file.file_name }}.
+                                {% endif %}
+                                Click to download.
+                            </div>
+                        </header>
+
+                        <!-- Download Link -->
+                        <div class="material-download-container">
+                            <a href="{{ ''|page }}?{{queries}}&download={{record.file.id}}&file_name={{record.file.file_name|replace({' ': '_'})}}"
+                               class="material-download-link"
+                               aria-describedby="download-{{ loop.index }}-desc"
+                               title="Download {{record.name}}"
+                               download="{{record.file.file_name}}">
+
+                                <span class="btn btn-secondary download-button"
+                                      role="button"
+                                      aria-label="Download {{record.name}}">
+                                    Download
+                                    <span class="sr-only">({{ record.file.file_name }})</span>
+                                </span>
+                            </a>
+
+                            <span id="download-{{ loop.index }}-desc" class="sr-only">
+                                Download the promotional material "{{record.name}}"
+                                {% if record.file.file_name %}
+                                as file: {{ record.file.file_name }}
+                                {% endif %}
+                            </span>
+                        </div>
+
+                        <!-- Additional File Information -->
+                        <div class="material-metadata sr-only" role="complementary">
+                            {% if record.file.file_name %}
+                            File information: {{ record.file.file_name }}
+                            {% endif %}
+                            Material type: Promotional document
+                        </div>
+                    </div>
+                </article>
+                {% endfor %}
             </div>
-            {% endfor %}
+
+            <!-- Materials Summary -->
+            <footer class="materials-summary sr-only" role="contentinfo">
+                End of promotional materials section. {{ records.count() }} materials available for download.
+            </footer>
+
+            {% else %}
+            <!-- Empty State -->
+            <div class="empty-materials-state"
+                 role="status"
+                 aria-labelledby="no-materials-heading">
+                <h3 id="no-materials-heading">No promotional materials available</h3>
+                <p class="sr-only">
+                    There are currently no promotional materials available for download. Please check back later.
+                </p>
+            </div>
+            {% endif %}
         </div>
-        {% endif %}
+    </section>
+</main>
 
-
-    </div>
+<!-- Live Region for Dynamic Announcements -->
+<div id="materials-live-region"
+     aria-live="polite"
+     aria-atomic="true"
+     class="sr-only"
+     role="status">
 </div>
 
