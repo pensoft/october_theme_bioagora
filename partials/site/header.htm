@@ -13,52 +13,49 @@ templates = "template1"
 description_limit = 0
 ==
 
-<!--todo: when the event is over change the .header-image-bar margin-top: 234px->134; navbar &.fixed top: 0 -->
-<div class="save_the_date_banner">
+<a href="#main-content" class="visually-hidden-focusable skip-link">Skip to main content</a>
+<div class="save_the_date_banner" role="region" aria-label="Save the date announcement">
     <div class="banner_text"><b>SAVE THE DATE:</b> BIOAGORA SCIENCE-POLICY INTERFACE DIALOGUE WORKSHOP (1-2 OCTOBER; GHENT, BELGIUM)</div>
-    <a href="http://events.pensoft.net/events/bioagora-science-policy-interface-dialogue-workshop-building-bridges" class="btn btn-primary" target="_blank">Register now</a>
+    <a href="http://events.pensoft.net/events/bioagora-science-policy-interface-dialogue-workshop-building-bridges" class="btn btn-primary" target="_blank" rel="noopener noreferrer" aria-label="Register now (opens in a new tab)">Register now</a>
 </div>
-<nav class="pr-1 pl-1 navbar fixed" id="headernavbar">
+<nav class="pr-1 pl-1 navbar fixed" id="headernavbar" role="navigation" aria-label="Primary">
     <div class="container">
         <div class="header_nav_container">
             <div id="menuToggle">
-                <input type="checkbox" />
-                <span></span>
-                <span></span>
-                <span></span>
+                <input type="checkbox" aria-label="Toggle navigation menu" aria-controls="headerNavbarNav" />
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
                 {% component 'menu' %}
             </div>
-            <a href="{{'home'|page}}" class="navbar-brand" style="background: url('{{ this.theme.site_logo.getPath() }}') center no-repeat; background-size: contain;">
-
+            <a href="{{'home'|page}}" class="navbar-brand" style="background: url('{{ this.theme.site_logo.getPath() }}') center no-repeat; background-size: contain;" aria-label="Home" title="Home">
             </a>
-
             <div class="navbar-collapse collapse end-xs" id="headerNavbarNav" style="display: none;">
                 {% component 'menu' %}
             </div>
-
-            <div class="search-and-social-media hidden-xs">
+            <div class="search-and-social-media hidden-xs" role="group" aria-label="Follow us and search">
                 {% if this.theme.bluesky_url %}
-                <a href="{{this.theme.bluesky_url}}" target="_blank" class="pr p-secondary p-bluesky normal"></a>
+                <a href="{{this.theme.bluesky_url}}" target="_blank" rel="noopener noreferrer" class="pr p-secondary p-bluesky normal" aria-label="Visit our Bluesky (opens in a new tab)"><span class="visually-hidden">Bluesky</span></a>
                 {% endif %}
                 {% if enable_facebook and facebook_url %}
-                <a href="{{facebook_url}}" target="_blank" class="pr p-secondary p-facebook normal" target="_blank"></a>
+                <a href="{{facebook_url}}" target="_blank" rel="noopener noreferrer" class="pr p-secondary p-facebook normal" aria-label="Visit our Facebook (opens in a new tab)"><span class="visually-hidden">Facebook</span></a>
                 {% endif %}
                 {% if enable_linkedin and linkedin_url %}
-                <a  href="{{linkedin_url}}" target="_blank" class="pr p-secondary p-linkedin normal" target="_blank"></a>
+                <a  href="{{linkedin_url}}" target="_blank" rel="noopener noreferrer" class="pr p-secondary p-linkedin normal" aria-label="Visit our LinkedIn (opens in a new tab)"><span class="visually-hidden">LinkedIn</span></a>
                 {% endif %}
                 {% if enable_youtube and youtube_url %}
-                <a  href="{{youtube_url}}" target="_blank" class="pr p-secondary p-youtube normal" target="_blank"></a>
+                <a  href="{{youtube_url}}" target="_blank" rel="noopener noreferrer" class="pr p-secondary p-youtube normal" aria-label="Visit our YouTube (opens in a new tab)"><span class="visually-hidden">YouTube</span></a>
                 {% endif %}
                 {% if enable_instagram and instagram_url %}
-                <a  href="{{instagram_url}}" target="_blank" class="pr p-secondary p-instagram normal" target="_blank"></a>
+                <a  href="{{instagram_url}}" target="_blank" rel="noopener noreferrer" class="pr p-secondary p-instagram normal" aria-label="Visit our Instagram (opens in a new tab)"><span class="visually-hidden">Instagram</span></a>
                 {% endif %}
                 {% if enable_twitter and twitter_url %}
-                <a href="{{twitter_url}}" target="_blank" class="pr p-secondary p-twitter normal" target="_blank"></a>
+                <a href="{{twitter_url}}" target="_blank" rel="noopener noreferrer" class="pr p-secondary p-twitter normal" aria-label="Visit our X (Twitter) (opens in a new tab)"><span class="visually-hidden">X (Twitter)</span></a>
                 {% endif %}
                 {% if this.theme.threads_url %}
-                <a href="{{this.theme.threads_url}}" target="_blank" class="pr p-secondary p-threads normal"></a>
+                <a href="{{this.theme.threads_url}}" target="_blank" rel="noopener noreferrer" class="pr p-secondary p-threads normal" aria-label="Visit our Threads (opens in a new tab)"><span class="visually-hidden">Threads</span></a>
                 {% endif %}
-                <a class="pr p-search middle search-btn" onclick="showSearchForm();"></a>
+                <a class="pr p-search middle search-btn" aria-expanded="false" aria-controls="search" aria-label="Open search" onclick="showSearchForm();"><span class="visually-hidden">Open search</span></a>
             </div>
             <div id="search" class="search" style="display: none;">
                 <div class="container">
@@ -69,7 +66,7 @@ description_limit = 0
                     </form>
                 </div>
             </div>
-            <div id="google_translate_element"></div>
+            <div id="google_translate_element" role="region" aria-label="Language selection"></div>
         </div>
     </div>
 </nav>
@@ -78,67 +75,69 @@ description_limit = 0
 {% if this.theme.header_image and page_id != 'search' and not is_detail_page %}
 <div class="header-image {{page_id}}">
     {% if page_id != 'search' %}
-        {% if page_id == 'home' %}
-        <div class="header-image-bar">
-            <div class="jumbotron" data-aos="fade-up">
-                <div class="container">
-                    <div class="intro">
-                                <div id="carousel-example-generic" class="carousel slide carousel-fade" data-ride="carousel" data-interval="3000">
-                                    <!-- Wrapper for slides -->
-                                    <div class="carousel-inner">
-                                        <div class="item active">
-                                            <h1 class="underline">Contribute to policy requests for knowledge</h1>
-                                        </div>
-                                        <div class="item">
-                                            <h1 class="underline">Participate in policy dialogues</h1>
-                                        </div>
-                                        <div class="item">
-                                            <h1 class="underline">Join a Knowledge Exchange Network and the BioAgora community</h1>
-                                        </div>
-                                        <div class="item">
-                                            <h1 class="underline">Share your knowledge and expertise together with BioAgora</h1>
-                                        </div>
-                                    </div>
-                                </div>
-
-                        <a href="/news/bioagora-featured-horizon-europe-2025-work-programme-heres-how-engage" class="btn btn-primary">
-                            Learn more
-                        </a>
+    {% if page_id == 'home' %}
+    <div class="header-image-bar">
+        <div class="jumbotron" data-aos="fade-up">
+            <div class="container">
+                <div class="intro" id="main-content" tabindex="-1">
+                    <div id="carousel-example-generic" class="carousel slide carousel-fade" data-ride="carousel" data-interval="3000" aria-roledescription="carousel" aria-label="Highlights" aria-live="polite">
+                        <!-- Wrapper for slides -->
+                        <div class="carousel-inner">
+                            <div class="item active">
+                                <h1 class="underline">Contribute to policy requests for knowledge</h1>
+                            </div>
+                            <div class="item">
+                                <h1 class="underline">Participate in policy dialogues</h1>
+                            </div>
+                            <div class="item">
+                                <h1 class="underline">Join a Knowledge Exchange Network and the BioAgora community</h1>
+                            </div>
+                            <div class="item">
+                                <h1 class="underline">Share your knowledge and expertise together with BioAgora</h1>
+                            </div>
+                        </div>
+                        <div class="carousel-controls">
+                            <button type="button" class="btn btn-sm btn-outline-light" id="carousel-pause" aria-pressed="false" aria-label="Pause carousel">Pause</button>
+                        </div>
                     </div>
+                    <a href="/news/bioagora-featured-horizon-europe-2025-work-programme-heres-how-engage" class="btn btn-primary">
+                        Learn more
+                    </a>
                 </div>
             </div>
         </div>
-        {% else %}
-            {% if this.page.header_image %}
-            <div class="header-image-bar" style="background-image: url('{{this.page.header_image|media}}'); background-position: right center; background-size: cover;">
-                <div class="jumbotron container">
-                    {% if page_id != 'home' and page_id != 'search' %}
-                    <h1 class="underline white">
-                        {% if ken_detail_page %}
-                            <b>{{ken_title}}</b>
-                        {% else %}
-                            {% if page_title %} {{ page_title }} {% else %} {{ site_name }} {% endif %}
-                        {% endif %}
-                    </h1>
-                    {% endif %}
-                </div>
-            </div>
-            {% else %}
-            <div class="header-image-bar" style="background-image: url('{{this.theme.header_image.getPath()}}'); background-position: right center; background-size: cover;">
-                <div class="jumbotron container">
-                    {% if page_id != 'home' and page_id != 'search' %}
-                    <h1 class="underline white">
-                        {% if ken_detail_page %}
-                            <b>{{ken_title}}</b>
-                        {% else %}
-                            {% if page_title %} {{ page_title }} {% else %} {{ site_name }} {% endif %}
-                        {% endif %}
-                    </h1>
-                    {% endif %}
-                </div>
-            </div>
+    </div>
+    {% else %}
+    {% if this.page.header_image %}
+    <div class="header-image-bar" style="background-image: url('{{this.page.header_image|media}}'); background-position: right center; background-size: cover;">
+        <div class="jumbotron container">
+            {% if page_id != 'home' and page_id != 'search' %}
+            <h1 class="underline white">
+                {% if ken_detail_page %}
+                <b>{{ken_title}}</b>
+                {% else %}
+                {% if page_title %} {{ page_title }} {% else %} {{ site_name }} {% endif %}
+                {% endif %}
+            </h1>
             {% endif %}
-        {% endif %}
+        </div>
+    </div>
+    {% else %}
+    <div class="header-image-bar" style="background-image: url('{{this.theme.header_image.getPath()}}'); background-position: right center; background-size: cover;">
+        <div class="jumbotron container">
+            {% if page_id != 'home' and page_id != 'search' %}
+            <h1 class="underline white">
+                {% if ken_detail_page %}
+                <b>{{ken_title}}</b>
+                {% else %}
+                {% if page_title %} {{ page_title }} {% else %} {{ site_name }} {% endif %}
+                {% endif %}
+            </h1>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+    {% endif %}
     {% endif %}
 </div>
 {% endif %}

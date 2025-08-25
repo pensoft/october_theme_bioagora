@@ -68,24 +68,29 @@ secondaryClasses = "dropdown-menu"
 numberOfLevels = 2
 ==
 {% component 'cookieConsent' %}
-<div class="container-fluid border-box dark-background">
+<footer class="container-fluid border-box dark-background" role="contentinfo" aria-label="Site footer">
     <div class="container">
         <div class="row top-xs between-xs footer-menu-container">
+            <!-- Logo/Brand Section -->
             <div class="col-md-2 col-xs-12 start-md center-xs">
-                <div class="project_footer_logo">BioAgora</div>
+                <div class="project_footer_logo">
+                    BioAgora
+                </div>
             </div>
+
+            <!-- Primary Navigation Links -->
             <div class="col-md-2 col-xs-12 links">
                 <div>
-                About
-                {% component 'about' %}
+                    About
+                    {% component 'about' %}
                 </div>
                 <div>
-                Activities
-                {% component 'activities' %}
+                    Activities
+                    {% component 'activities' %}
                 </div>
                 <div>
-                Get involved
-                {% component 'involved' %}
+                    Get involved
+                    {% component 'involved' %}
                 </div>
 
             </div>
@@ -104,28 +109,59 @@ numberOfLevels = 2
                     {% component 'media' %}
                 </div>
             </div>
-            <div class="col-md-4 col-xs-12 funded_by">
-                {% if (footer_funds_flag != null) %}
-                <div class="funding flex-column my-1 my-lg-0 flex-lg-row px-1 align-items-center col-sm col-xs-12">
-                    {% if footer_funds_flag %}
-                    <img class="mr-0 mr-lg-1" src="{{ footer_funds_flag }}"/>
-                    {% endif %}
-                </div>
-                {% endif %}
-                {{ footer_funds_text }}
-                <a class="btn btn-primary" href="{{'contact'|page}}">Contact us</a>
-            </div>
 
+
+            <!-- Funding and Contact Section -->
+            <div class="col-md-4 col-xs-12 funded_by">
+                <section aria-labelledby="funding-heading">
+                    <h3 id="funding-heading" class="sr-only">Funding Information</h3>
+                    {% if (footer_funds_flag != null) %}
+                    <div class="funding flex-column my-1 my-lg-0 flex-lg-row px-1 align-items-center col-sm col-xs-12">
+                        {% if footer_funds_flag %}
+                        <img class="mr-0 mr-lg-1"
+                             src="{{ footer_funds_flag }}"
+                             alt="Funding organization logo"
+                             role="img"
+                             aria-describedby="funding-text"/>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    <p id="funding-text">{{ footer_funds_text }}</p>
+                    <a class="btn btn-primary"
+                       href="{{'contact'|page}}"
+                       aria-describedby="contact-desc">
+                        Contact us
+                    </a>
+                    <span id="contact-desc" class="sr-only">Get in touch with the BioAgora team</span>
+                </section>
+            </div>
         </div>
     </div>
-</div>
+</footer>
 
-<div class="container-fluid border-box light-background">
+<!-- Legal Footer Section -->
+<footer class="container-fluid border-box light-background" role="contentinfo" aria-label="Legal information">
     <div class="container">
         <div class="row top-xs between-xs footer-menu-container">
             <div class="col-xs-12 powered-by center-xs">
-                <a href="{{'legal-notice'|page}}">Legal notice</a> &nbsp; - &nbsp; <a href="{{'data-privacy'|page}}">Data privacy</a>
+                <nav aria-label="Legal navigation" role="navigation">
+                    <ul class="legal-links" role="list">
+                        <li>
+                            <a href="{{'legal-notice'|page}}" aria-describedby="legal-desc">
+                                Legal notice
+                            </a>
+                            <span id="legal-desc" class="sr-only">View legal notice and terms</span>
+                        </li>
+                        <li aria-hidden="true">&nbsp;-&nbsp;</li>
+                        <li>
+                            <a href="{{'data-privacy'|page}}" aria-describedby="privacy-desc">
+                                Data privacy
+                            </a>
+                            <span id="privacy-desc" class="sr-only">Read our privacy policy</span>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>
-</div>
+</footer>
