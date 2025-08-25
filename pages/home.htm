@@ -51,31 +51,118 @@ function onStart(){
 }
 ?>
 ==
-{% component 'intro' %}
-<div class="container-fluid bg-secondary">
-{% component 'numbers' %}
-</div>
-<div class="container-fluid science_service_container">
-{% component 'science_service' %}
-</div>
+<!-- Skip Links for Screen Readers -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+<a href="#statistics" class="sr-only sr-only-focusable">Skip to statistics</a>
+<a href="#services" class="sr-only sr-only-focusable">Skip to services</a>
+<a href="#latest-news" class="sr-only sr-only-focusable">Skip to latest news</a>
+<a href="#additional-info" class="sr-only sr-only-focusable">Skip to additional information</a>
 
+<main id="main-content" role="main" aria-labelledby="homepage-title">
+    <!-- Page Title (screen reader only) -->
+    <h1 id="homepage-title" class="sr-only">BioAgora Homepage</h1>
 
-{% if news.count %}
-<!-- latest from news -->
-<div class="container-fluid highlights-news bg-secondary">
-    <div class="container">
-        <div class="row middle-xs">
-            <div class="col-md-8 start-md center-xs"><h1 class="display-1">Our latest <strong>news</strong></h1></div>
-            <div class="col-md-4 end-md center-xs">
-                <a href="{{'news'|page}}" class="btn btn-primary">All the news</a>
+    <!-- Introduction Section -->
+    <section role="banner"
+             aria-labelledby="intro-heading"
+             aria-describedby="intro-description">
+        <h2 id="intro-heading" class="sr-only">Introduction</h2>
+        <div id="intro-description" class="sr-only">
+            Welcome to BioAgora - learn about our mission, vision, and key initiatives
+        </div>
+        {% component 'intro' %}
+    </section>
+
+    <!-- Statistics/Numbers Section -->
+    <section id="statistics"
+             class="container-fluid bg-secondary"
+             role="region"
+             aria-labelledby="statistics-heading"
+             aria-describedby="statistics-description">
+        <h2 id="statistics-heading" class="sr-only">Key Statistics and Numbers</h2>
+        <div id="statistics-description" class="sr-only">
+            Important figures and metrics about BioAgora's impact and achievements
+        </div>
+        {% component 'numbers' %}
+    </section>
+
+    <!-- Science Services Section -->
+    <section id="services"
+             class="container-fluid science_service_container"
+             role="region"
+             aria-labelledby="services-heading"
+             aria-describedby="services-description">
+        <h2 id="services-heading" class="sr-only">Science Services</h2>
+        <div id="services-description" class="sr-only">
+            Explore our scientific services, research support, and collaborative opportunities
+        </div>
+        {% component 'science_service' %}
+    </section>
+
+    <!-- Latest News Section -->
+    {% if news.count %}
+    <section id="latest-news"
+             class="container-fluid highlights-news bg-secondary"
+             role="region"
+             aria-labelledby="news-section-heading"
+             aria-describedby="news-section-description">
+
+        <div class="container">
+            <div class="row middle-xs">
+                <header class="col-md-8 start-md center-xs">
+                    <h2 id="news-section-heading" class="display-1">
+                        Our latest <strong>news</strong>
+                    </h2>
+                    <div id="news-section-description" class="sr-only">
+                        Stay updated with our most recent announcements, research findings, and community updates. {{ news.count }} articles available.
+                    </div>
+                </header>
+
+                <div class="col-md-4 end-md center-xs">
+                    <nav aria-label="News navigation">
+                        <a href="{{'news'|page}}"
+                           class="btn btn-primary"
+                           aria-describedby="all-news-link-desc">
+                            View all news
+                        </a>
+                        <span id="all-news-link-desc" class="sr-only">
+                            Browse all {{ news.count }} news articles and announcements
+                        </span>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Article Highlights Component -->
+            <div role="complementary"
+                 aria-labelledby="highlights-heading"
+                 aria-describedby="highlights-description">
+                <h3 id="highlights-heading" class="sr-only">Featured News Articles</h3>
+                <div id="highlights-description" class="sr-only">
+                    Highlighted news articles and recent updates from BioAgora
+                </div>
+                {% component 'article_highlights' %}
             </div>
         </div>
+    </section>
+    {% endif %}
 
-    {% component 'article_highlights' %}
-    </div>
+    <!-- Additional Information Section -->
+    <section id="additional-info"
+             role="complementary"
+             aria-labelledby="info-heading"
+             aria-describedby="info-description">
+        <h2 id="info-heading" class="sr-only">Additional Information</h2>
+        <div id="info-description" class="sr-only">
+            Further details about BioAgora, resources, and important information for users
+        </div>
+        {% component 'info' %}
+    </section>
+</main>
 
+<!-- Live Region for Dynamic Announcements -->
+<div id="homepage-live-region"
+     aria-live="polite"
+     aria-atomic="true"
+     class="sr-only"
+     role="status">
 </div>
-
-{% endif %}
-
-{% component 'info' %}

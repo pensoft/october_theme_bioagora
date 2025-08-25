@@ -61,8 +61,9 @@ description_limit = 0
                 <div class="container">
                     <div class="close-search" onclick="hideSearchForm();">&#10006;</div>
                     <form class="input-group align-items-start" action="{{ url('search')}}" method="get">
-                        <input class="form-control search_input" style="color: #000;" name="q" type="text" autocomplete="on" placeholder="Search">
-                        <button class="btn btn-link pr p-search big text-grey-search-btn" type="submit"></button>
+                        <label for="site-search-input" class="visually-hidden">Search the site</label>
+                        <input id="site-search-input" class="form-control search_input" style="color: #000;" name="q" type="text" autocomplete="on" placeholder="Search" />
+                        <button class="btn btn-link pr p-search big text-grey-search-btn" type="submit" aria-label="Submit search"><span class="visually-hidden">Search</span></button>
                     </form>
                 </div>
             </div>
@@ -96,9 +97,7 @@ description_limit = 0
                                 <h1 class="underline">Share your knowledge and expertise together with BioAgora</h1>
                             </div>
                         </div>
-                        <div class="carousel-controls">
-                            <button type="button" class="btn btn-sm btn-outline-light" id="carousel-pause" aria-pressed="false" aria-label="Pause carousel">Pause</button>
-                        </div>
+
                     </div>
                     <a href="/news/bioagora-featured-horizon-europe-2025-work-programme-heres-how-engage" class="btn btn-primary">
                         Learn more
