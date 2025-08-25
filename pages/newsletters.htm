@@ -22,7 +22,7 @@ function onStart(){
       ->orderBy('published_at', 'DESC')
       ->take(3)
       ->get();
-      
+
     $this['newsletters'] = $records;
 }
 ?>
@@ -41,11 +41,16 @@ function onStart(){
                 <div class="row news_column">
                     {% if newsletter.cover %}
                     <a class="news-image col-xs-12 center-xs" href="{{'news'|page}}/{{newsletter.slug}}">
-                        <img class="news-img-top" src="{{newsletter.cover.getThumb(370, 212, {'mode': 'crop'})}}">
+                        <img class="news-img-top" src="{{newsletter.cover.getThumb(370, 212, {'mode': 'crop'})}}"
+                             alt="Cover image for {{ newsletter.title }}"
+                             loading="lazy">
                     </a>
                     {% else %}
                     <a class="news-image col-xs-12 center-xs" href="{{'news'|page}}/{{newsletter.slug}}">
-                        <img class="news-img-top" src="{{'pensoft/No_Image_Available.jpg'|media }}" style="height: 212px; width: 370px;">
+                        <img class="news-img-top" src="{{'pensoft/No_Image_Available.jpg'|media }}"
+                             alt="No image available for {{ newsletter.title }}"
+                             style="height: 212px; width: 370px;"
+                             loading="lazy">
                     </a>
                     {% endif %}
                     <div class="news-container col-xs-12">

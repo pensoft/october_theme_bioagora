@@ -15,62 +15,199 @@ function onStart(){
 ==
 {% component 'siteSearchInclude' %}
 
-<div class="container main_container">
-    <div class="row">
+<!-- Skip Links for Screen Readers -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+<a href="#synergies-grid" class="sr-only sr-only-focusable">Skip to synergies list</a>
+
+<main id="main-content" class="container main_container" role="main" aria-labelledby="synergies-page-title">
+    <header class="page-header">
+        <h1 id="synergies-page-title" class="sr-only">Project Synergies</h1>
+        <div id="synergies-description" class="sr-only">
+            Explore our partner projects and collaborative initiatives. Click on any project to learn more about their work, visit their website, and access related resources.
+        </div>
+    </header>
+    <section id="synergies-grid"
+             class="synergies-section"
+             role="region"
+             aria-labelledby="synergies-list-heading"
+             aria-describedby="synergies-description">
+
+        <h2 id="synergies-list-heading" class="sr-only">Partner Projects</h2>
+
+        <div class="row" role="list" aria-label="List of {{ items.count }} partner projects">
         {% for record in items %}
-        <div class="col-md-4 col-xs-12 synergy_item">
-            <div class="row start-md center-xs">
-                <a data-toggle="modal" href="#content{{record.id}}">
+            <article class="col-md-4 col-xs-12 synergy_item"
+                     role="listitem"
+                     aria-labelledby="synergy-title-{{record.id}}">
+
+                <div class="row start-md center-xs synergy-card">
+                <a data-toggle="modal" href="#content{{record.id}}"
+                   class="synergy-trigger"
+                   data-target="#content{{record.id}}"
+                   aria-describedby="synergy-{{record.id}}-desc"
+                   aria-haspopup="dialog"
+                >
 
                     {% if record.logo %}
                     <div class="synergy-image col-xs-12 center-xs">
-                        <img class="news-img-top" src="{{record.logo.getThumb(auto, 120, {'mode': 'crop'})}}">
+                        <img class="synergy-logo"
+                             src="{{record.logo.getThumb(auto, 120, {'mode': 'crop'})}}"
+                             alt="Logo for {{ record.name }} project"
+                             role="img"
+                             loading="lazy">
                     </div>
                     {% endif %}
                     <div class="synergy-container col-xs-12">
                         <div class="row between-xs">
-                            <div class="col-md col-xs end-xs">Learn more</div>
+                            <div class="col-md col-xs end-xs learn-more-text">Learn more
+                                <span class="sr-only">Learn more about {{ record.name }}
+                                (opens project details)</span>
+                            </div>
                         </div>
 
                     </div>
+
+                    <span id="synergy-{{record.id}}-desc" class="sr-only">
+                        Click to view detailed information about the {{ record.name }} project, including description, website link, and related resources
+                    </span>
                 </a>
             </div>
-        </div>
-        <div class="control-popup modal fade" id="content{{record.id}}">
-            <div class="modal-dialog">
+            </article>
+            <div class="control-popup modal fade" id="content{{record.id}}" role="dialog"
+                 aria-labelledby="modal-title-{{record.id}}"
+                 aria-describedby="modal-description-{{record.id}}"
+                 aria-modal="true"
+                 aria-hidden="true"
+                 tabindex="-1">
+            <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-body">
+                    <div class="modal-body" id="modal-description-{{record.id}}">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <div class="row middle-md around-xs logo_and_btn">
-                            <div class="col-md col-xs-12"><img class="news-img-top" src="{{record.logo.getThumb(auto, 100, {'mode': 'crop'})}}"></div>
-                            <div class="col-md col-xs-12"><a href="{{record.url}}" class="project_website" target="_blank">Project website</a></div>
+                            <div class="col-md col-xs-12 project-logo-container">
+                                {% if record.logo %}
+                                <img class="project-logo"
+                                     src="{{record.logo.getThumb(auto, 100, {'mode': 'crop'})}}"
+                                     alt="Logo for {{ record.name }} project"
+                                     role="img">
+                                {% endif %}
+                            </div>
+                            <div class="col-md col-xs-12 project-website-container">
+                                {% if record.url %}
+                                <a href="{{record.url}}"
+                                   class="project_website"
+                                   target="_blank"
+                                   rel="noopener noreferrer"
+                                   aria-describedby="website-{{record.id}}-desc">
+                                    Project website
+                                    <span class="sr-only">Visit {{ record.name }} website
+                                    (opens in new window)</span>
+                                </a>
+                                <span id="website-{{record.id}}-desc" class="sr-only">
+                                        Opens the official website for {{ record.name }} project in a new window
+                                    </span>
+                                {% endif %}
+                            </div>
                         </div>
 
-                        <p>{{record.description|raw}}</p>
+                        <!-- Project Description -->
+                        <section class="project-description"
+                                 aria-labelledby="description-heading-{{record.id}}">
+                            <h3 id="description-heading-{{record.id}}" class="sr-only">
+                                Project Description
+                            </h3>
+                            <div class="description-content" role="document">
+                                {{record.description|raw}}
+                            </div>
+                        </section>
 
+                        <!-- Newsletter Subscription -->
                         {% if record.newsletter %}
-                        <br><br><a href="{{record.newsletter}}" target="_blank" class="btn btn-primary">Subscribe to newsletter</a>
+                        <section class="newsletter-section"
+                                 aria-labelledby="newsletter-heading-{{record.id}}">
+                            <h3 id="newsletter-heading-{{record.id}}" class="sr-only">
+                                Newsletter Subscription
+                            </h3>
+                            <a href="{{record.newsletter}}"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="btn btn-primary newsletter-btn"
+                               aria-describedby="newsletter-{{record.id}}-desc">
+                                Subscribe to {{ record.name }} newsletter
+                                <span class="sr-only">(opens in new window)</span>
+                            </a>
+                            <span id="newsletter-{{record.id}}-desc" class="sr-only">
+                                    Subscribe to receive updates from the {{ record.name }} project via email newsletter
+                                </span>
+                        </section>
                         {% endif %}
 
+                        <!-- Social Media Links -->
                         {% if record.social_media %}
-                        <br><br><h3>Follow the project on social media</h3>
-                        {% for social_item in record.social_media %}
-                        <a href="{{social_item.link}}" target="_blank" class="btn p-primary pr p-{{social_item.media}} big"></a>
-                        {% endfor %}
+                        <section class="social-media-section"
+                                 aria-labelledby="social-heading-{{record.id}}">
+                            <h3 id="social-heading-{{record.id}}">
+                                Follow {{ record.name }} on social media
+                            </h3>
+                            <nav class="social-media-nav"
+                                 aria-label="Social media links for {{ record.name }}">
+                                <ul class="social-media-list" role="list">
+                                    {% for social_item in record.social_media %}
+                                    <li role="listitem">
+                                        <a href="{{social_item.link}}"
+                                           target="_blank"
+                                           rel="noopener noreferrer"
+                                           class="btn p-primary pr p-{{social_item.media}} big social-btn"
+                                           aria-describedby="social-{{record.id}}-{{social_item.media}}-desc">
+                                                <span class="sr-only">
+                                                    Follow {{ record.name }} on {{ social_item.media|title }}
+                                                </span>
+                                            <span class="social-icon {{social_item.media}}-icon" aria-hidden="true"></span>
+                                        </a>
+                                        <span id="social-{{record.id}}-{{social_item.media}}-desc" class="sr-only">
+                                                Follow {{ record.name }} on {{ social_item.media|title }} (opens in new window)
+                                            </span>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </nav>
+                        </section>
                         {% endif %}
 
-
-
+                        <!-- Related News -->
                         {% if record.articles.count > 0 %}
-                        <br><br><h3 style="margin-bottom: 10px;">Related news:</h3>
-                        {% for article in record.articles %}
-                        <a href="{{'news'|page}}/{{article.slug}}" target="_blank" class="related_news">{{article.title}}</a>
-                        {% endfor %}
+                        <section class="related-news-section"
+                                 aria-labelledby="news-heading-{{record.id}}">
+                            <h3 id="news-heading-{{record.id}}">
+                                Related news from {{ record.name }}
+                            </h3>
+                            <nav class="related-news-nav"
+                                 aria-label="Related news articles for {{ record.name }}">
+                                <ul class="related-news-list" role="list">
+                                    {% for article in record.articles %}
+                                    <li role="listitem">
+                                        <a href="{{'news'|page}}/{{article.slug}}"
+                                           target="_blank"
+                                           rel="noopener noreferrer"
+                                           class="related_news"
+                                           aria-describedby="article-{{article.id}}-desc">
+                                            {{article.title}}
+                                            <span class="sr-only">(opens in new window)</span>
+                                        </a>
+                                        <span id="article-{{article.id}}-desc" class="sr-only">
+                                                Read news article related to {{ record.name }} project
+                                            </span>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </nav>
+                        </section>
                         {% endif %}
                     </div>
                 </div>
             </div>
         </div>
         {% endfor %}
-    </div>
-</div>
+        </div>
+    </section>
+</main>
