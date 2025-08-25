@@ -55,7 +55,9 @@ description_limit = 0
                 {% if this.theme.threads_url %}
                 <a href="{{this.theme.threads_url}}" target="_blank" rel="noopener noreferrer" class="pr p-secondary p-threads normal" aria-label="Visit our Threads (opens in a new tab)"><span class="visually-hidden">Threads</span></a>
                 {% endif %}
-                <a class="pr p-search middle search-btn" aria-expanded="false" aria-controls="search" aria-label="Open search" onclick="showSearchForm();"><span class="visually-hidden">Open search</span></a>
+                <a class="pr p-search middle search-btn" aria-expanded="false" aria-controls="search" aria-label="Open search" onclick="showSearchForm();">
+                    <span class="visually-hidden">Open search</span>
+                </a>
             </div>
             <div id="search" class="search" style="display: none;">
                 <div class="container">
