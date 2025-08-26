@@ -135,8 +135,8 @@ function onStart(){
                                      role="listitem"
                                      aria-labelledby="highlight-title-{{ loop.index }}">
                                 <div class="row news_column">
-                                    {% if highlight.href %}
-                                    <a href="{{highlight.href}}"
+                                    {% if highlight.slug %}
+                                    <a href="{{'news'|page}}/{{highlight.slug}}"
                                        aria-describedby="highlight-image-{{ loop.index }}-desc"
                                        tabindex="0">
                                         {% endif %}
@@ -148,7 +148,7 @@ function onStart(){
                                              aria-describedby="highlight-img-context-{{ loop.index }}"
                                              loading="lazy">
 
-                                        {% if highlight.href %}
+                                        {% if highlight.slug %}
                                     </a>
                                     {% endif %}
                                     <div class="news-container col-xs-12">
@@ -156,8 +156,8 @@ function onStart(){
                                         <!-- Article Title -->
                                         <header class="news-title">
                                             <h3 id="highlight-title-{{ loop.index }}" class="card-title">
-                                                {% if highlight.href %}
-                                                <a href="{{highlight.href}}"
+                                                {% if highlight.slug %}
+                                                <a href="{{'news'|page}}/{{highlight.slug}}"
                                                    aria-describedby="highlight-context-{{ loop.index }}">
                                                     {{ highlight.title|length > title_max_length ? highlight.title|striptags|slice(0, title_max_length)|replace({"&nbsp;": " ", ".": ". "}) ~ '...' : highlight.title|striptags|replace({"&nbsp;": " ", ".": ". "}) }}
                                                     {% if highlight.title|length > title_max_length %}
@@ -172,7 +172,7 @@ function onStart(){
                                                 {% endif %}
                                             </h3>
 
-                                            {% if highlight.href %}
+                                            {% if highlight.slug %}
                                             <span id="highlight-context-{{ loop.index }}" class="sr-only">
                                                Published {{ highlight.pretty_published_at }}. Click to read the complete article.
                                                {% if highlight.title|length > title_max_length %}
