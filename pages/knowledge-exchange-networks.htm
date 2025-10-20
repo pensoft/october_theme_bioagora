@@ -202,7 +202,7 @@ return Redirect::to('/knowledge-exchange-networks');
                 </div>
                 <div class="col-md-8 col-xs-12">
                     {% if entry.cover_image %}
-                    <a href="{{'events'|page}}/{{entry.slug}}"
+                    <a href="/events/{{entry.slug}}"
                        aria-describedby="event-{{entry.slug}}-desc">
                         <img src="{{entry.cover_image|crop_image|resize(174, auto, {'mode': 'crop'})}}"
                              alt="Cover image for {{ entry.title }}"
@@ -211,14 +211,14 @@ return Redirect::to('/knowledge-exchange-networks');
                     </a>
                     {% endif %}
                     <h3 class="event-title">
-                        <a href="{{'events'|page}}/{{entry.slug}}"
+                        <a href="/events/{{entry.slug}}"
                            id="event-{{entry.slug}}-desc">
                             {{entry.title|raw}}
                         </a>
                     </h3>
                 </div>
                 <div class="col-md-2 col-xs-12 end-md center-xs">
-                    <a href="{{'events'|page}}/{{entry.slug}}"
+                    <a href="/events/{{entry.slug}}"
                        class="btn btn-primary"
                        aria-describedby="event-learn-more-{{entry.slug}}">
                         Learn more
@@ -251,7 +251,7 @@ return Redirect::to('/knowledge-exchange-networks');
                         <i class="files_file" aria-label="File"></i>
                         {% endif %}
                     </span>
-                    <span class="file-name-text">{{file.file_name}}</span>
+                    <span class="file-name-text">{{file.title}}</span>
                     <span class="sr-only">File type: {{ file.extension|upper }}</span>
                 </div>
                 <div class="col-md-2 col-xs-12 end-md center-xs">

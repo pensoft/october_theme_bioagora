@@ -436,30 +436,17 @@ $this['page_url'] = $this->pageUrl('');
                 <div class="col-cx-12 center-xs">
                     <nav aria-label="Social media sharing options">
                         <ul class="social-sharing-list" role="list">
-                            <li role="listitem">
-                                <a href="http://twitter.com/share?text={{entry.title}}&url={{page_url}}"
+                        <li role="listitem">
+                                <a href="https://bsky.app/intent/compose?text={{article.title}}20%{{page_url}}"
                                    target="_blank"
                                    rel="noopener noreferrer"
-                                   class="pr p-twitter big hexagon"
-                                   aria-describedby="twitter-share-desc">
-                                    <span class="sr-only">Share on Twitter</span>
+                                   class="pr p-bluesky big hexagon"
+                                   aria-describedby="bluesky-share-desc">
+                                    <span class="sr-only">Share on BlueSky</span>
                                     <span aria-hidden="true" class="social-icon"></span>
                                 </a>
-                                <span id="twitter-share-desc" class="sr-only">
-                                    Share {{entry.title}} on Twitter (opens in new window)
-                                </span>
-                            </li>
-                            <li role="listitem">
-                                <a href="https://www.facebook.com/sharer/sharer.php?u={{page_url}}&amp;src=sdkpreparse"
-                                   target="_blank"
-                                   rel="noopener noreferrer"
-                                   class="pr p-facebook big hexagon"
-                                   aria-describedby="facebook-share-desc">
-                                    <span class="sr-only">Share on Facebook</span>
-                                    <span aria-hidden="true" class="social-icon"></span>
-                                </a>
-                                <span id="facebook-share-desc" class="sr-only">
-                                    Share {{entry.title}} on Facebook (opens in new window)
+                                <span id="bluesky-share-desc" class="sr-only">
+                                    Share {{entry.title}} on BlueSky (opens in new window)
                                 </span>
                             </li>
                             <li role="listitem">
