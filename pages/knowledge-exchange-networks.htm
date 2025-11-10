@@ -1,4 +1,4 @@
-url = "/knowledge-exchange-networks-new/:slug?|[a-zA-Z\-0-9]"
+url = "/knowledge-exchange-networks/:slug?|[a-zA-Z\-0-9]"
 layout = "default"
 title = "Knowledge Exchange Networks"
 
@@ -6,7 +6,7 @@ title = "Knowledge Exchange Networks"
 
 [jumbotron about_ken]
 jumbotron = "about"
-title = 1
+title = 0
 background = "transperant"
 templates = "template3"
 description_limit = 0
@@ -160,9 +160,9 @@ return Redirect::to('/knowledge-exchange-networks');
         <h2 id="knowledge-requests-heading" class="display-1">Knowledge Requests</h2>
         <div class="row" role="region" aria-labelledby="knowledge-requests-heading">
             <div class="col-md-1" id="type-header">Type</div>
-            <div class="col-md-4" id="title-header">Title</div>
-            <div class="col-md-2" id="coordinator-header">Coordinator</div>
-            <div class="col-md-3" id="submission-header">Estimated submission</div>
+            <div class="col-md-6" id="title-header">Title</div>
+            <div class="col-md-3" id="coordinator-header">Coordinator</div>
+            <!--<div class="col-md-3" id="submission-header">Estimated submission</div>-->
             <div class="col-md-2" id="status-header">Status</div>
         </div>
         {% for item in ken.knowege_requests %}
@@ -171,9 +171,9 @@ return Redirect::to('/knowledge-exchange-networks');
                                              aria-label="Request type: {{item.type}}">
                                 {{item.type}}
                             </span></div>
-            <div class="col-md-4 ken_title"><span aria-label="Request title">{{item.title}}</span></div>
-            <div class="col-md-2 coordinator"><span aria-label="Coordinator">{{item.coordinator}}</span></div>
-            <div class="col-md-3 estimate"><time aria-label="Estimated submission date">{{item.estimate}}</time></div>
+            <div class="col-md-6 ken_title"><span aria-label="Request title">{{item.title}}</span></div>
+            <div class="col-md-3 coordinator"><span aria-label="Coordinator">{{item.coordinator}}</span></div>
+            <!--<div class="col-md-3 estimate"><time aria-label="Estimated submission date">{{item.estimate}}</time></div>-->
             <div class="col-md-2 status"><span class="{{item.status|slug}} status-badge"
                                                aria-label="Request status: {{item.status}}">
                                 {{item.status}}
@@ -251,7 +251,7 @@ return Redirect::to('/knowledge-exchange-networks');
                         <i class="files_file" aria-label="File"></i>
                         {% endif %}
                     </span>
-                    <span class="file-name-text">{{file.title}}</span>
+                    <span class="file-name-text">{% if file.title %}{{file.title}}{% else %} {{file.file_name}} {% endif %}</span>
                     <span class="sr-only">File type: {{ file.extension|upper }}</span>
                 </div>
                 <div class="col-md-2 col-xs-12 end-md center-xs">
@@ -282,7 +282,7 @@ return Redirect::to('/knowledge-exchange-networks');
             <article class="col-xs-12 col-md-4 news-item item-{{highlight.slug}}" role="listitem">
                 <div class="row news_column">
                     <div class="news-image col-xs-12 center-xs">
-                        <a href="{{'news'|page}}/{{highlight.slug}}"
+                        <a href="/news/{{highlight.slug}}"
                            aria-describedby="news-{{highlight.slug}}-desc">
                             {% if highlight.cover %}
                             <img class="news-img-top"
@@ -306,7 +306,7 @@ return Redirect::to('/knowledge-exchange-networks');
                         </time>
                         <div class="news-title">
                             <h3 class="card-title">
-                                <a href="{{'news'|page}}/{{highlight.slug}}"
+                                <a href="/news/{{highlight.slug}}"
                                    id="news-{{highlight.slug}}-desc">
                                     {{ highlight.title|length > 99 ? highlight.title|slice(0, 99) ~ '...' : highlight.title }}
                                 </a>
@@ -314,7 +314,7 @@ return Redirect::to('/knowledge-exchange-networks');
                         </div>
                         <div class="row">
                             <div class="col-xs-6">
-                                <a href="{{'news'|page}}/{{highlight.slug}}"
+                                <a href="/news/{{highlight.slug}}"
                                    class="btn btn-primary"
                                    aria-describedby="read-article-{{highlight.slug}}-desc">
                                     {{'Read article'|_}}
@@ -331,6 +331,23 @@ return Redirect::to('/knowledge-exchange-networks');
         </div>
     </section>
     {% endif %}
+
+
+    <!-- Partners Section -->
+        {% if ken.partner.count > 0 %}
+        <section class="container partners_list_container mb-4" aria-labelledby="partners-heading">
+            <h2 id="partners-heading" class="display-1">Participating partners</h2>
+
+            <div class="partners-list" role="list" aria-label="List of Participating partners">
+                {% for partner in ken.partner %}
+                        <div class="partner_item">
+                            <a href="{{partner.instituion_url}}" title="{{ partner.instituion }}" aria-label="Open the {{ partner.instituion }} website (opens in new tab)" target="_blank"><img alt="{{ partner.instituion }}" src="{{partner.cover.getThumb(158, auto, { mode : 'crop' } )}}"></a>
+                        </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
 </main>
 
 {% else %}
@@ -413,7 +430,7 @@ return Redirect::to('/knowledge-exchange-networks');
             <article class="col-xs-12 col-md-4 news-item item-{{highlight.slug}}" role="listitem">
                 <div class="row news_column">
                     <div class="news-image col-xs-12 center-xs">
-                        <a href="{{'news'|page}}/{{highlight.slug}}"
+                        <a href="/news/{{highlight.slug}}"
                            aria-describedby="general-news-{{highlight.slug}}-desc">
                             {% if highlight.cover %}
                             <img class="news-img-top"
@@ -437,7 +454,7 @@ return Redirect::to('/knowledge-exchange-networks');
                         </time>
                         <div class="news-title">
                             <h3 class="card-title">
-                                <a href="{{'news'|page}}/{{highlight.slug}}"
+                                <a href="/news/{{highlight.slug}}"
                                    id="general-news-{{highlight.slug}}-desc">
                                     {{ highlight.title|length > 99 ? highlight.title|slice(0, 99) ~ '...' : highlight.title }}
                                 </a>
@@ -445,7 +462,7 @@ return Redirect::to('/knowledge-exchange-networks');
                         </div>
                         <div class="row">
                             <div class="col-xs-6">
-                                <a href="{{'news'|page}}/{{highlight.slug}}"
+                                <a href="/news/{{highlight.slug}}"
                                    class="btn btn-primary"
                                    aria-describedby="read-general-article-{{highlight.slug}}-desc">
                                     {{'Read article'|_}}

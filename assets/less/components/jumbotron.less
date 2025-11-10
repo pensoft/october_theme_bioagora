@@ -678,6 +678,15 @@
                 font-size: 19px;
                 font-weight: bold;
                 margin-left: 15px;
+                h3{
+                    font-size: 19px;
+                    font-weight: bold;
+                    text-align: left;
+                    margin-bottom: 0;
+                    a{
+                        color: #343434;
+                    }
+                }
             }
 
             .arrow_container{
@@ -840,5 +849,25 @@
 
     .file_item + .file_item {
         margin-top: 5px;
+    }
+
+
+    .partners-list{
+        display: flex;
+        align-items: center;
+        .partner_item{
+            border-radius: 10px;
+            background: @secondary-color;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 42px;
+            margin-right: 19px;
+            img{
+                width: 158px;
+                max-height: 35px;
+                object-fit: contain;
+            }
+        }
     }
 }

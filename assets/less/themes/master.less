@@ -1019,10 +1019,15 @@ footer .align-items-center{
     .carousel-inner .item {
         text-align: center !important;
         position: absolute;
-        transform: translateY(-130%);
-        min-height: 130px;
+        transform: translateY(-70%);
         display: flex;
-        align-items: center;
+        align-items: flex-start;
+        flex-direction: column;
+        justify-content: flex-start;
+
+        a{
+            margin-top: 50px;
+        }
         .breakpoint-large-down({
             transform: translateY(-106%);
         });
