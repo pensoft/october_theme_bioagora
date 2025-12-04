@@ -559,5 +559,119 @@ a.ui-button:active,
 
 
 
+/*------------------------*/
+
+.services_accordion_item{
+    padding: 0;
+    border-bottom: 1px solid #DFDCDC;
+}
+
+.services_accordion_item .accordion-border{
+    margin: 0;
+    font-size: 1em;
+    cursor: pointer;
+    width: 95%;
+    cursor: pointer;
+
+
+    margin-bottom: 8px;
+    .breakpoint-large-down({
+        width: 100%;
+    });
+
+
+}
+
+.services_accordion_item .accordion-toggle{
+    position: relative;
+    border-radius: 20px;
+    padding: 14px 0;
+    margin-bottom: 0px;
+    cursor: pointer;
+    color: #5F6683;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.36px;
+
+
+    .col-xs.start-xs{
+        display: flex;
+        align-items: center;
+
+    }
+    &:focus{
+        outline: none;
+    }
+}
+
+
+.services_accordion_item .accordion-content{
+    padding: 6px 0 15px 0;
+    font-size: 18px;
+    color: #5F6683;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.36px;
+    display: none;
+    ol{
+        list-style-type: decimal;
+        padding-left: 40px;
+    }
+
+
+
+}
+
+
+.services_accordion_item .accordion-content p{
+    .breakpoint-large-down({
+        padding: 0!important;
+        text-align: left!important;
+    });
+}
+
+.services_accordion_item .plusminus{
+    flex-basis: 10%;
+    width: 29px;
+    height: 29px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: end;
+    .breakpoint-large-down({
+        position: relative;
+    });
+    .plus, .minus{
+        width: 20px;
+        height: 20px;
+        text-align: right;
+        vertical-align: middle;
+        color: @default-color;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: url("../../assets/images/arrow-down.svg") center no-repeat;
+        background-size: contain!important;
+        .breakpoint-large-down({
+            position: absolute;
+            right: 5px;
+        });
+    }
+    .plus{
+        background: url("../../assets/images/arrow-down.svg") center no-repeat;
+    }
+    .minus{
+        background: url("../../assets/images/arrow-down.svg") center no-repeat;
+        transform: rotate(180deg);
+    }
+}
+
+
+/**/
+
+
 
 

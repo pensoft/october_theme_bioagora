@@ -10,10 +10,6 @@ includePageMeta = 1
 escape = 1
 
 [googleTracker]
-
-[cookieBanner]
-include_css = 1
-update_selector = "#gdpr-reload"
 ==
 <!DOCTYPE html>
 <html lang="en">
@@ -36,7 +32,7 @@ update_selector = "#gdpr-reload"
     <script src="{{ 'assets/js/app.js'|theme }}"></script>
     <script src="{{ 'assets/js/jquery-ui.js'|theme }}"></script>
 
-    {% if this.page.id == 'financial-support-third-parties' or this.page.id == 'synergies'  or this.page.id == 'home' %}
+    {% if this.page.id == 'financial-support-third-parties' or this.page.id == 'synergies'  or this.page.id == 'home' or this.page.id == 'knowledge-requests'  %}
 <!--    <link href="{{ 'assets/css/bootstrap.min.css'|theme }}" rel="stylesheet">-->
     <script src="{{ 'assets/js/bootstrap.min.js'|theme }}"></script>
     {% endif %}
@@ -202,6 +198,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </script>
 
 </body>
-{% component 'cookieBanner' %}
+
 
 </html>

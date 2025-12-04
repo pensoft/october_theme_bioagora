@@ -70,7 +70,7 @@ $(document).ready(function() {
         $(this).next('.body-content').slideToggle();
     });
 
-    $('body').on('click', '.work_packages .accordion-toggle, .faqs .accordion-toggle, .funding-calls .accordion-toggle, .financial-support-third-parties .accordion-toggle', function () {
+    $('body').on('click', '.work_packages .accordion-toggle, .faqs .accordion-toggle, .funding-calls .accordion-toggle, .financial-support-third-parties .accordion-toggle, .services_accordion_item .accordion-toggle', function () {
         if ($(this).next(".accordion-content").is(':visible')) {
             $(this).next(".accordion-content").slideUp(300);
             $(this).children().find(".plusminus").text('+');
