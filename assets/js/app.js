@@ -328,6 +328,7 @@ $(document).ready(function() {
         'policy requests',
         'policy dialogues',
         'Knowledge Exchange Network',
+        'Horizon Europe Work Programme 2026',
     ];
 
     $.each(hedingsArray, function (index, value) {

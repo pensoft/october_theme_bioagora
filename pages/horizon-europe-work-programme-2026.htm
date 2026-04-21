@@ -1,0 +1,88 @@
+url = "/horizon-europe-work-programme-2026"
+layout = "default"
+title = "Horizon Europe Work Programme 2026"
+
+[siteSearchInclude]
+
+[jumbotron]
+jumbotron = "horizon-europe-work-programme-2026"
+background = "transperant"
+templates = "template3"
+description_limit = 0
+==
+<?php
+use Pensoft\Articles\Models\Article;
+
+
+function onStart(){
+
+    $this['news'] = Article::news()->whereHas('categories', function ($query) {
+                                                $query->where('id', 8);
+                                            })->where('published_at', '<=', 'now')
+                                            ->where('published', 'true')
+                                            ->orderBy('published_at', 'DESC')
+                                            ->take(3)
+                                            ->get();
+                                            
+}
+?>
+==
+{% component 'siteSearchInclude' %}
+{% component 'jumbotron' %}
+
+<section class="container newslist-records news" aria-labelledby="ken-news-heading">
+        <h2 id="ken-news-heading" class="display-1">Recent news</h2>
+
+        <div class="row newslist" role="list" aria-label="News articles related to {{ ken_title }} KEN">
+            {% for highlight in news %}
+            <article class="col-xs-12 col-md-4 news-item item-{{highlight.slug}}" role="listitem">
+                <div class="row news_column">
+                    <div class="news-image col-xs-12 center-xs">
+                        <a href="/news/{{highlight.slug}}"
+                           aria-describedby="news-{{highlight.slug}}-desc">
+                            {% if highlight.cover %}
+                            <img class="news-img-top"
+                                 src="{{highlight.cover.getThumb(370, 212, {'mode': 'crop'})}}"
+                                 alt="Cover image for {{ highlight.title }}"
+                                 loading="lazy">
+                            {% else %}
+                            <img class="news-img-top"
+                                 src="{{'pensoft/No_Image_Available.jpg'|media }}"
+                                 alt="No image available for {{ highlight.title }}"
+                                 style="height: 212px; width: 370px;"
+                                 loading="lazy">
+                            {% endif %}
+                        </a>
+                    </div>
+                    <div class="news-container col-xs-12">
+                        <time class="text-published"
+                              datetime="{{ highlight.published_at|date('c') }}"
+                              aria-label="Published on">
+                            {{ highlight.published_at|date("d M Y") }}
+                        </time>
+                        <div class="news-title">
+                            <h3 class="card-title">
+                                <a href="/news/{{highlight.slug}}"
+                                   id="news-{{highlight.slug}}-desc">
+                                    {{ highlight.title|length > 99 ? highlight.title|slice(0, 99) ~ '...' : highlight.title }}
+                                </a>
+                            </h3>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <a href="/news/{{highlight.slug}}"
+                                   class="btn btn-primary"
+                                   aria-describedby="read-article-{{highlight.slug}}-desc">
+                                    {{'Read article'|_}}
+                                </a>
+                                <span id="read-article-{{highlight.slug}}-desc" class="sr-only">
+                                    Read full article: {{ highlight.title }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </section>

@@ -322,6 +322,7 @@ ul.pagination{
             }
             .col-xs-12{
                 padding: 0;
+                display: flex;
                 .breakpoint-large-down({
                     text-align: center;
                 });
@@ -609,6 +610,12 @@ ul.pagination{
 .funded_by img{
   margin: 0 0 20px 0;
   display: inline-flex;
+  width: 50%;
+      max-height: 40px;
+    object-fit: contain;
+  .breakpoint-large-down({
+    width: 100%;
+  });
 }
 
 
