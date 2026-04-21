@@ -141,7 +141,7 @@ return Redirect::to('/knowledge-exchange-networks');
                        rel="noopener noreferrer"
                        class="btn btn-float"
                        aria-describedby="get-in-touch-desc">
-                        Get in touch
+                        {% if ken.get_in_touch_url starts with 'http' %}Join now{% else %}Get in touch{% endif %}
                         <span class="sr-only">(opens in new window)</span>
                     </a>
                     <span id="get-in-touch-desc" class="sr-only">
