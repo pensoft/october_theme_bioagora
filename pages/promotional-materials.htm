@@ -31,7 +31,8 @@ use Pensoft\Media\Models\Flyers;
 use System\Models\File;
 
 function onStart(){
-	$this['mediaFlyersList'] =  Flyers::get();
+	$this['mediaFlyersList'] =  Flyers::where('category_id', 1)->get();
+	$this['ken_flyers'] =  Flyers::where('category_id', 2)->get();
 	if(get('download')){
 		$file = File::find((int)get('download'));
 		$file_name = $file->getLocalPath();
@@ -181,6 +182,107 @@ return Redirect::to('/media-center/flyer');
             {% endif %}
         </div>
     </section>
+
+
+    {% if ken_flyers.count() %}
+    <section id="ken-materials"
+             class="container-fluid page-bg"
+             role="region"
+             aria-labelledby="ken-section-heading"
+             aria-describedby="ken-section-description">
+
+        <div class="container promotional-materials-content">
+            <header>
+                <h2 id="ken-section-heading" class="ken-section-title">Knowledge Exchange Networks (KENs)</h2>
+                <div id="ken-section-description" class="sr-only">
+                    Download Knowledge Exchange Networks (KENs) materials. {{ ken_flyers.count() }} materials available.
+                </div>
+            </header>
+
+            <div class="row materials-grid"
+                 role="list"
+                 aria-label="List of {{ ken_flyers.count() }} Knowledge Exchange Networks materials">
+
+                {% for record in ken_flyers %}
+                <article class="col-md-4 col-xs-12 mb-1 material-item"
+                         role="listitem"
+                         aria-labelledby="ken-material-title-{{ loop.index }}">
+
+                    <div class="flyer-container {{record.name|slug}} material-card"
+                         role="region"
+                         aria-labelledby="ken-material-title-{{ loop.index }}"
+                         aria-describedby="ken-material-description-{{ loop.index }}">
+
+                        <!-- Material Image -->
+                        <figure class="material-image-container">
+                            <img src="{{record.flyer_image.path}}"
+                                 alt="Preview image for {{record.name}} KEN material"
+                                 role="img"
+                                 aria-describedby="ken-material-image-{{ loop.index }}-desc"
+                                 loading="lazy">
+                            <figcaption id="ken-material-image-{{ loop.index }}-desc" class="sr-only">
+                                Preview of the {{record.name}} Knowledge Exchange Network material
+                            </figcaption>
+                        </figure>
+
+                        <!-- Material Information -->
+                        <header class="material-info">
+                            <h3 id="ken-material-title-{{ loop.index }}" class="name_label material-title">
+                                {{record.name}}
+                            </h3>
+
+                            <div id="ken-material-description-{{ loop.index }}" class="sr-only">
+                                Knowledge Exchange Network material: {{record.name}}.
+                                {% if record.file.file_name %}
+                                File: {{ record.file.file_name }}.
+                                {% endif %}
+                                Click to download.
+                            </div>
+                        </header>
+
+                        <!-- Download Link -->
+                        <div class="material-download-container">
+                            <a href="{{ ''|page }}?{{queries}}&download={{record.file.id}}&file_name={{record.file.file_name|replace({' ': '_'})}}"
+                               class="material-download-link"
+                               aria-describedby="ken-download-{{ loop.index }}-desc"
+                               title="Download {{record.name}}"
+                               download="{{record.file.file_name}}">
+
+                                <span class="btn btn-secondary download-button"
+                                      role="button"
+                                      aria-label="Download {{record.name}}">
+                                    Download
+                                    <span class="sr-only">({{ record.file.file_name }})</span>
+                                </span>
+                            </a>
+
+                            <span id="ken-download-{{ loop.index }}-desc" class="sr-only">
+                                Download the Knowledge Exchange Network material "{{record.name}}"
+                                {% if record.file.file_name %}
+                                as file: {{ record.file.file_name }}
+                                {% endif %}
+                            </span>
+                        </div>
+
+                        <!-- Additional File Information -->
+                        <div class="material-metadata sr-only" role="complementary">
+                            {% if record.file.file_name %}
+                            File information: {{ record.file.file_name }}
+                            {% endif %}
+                            Material type: Knowledge Exchange Network document
+                        </div>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+
+            <!-- Materials Summary -->
+            <footer class="materials-summary sr-only" role="contentinfo">
+                End of Knowledge Exchange Networks section. {{ ken_flyers.count() }} materials available for download.
+            </footer>
+        </div>
+    </section>
+    {% endif %}
 </main>
 
 <!-- Live Region for Dynamic Announcements -->
