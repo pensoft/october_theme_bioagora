@@ -267,6 +267,22 @@ function onStart(){
                             </span>
                         </div>
                         {% endif %}
+
+                        {% if this.theme.bluesky and this.theme.bluesky_url %}
+                        <div role="listitem">
+                            <a href="{{this.theme.bluesky_url}}"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="pr p-secondary p-bluesky big social-link"
+                               aria-describedby="bluesky-link-desc">
+                                <span class="sr-only">Follow us on BlueSky</span>
+                                <span class="social-icon bluesky-icon" aria-hidden="true"></span>
+                            </a>
+                            <span id="bluesky-link-desc" class="sr-only">
+                                Follow BioAgora on BlueSky for visual content and stories (opens in new window)
+                            </span>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </nav>

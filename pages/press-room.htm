@@ -110,40 +110,7 @@ function onStart(){
         </div>
     </section>
 
-    <!-- Press Articles Section -->
-    <section id="press-articles"
-             class="container news press-articles-section"
-             role="region"
-             aria-labelledby="press-articles-heading"
-             aria-describedby="press-articles-description">
 
-        <header>
-            <h2 id="press-articles-heading" style="text-align: center;">
-                Our <strong>press articles</strong>
-            </h2>
-            <div id="press-articles-description" class="sr-only">
-                Media coverage and press articles featuring BioAgora in various publications and news outlets.
-                {% if press_articles.count %}
-                {{ press_articles.count }} press articles available.
-                {% else %}
-                No press articles currently available.
-                {% endif %}
-            </div>
-        </header>
-
-        <div class="newslist-records press-articles-container"
-             role="region"
-             aria-labelledby="press-articles-list-heading"
-             aria-describedby="press-articles-list-description">
-
-            <h3 id="press-articles-list-heading" class="sr-only">Press Articles List</h3>
-            <div id="press-articles-list-description" class="sr-only">
-                View articles and media coverage about BioAgora from external publications and news sources
-            </div>
-
-            {% partial 'components/newslist-records' records=press_articles %}
-        </div>
-    </section>
 
     <!-- Press Kit Summary -->
     <footer class="press-kit-summary sr-only" role="contentinfo">

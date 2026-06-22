@@ -97,7 +97,9 @@
     &.fixed {
         position: fixed;
         top: 0;
-        z-index: 2;
+        // Lift the fixed header's stacking context above page content so the
+        // dropdown menu inside it isn't trapped below items using z-index 99/1000.
+        z-index: @zindex-sticky;
         background: none;
         // .breakpoint-large-down({
         //     top: 105px;
@@ -144,6 +146,8 @@
             opacity: 0;
             box-shadow: 0 1px 20px rgba(0, 0, 0, 0.1);
             padding: 15px;
+            // Keep the dropdown above page content (footer, .intro-section, etc.)
+            z-index: @zindex-fixed;
 
 
             &:nth-of-type(1) {
