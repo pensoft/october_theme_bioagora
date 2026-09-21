@@ -40,3 +40,644 @@
         }
     }
 }
+
+
+
+
+/* LIBRARY PAGE */
+
+
+.library_links{
+    display: flex;
+    position: absolute;
+    top: 127px;
+    width: 100%;
+
+    .breakpoint-large-down({
+        position: relative;
+        top: 30px;
+    });
+
+    .col-md-6{
+        padding: 0;
+        .breakpoint-large-down({
+            margin-bottom: 20px;
+        });
+    }
+    .open_science,
+    .eu_resources {
+        border-radius: 10px;
+        background: url("../../assets/images/open_science_bg.png") no-repeat;
+        background-size: cover;
+        color: #FFF;
+        font-family: NotoSans;
+        font-size: 26px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        letter-spacing: -0.52px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: calc(~'95% - 74px');
+        height: 93px;
+        padding: 0 37px;
+
+        .breakpoint-large-down({
+            margin: 0 auto;
+        });
+
+        &:hover {
+            border-bottom: none;
+            opacity: 1;
+
+            span {
+                &::after {
+                    transform: rotate(45deg);
+                }
+            }
+        }
+
+        span {
+            display: inline-flex;
+            align-items: center;
+            font-family: NotoSans;
+            color: #FFF;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 24px;
+            border-radius: 6px;
+            transition: all 0.3s ease-in-out;
+
+            // Arrow via pseudo-element
+            &::after {
+                content: '';
+                display: inline-block;
+                width: 10px;
+                height: 10px;
+                margin-left: 7px;
+                background: url("../../assets/images/arrow_learn_more.svg") center no-repeat;
+                background-size: contain;
+                transition: all 0.35s ease-in-out;
+                flex-shrink: 0;
+                top: 2px;
+                position: relative;
+            }
+        }
+    }
+
+    .eu_resources {
+        background: url("../../assets/images/eu_resources_bg.png") no-repeat;
+        background-size: cover;
+    }
+}
+
+
+.library .tabs{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 30px auto 47px auto;
+
+    .breakpoint-large-down({
+        width: 80%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: space-around;
+        margin: 10px auto 40px auto;
+        float: unset;
+    });
+
+    .btn-primary{
+        .breakpoint-small-down({
+            margin-bottom: 20px;
+        });
+    }
+
+    form{
+        width: fit-content;
+        float: left;
+        .breakpoint-small-down({
+            width: auto;
+            float: unset;
+            max-width: 100%;
+        });
+    }
+
+    a, button{
+        color: @heading-text-color;
+        text-align: center;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        letter-spacing: -0.32px;
+        border-radius: 40px;
+        padding: 10px 20px;
+        border: 1px solid white;
+        cursor: pointer;
+
+
+        margin-right: 10px;
+        margin-bottom: 10px;
+        &:hover, &.active{
+            border: 1px solid #D7DCEF;
+            background: #F3F4F8;
+        }
+        .breakpoint-large-down({
+            margin-right: 2px;
+        });
+    }
+
+    &.active{
+        a{
+            border: 1px solid #D7DCEF;
+            background: #F3F4F8;
+        }
+    }
+
+}
+
+.library{
+
+    .library-item-top{
+        display: none;
+    }
+
+    // 2-column card grid
+    .library-items {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 33px;
+        margin-bottom: 100px;
+        margin-top: 261px;
+        //justify-content: space-between;
+        //margin-bottom: 100px;
+
+        .breakpoint-large-down({
+            display: block;
+            margin-top: 150px;
+        });
+
+        .breakpoint-small-down({
+            margin-top: 20px;
+        });
+    }
+
+    .library-items > .library-item {
+        flex-basis: calc(~'48.1% - 8px');
+        max-width: calc(~'48.1% - 8px');
+
+        .breakpoint-large-down({
+            flex-basis: 100%;
+            max-width: 100%;
+        });
+    }
+
+    .library-item {
+        .breakpoint-large-down({
+            display: block;
+            justify-content: unset;
+        });
+
+        .row {
+            padding: 20px 24px !important;
+            margin: 0 !important;
+            border-radius: 10px;
+            background: #F3F4F8;
+            color: #5F6683;
+            font-size: 15px;
+            position: relative;
+
+            width: 100%;
+            height: 100%;
+
+            .breakpoint-large-down({
+                width: 95%;
+                margin: 20px auto!important;
+            });
+
+            .col-md-9{
+                flex-basis: 100%;
+                max-width: 100%;
+            }
+            .col-md-3{
+                flex-basis: 100%;
+                max-width: 100%;
+                position: relative;
+                display: flex;
+                align-items: end;
+
+                .download_text{
+                    display: none;
+                }
+
+                a{
+                    width: 100%;
+                    i{
+                        background: url("../../assets/images/download-icon.svg") center no-repeat;
+                        top: 6px;
+                        position: relative;
+                        margin-right: 5px;
+                        background-size: 17px;
+                    }
+
+                    .btn-file-size {
+                        opacity: 0.7;
+                    }
+                }
+            }
+        }
+
+        // Top row: label left, number badge right
+        .library-type-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 12px;
+
+            .doc_type {
+                display: inline-flex;
+                align-items: center;
+                height: 28px;
+                padding: 0 14px;
+                border-radius: 30px;
+                background: #DCE5E4;
+                color: #00BDA7;
+                font-size: 13px;
+                font-weight: 500;
+                letter-spacing: -0.26px;
+            }
+
+            //// Number badge — pull from deliverable number via CSS counter trick
+            //// shown as a gray pill top-right
+            //&::after {
+            //    content: attr(data-number);
+            //    display: inline-flex;
+            //    align-items: center;
+            //    justify-content: center;
+            //    min-width: 32px;
+            //    height: 28px;
+            //    padding: 0 10px;
+            //    border-radius: 30px;
+            //    background: #E2E5EF;
+            //    color: #5F6683;
+            //    font-size: 13px;
+            //    font-weight: 500;
+            //}
+        }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #020F41;
+            margin: 0 0 10px 0;
+            text-align: left;
+            text-transform: none;
+            line-height: 1.4;
+            margin-top: 26px;
+        }
+
+        // Show only Authors and Status inline, hide the rest
+        .body {
+            margin: 13px 0 27px 0;
+            br{
+                display: none;
+            }
+            div {
+                display: inline;
+                margin-right: 33px;
+            }
+
+            // Show Authors
+            div:has(.text-bold:first-child) {
+                &:nth-child(1) {
+                    display: flex !important;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                }
+            }
+
+            // Show first div (Authors) and third div (Status)
+            div:nth-child(1),   // Authors
+            div:nth-child(3) {  // Status
+                display: flex !important;
+                flex-direction: row;
+                align-items: center;
+                padding: 0 !important;
+                margin-bottom: 3px;
+                font-size: 14px !important;
+                line-height: 1.6;
+
+            }
+            //
+            // Status color overrides
+            div:nth-child(3) {
+
+                .text-ligth {
+                    &::contains("Approved") {
+                        color: #00BDA7 !important;
+                    }
+                }
+            }
+
+            // Style the text-ligth for status
+            .text-ligth {
+                opacity: 1;
+                color: #5F6683;
+            }
+
+            // Download button — full width teal
+            a.dwn-button {
+                display: flex !important;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                width: 100%;
+                margin-top: 16px;
+                padding: 14px 20px;
+                background: #00BDA7;
+                color: #FFF;
+                border-radius: 10px;
+                font-size: 15px;
+                font-weight: 500;
+                transition: background 0.3s ease;
+                border: none;
+                text-decoration: none;
+
+                p {
+                    margin: 0;
+                    color: #FFF;
+                    font-size: 15px;
+                    font-weight: 500;
+                }
+
+                i {
+                    color: #FFF;
+                    font-size: 16px;
+                }
+
+                &:hover {
+                    background: #0027BD;
+                    border-bottom: none;
+                }
+            }
+        }
+
+        .text-bold {
+            font-weight: 500;
+            color: #5F6683 !important;
+            margin-right: 4px;
+            font-size: 14px !important;
+        }
+
+        .text-ligth {
+            color: #5F6683;
+            font-size: 14px !important;
+            opacity: 1;
+        }
+    }
+
+
+    .container {
+        padding: 0;
+        position: relative;
+
+        .breakpoint-large-down({
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        });
+
+        .row.center-xs.mb-1 {
+
+            .col-xs { // download all
+                position: absolute;
+                z-index: 9;
+                top: 261px;
+                right: 24px;
+                display: inline-flex;
+                flex-direction: row;
+
+                .breakpoint-large-down({
+                    position: relative;
+                });
+
+
+                button{
+                    width: 200px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+
+                i{
+                    background: url("../../assets/images/download-icon.svg") center no-repeat;
+                    top: 1px;
+                    margin-right: 5px;
+                    position: relative;
+                    background-size: 17px;
+                }
+
+                .breakpoint-small-down({
+                    display: none;
+                });
+
+                form {
+                    width: 100%;
+                    button{
+                        font-family: NotoSans;
+
+                        .publications, .download_size{
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
+
+
+        .form-wrapper {
+            position: absolute;
+            top: 261px;
+            width: 97%;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+
+            .breakpoint-large-down({
+                display: block;
+                position: relative;
+                top: unset;
+                width: 100%;
+            });
+
+            // Sort dropdown
+            .sort-form {
+                .libraryForm {
+                    .row {
+                        margin: 0 !important;
+                    }
+
+                    .col-sm-2.col-xs {
+                        padding: 0;
+                        max-width: 100%;
+                        flex-basis: unset;
+                    }
+
+                    .field {
+                        margin: 0;
+
+                        select {
+                            height: 47px !important;
+                            width: 160px;
+                            padding: 0 36px 0 16px !important;
+                            border: 1px solid #D7DCEF;
+                            border-radius: 10px;
+                            background: #FFF url("../../assets/images/library-arrow.svg") no-repeat !important;
+                            background-position: calc(~'100% - 12px') center !important;
+                            background-size: 11px !important;
+                            -webkit-appearance: none !important;
+                            -moz-appearance: none !important;
+                            appearance: none !important;
+                            color: #122642 !important;
+                            font-size: 15px !important;
+                            cursor: pointer;
+                            outline: none;
+
+                            .breakpoint-large-down({
+                                width: 100%;
+                                margin-bottom: 12px;
+                            });
+                        }
+                    }
+                }
+            }
+
+            // Search bar
+            #searchLibrary {
+                display: inline-flex;
+
+                .breakpoint-large-down({
+                    display: block;
+                    width: 100%;
+                });
+
+                .input-group {
+                    display: flex;
+                    align-items: center;
+                    border: 1px solid #D7DCEF;
+                    border-radius: 10px;
+                    overflow: hidden;
+                    background: #FFF;
+                    height: 47px;
+
+                    .breakpoint-large-down({
+                        width: 100%;
+                    });
+                }
+
+                .form-control.search {
+                    //flex: 1;
+                    border: none !important;
+                    border-radius: 0 !important;
+                    height: 47px!important;
+                    min-width: 48px!important;
+                    padding: 0 12px !important;
+                    font-size: 15px !important;
+                    color: #122642;
+                    background: transparent;
+                    box-shadow: none !important;
+                    outline: none;
+
+                    &::placeholder {
+                        color: #B8B8B8;
+                    }
+
+                    &:focus {
+                        outline: none;
+                        box-shadow: none;
+                    }
+                }
+
+                #clearBtn {
+                    border: none !important;
+                    background: transparent;
+                    height: 47px;
+                    min-width: 48px!important;
+                    padding: 0 8px;
+                    color: #B8B8B8;
+                    font-size: 14px;
+                }
+
+                .btn.searchLibrary {
+                    border: none !important;
+                    border-radius: 0 !important;
+                    background: url("../../assets/images/search-normal.svg") center no-repeat;
+                    background-size: 18px;
+                    width: 48px;
+                    min-width: 48px!important;
+                    height: 47px;
+                    padding: 0;
+                    flex-shrink: 0;
+                }
+            }
+        }
+
+
+    }
+
+    // Sort select styling
+    //.libraryForm {
+    //    .ui.form .field {
+    //        select {
+    //            height: 44px !important;
+    //            border-radius: 25px !important;
+    //            border: 1px solid #D7DCEF !important;
+    //            background: #FFF url("../../assets/images/library-arrow.svg") no-repeat !important;
+    //            background-position: calc(~'100% - 12px') center !important;
+    //            background-size: 11px !important;
+    //            -webkit-appearance: none !important;
+    //            -moz-appearance: none !important;
+    //            appearance: none !important;
+    //            padding: 0 36px 0 16px !important;
+    //            color: #122642 !important;
+    //            font-size: 15px !important;
+    //            width: 160px;
+    //        }
+    //    }
+    //}
+
+    .container:has(.tabs) {
+        .breakpoint-large-down({
+            padding: 0 !important;
+        });
+    }
+
+}
+
+
+// Status colours. The `::contains("Approved")` rule above is not real CSS and
+// never applied, so the status is classed server-side in the partial instead.
+// Values taken from the other theme's resources.less so both pages agree.
+.library .library-item .body .status-label {
+    &.status-approved {
+        color: #3CBB54 !important;
+    }
+
+    &.status-pending {
+        color: #FF8C00 !important;
+    }
+}
+
+
+// .btn-primary is a 100px pill theme-wide; on this page only it is a rounded
+// rectangle, matching the card and banner corners.
+.library .btn-primary {
+    .rounded(10px);
+}

@@ -1,0 +1,87 @@
+{#
+    Card list for the Library page, rendered from Pensoft.Knowledgelibrary records.
+
+    The DOM deliberately mirrors the Library plugin's template6, because
+    pages/library.less targets it structurally: `.body div:nth-child(1)` is
+    Authors and `:nth-child(3)` is Status, with the <br> counting as child 2.
+    So the Authors div and that <br> are always emitted, even when a record has
+    no authors, or every following row would shift up and lose its styling.
+#}
+{% for record in records %}
+<div class="library-item-top"></div>
+<div class="library-item">
+    <div class="row">
+        <div class="col-xs-12 col-md-9">
+            <div class="library-type-label">
+                {% if record.format %}<span class="doc_type">{{ record.format.title }}</span>{% endif %}
+            </div>
+            <h3 class="card-title">{{ record.title }}</h3>
+
+            <div class="body">
+                <div>
+                    {% if record.authors %}
+                    <span class="text-bold">{{ 'Authors:'|_ }}</span>
+                    <span class="text-ligth">{{ record.authors|replace({',': ', '}) }}</span>
+                    {% endif %}
+                </div><br>
+
+                {% if record.status %}
+                <div>
+                    <span class="text-bold">{{ 'Status:'|_ }}</span>
+                    <span class="status-label text-ligth {{ record.status|lower in ['approved', 'published'] ? 'status-approved' : 'status-pending' }}">{{ record.status }}</span>
+                </div>
+                {% endif %}
+
+                {% if record.date %}
+                <div><span class="text-bold">{{ 'Year:'|_ }}</span> <span class="text-ligth">{{ record.date|date('Y') }}</span></div>
+                {% endif %}
+                {% if record.journal %}
+                <div><span class="text-bold">{{ 'Journal:'|_ }}</span> <span class="text-ligth">{{ record.journal }}</span></div>
+                {% endif %}
+                {% if record.project %}
+                <div><span class="text-bold">{{ 'Project:'|_ }}</span> <span class="text-ligth">{{ record.project.title }}</span></div>
+                {% endif %}
+                {% if record.volume %}
+                <div><span class="text-bold">{{ 'Volume/Issue:'|_ }}</span> <span class="text-ligth">{{ record.volume }}</span></div>
+                {% endif %}
+                {% if record.place %}
+                <div><span class="text-bold">{{ 'Place:'|_ }}</span> <span class="text-ligth">{{ record.place }}</span></div>
+                {% endif %}
+                {% if record.pages %}
+                <div><span class="text-bold">{{ 'Pages:'|_ }}</span> <span class="text-ligth">{{ record.pages }}</span></div>
+                {% endif %}
+                {% if record.source %}
+                <div><span class="text-bold">{{ 'Source:'|_ }}</span> <span class="text-ligth">{{ record.source }}</span></div>
+                {% endif %}
+
+                {% if record.doi %}
+                <br><div>
+                    <span class="text-bold">{{ 'URL/DOI:'|_ }}</span>
+                    <span class="text-ligth"><a target="_blank" rel="noopener noreferrer" href="{{ record.doi }}" class="break-word" aria-label="{{ 'Open DOI link for'|_ }} {{ record.title }}">{{ record.doi }}</a></span>
+                </div>
+                {% elseif record.web_page %}
+                <br><div>
+                    <span class="text-bold">{{ 'Web page:'|_ }}</span>
+                    <span class="text-ligth"><a target="_blank" rel="noopener noreferrer" href="{{ record.web_page }}" class="break-word" aria-label="{{ 'Open web page for'|_ }} {{ record.title }}">{{ record.web_page }}</a></span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if record.file %}
+        <div class="col-xs-12 col-md-3 end-xs end-md">
+            <span class="download_text">{{ 'Download'|_ }}</span>
+            <a target="_blank"
+               href="{{ record.file.path }}#file_name={{ record.file.file_name }}"
+               class="btn btn-primary no-margin"
+               aria-label="{{ 'Download'|_ }} {{ record.title }} ({{ record.file.sizeToString() }})">
+                <i class="pr normal p-download" aria-hidden="true"></i>{{ 'Download'|_ }}
+                <span class="btn-file-size">({{ record.file.sizeToString() }})</span>
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% else %}
+<div class="no-records">{{ no_records_message|default('No records found') }}</div>
+{% endfor %}

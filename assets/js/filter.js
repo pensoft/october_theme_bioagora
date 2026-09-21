@@ -70,7 +70,9 @@ $(document).ready(function() {
                 from.datepicker("option", "maxDate", getDate(this));
             });
 
-    $('#applyFilter').on('click', updateLibraryList());
+    // Pass the function, don't call it: invoking it here fired an onSearchRecords
+    // request on every page load and registered `undefined` as the click handler.
+    $('#applyFilter').on('click', updateLibraryList);
 
     $('#clearFilter').click(function() {
         $('#dateFrom').val('');
@@ -104,6 +106,11 @@ function getDate( element ) {
 
 
 function updateLibraryList() {
+    // Nothing to update if this page doesn't host the RecordsList filter UI.
+    if (!$('#recordsContainer').length) {
+        return;
+    }
+
     var sortFormat = $('#sortFormat').val();
     var sortProject = $('#sortProject').val();
     var dateFrom = $('#dateFrom').val();

@@ -41,7 +41,10 @@ escape = 1
     <link rel="stylesheet" href="{{ 'assets/css/aos.css'|theme }}">
     <script src="{{ 'assets/js/aos.js'|theme }}"></script>
 
-    {% if this.page.id == 'library' or this.page.id == 'resources' %}
+    {# filter.js drives the old RecordsList filter UI (#searchInput, #sortFormat,
+       date range). The library page has its own GET filter form and a plain
+       <select> styled by pages/library.less, which selectize would replace. #}
+    {% if this.page.id == 'resources' %}
     <link rel="stylesheet" href="{{ 'assets/css/selectize.default.min.css'|theme }}">
     <script src="{{ 'assets/js/selectize.min.js'|theme }}"></script>
     <script src="{{ 'assets/js/filter.js'|theme }}"></script>
