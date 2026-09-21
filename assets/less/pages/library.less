@@ -442,7 +442,10 @@
     }
 
 
-    .container {
+    // `main` matters: .content-wrapper carries the page id, so it wraps the
+    // header too - an unscoped `.container` here strips the navbar's padding
+    // and breaks the header search overlay.
+    main .container {
         padding: 0;
         position: relative;
 
@@ -653,7 +656,7 @@
     //    }
     //}
 
-    .container:has(.tabs) {
+    main .container:has(.tabs) {
         .breakpoint-large-down({
             padding: 0 !important;
         });
@@ -678,6 +681,6 @@
 
 // .btn-primary is a 100px pill theme-wide; on this page only it is a rounded
 // rectangle, matching the card and banner corners.
-.library .btn-primary {
+.library main .btn-primary {
     .rounded(10px);
 }

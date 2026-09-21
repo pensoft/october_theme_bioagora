@@ -132,9 +132,8 @@ function downloadAll()
 <main id="main-content" role="main" aria-labelledby="library-page-title">
     <h1 id="library-page-title" class="sr-only">{{ 'Library'|_ }}</h1>
 
-    {# pages/library.less scopes every rule under .library, and the layout puts
-       no page id on <body>, so the wrapper has to carry the class itself. #}
-    <div class="library">
+    {# No .library wrapper needed: layouts/default.htm already puts the page id
+       on .content-wrapper, which is what pages/library.less scopes against. #}
         <div class="container">
 
             <div class="row library_links">
@@ -221,7 +220,6 @@ function downloadAll()
             </div>
 
         </div>
-    </div>
 </main>
 
 <script>

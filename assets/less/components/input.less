@@ -34,8 +34,10 @@
           border-right: 1px solid @white-color;
         });
         &::placeholder {
-            color: @white-color;
-            opacity: 0.9; /* Firefox */
+            // The overlay and the field are both white, so a white placeholder
+            // made the "Search" hint invisible.
+            color: #B8B8B8;
+            opacity: 1; /* Firefox */
         }
     }
     &.documents_search {
