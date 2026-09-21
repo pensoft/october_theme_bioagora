@@ -8,6 +8,7 @@ robot_follow = "follow"
 [siteSearchInclude]
 ==
 <?php
+use Illuminate\Support\Str;
 use Pensoft\Knowledgelibrary\Models\Data;
 use Pensoft\Knowledgelibrary\Models\Format;
 
@@ -30,7 +31,15 @@ function onStart()
         ->paginate(20, input('page', 1))
         ->appends(request()->query());
 
-    $this['formats'] = Format::orderBy('sort_order')->get();
+    $formats = Format::orderBy('sort_order')->get();
+
+    $this['formats'] = $formats;
+    // The tabs read as a list of categories, so their labels are plural. The
+    // label inside each publication box describes a single record, and keeps
+    // the singular title the plugin stores.
+    $this['formatLabels'] = $formats->pluck('title', 'id')->map(function ($title) {
+        return Str::plural($title);
+    })->all();
     $this['currentType'] = $type;
     $this['currentSort'] = $sort;
     $this['searchQuery'] = $search;
@@ -141,7 +150,7 @@ function downloadAll()
                     <a href="{{ 'open-science'|page }}" class="open_science">{{ 'Open Science'|_ }} <span>{{ 'Learn more'|_ }}</span></a>
                 </div>
                 <div class="col-md-6 col-xs-12">
-                    <a href="{{ 'useful-links'|page }}" class="eu_resources">{{ 'EU Resources'|_ }} <span>{{ 'Learn more'|_ }}</span></a>
+                    <a href="{{ 'useful-links'|page }}" class="eu_resources">{{ 'EU Resources'|_ }} <span>{{ 'Access'|_ }}</span></a>
                 </div>
             </div>
 
@@ -176,7 +185,7 @@ function downloadAll()
                     {% for format in formats %}
                     <a data-type="{{ format.id }}" role="button" tabindex="0"
                        aria-pressed="{{ currentType == format.id ? 'true' : 'false' }}"
-                       {% if currentType == format.id %}class="active"{% endif %}>{{ format.title }}</a>
+                       {% if currentType == format.id %}class="active"{% endif %}>{{ formatLabels[format.id] }}</a>
                     {% endfor %}
                 </div>
                 <input type="hidden" name="type" id="typeInput" value="{{ currentType }}">
@@ -215,7 +224,7 @@ function downloadAll()
                 {% partial 'components/library-items' records=records %}
             </div>
 
-            <div class="row container">
+            <div class="row container mb-4">
                 {{ records.render|raw }}
             </div>
 
