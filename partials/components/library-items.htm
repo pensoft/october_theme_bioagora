@@ -50,23 +50,30 @@
                 {% if record.source %}
                 <div><span class="text-bold">{{ 'Source:'|_ }}</span> <span class="text-ligth">{{ record.source }}</span></div>
                 {% endif %}
-
-                {% if record.doi %}
-                <br><div>
-                    <span class="text-bold">{{ 'URL/DOI:'|_ }}</span>
-                    <span class="text-ligth"><a target="_blank" rel="noopener noreferrer" href="{{ record.doi }}" class="break-word" aria-label="{{ 'Open DOI link for'|_ }} {{ record.title }}">{{ record.doi }}</a></span>
-                </div>
-                {% elseif record.web_page %}
-                <br><div>
-                    <span class="text-bold">{{ 'Web page:'|_ }}</span>
-                    <span class="text-ligth"><a target="_blank" rel="noopener noreferrer" href="{{ record.web_page }}" class="break-word" aria-label="{{ 'Open web page for'|_ }} {{ record.title }}">{{ record.web_page }}</a></span>
-                </div>
-                {% endif %}
             </div>
         </div>
 
-        {% if record.file %}
-        <div class="col-xs-12 col-md-3 end-xs end-md">
+        {#
+            Footer: the URL/DOI (or web page) line sits directly above the
+            download button, flush with the bottom of the card.
+
+            Both are emitted unconditionally - an empty .library-item-link still
+            reserves its single line, and the column stays even with no file -
+            so the link rows, and the buttons under them, line up with those of
+            the neighbouring card however much detail sits above them.
+        #}
+        <div class="col-xs-12 col-md-3 end-xs end-md library-item-footer">
+            <div class="library-item-link">
+                {% if record.doi %}
+                <span class="text-bold">{{ 'URL/DOI:'|_ }}</span>
+                <span class="text-ligth"><a target="_blank" rel="noopener noreferrer" href="{{ record.doi }}" title="{{ record.doi }}" aria-label="{{ 'Open DOI link for'|_ }} {{ record.title }}">{{ record.doi }}</a></span>
+                {% elseif record.web_page %}
+                <span class="text-bold">{{ 'Web page:'|_ }}</span>
+                <span class="text-ligth"><a target="_blank" rel="noopener noreferrer" href="{{ record.web_page }}" title="{{ record.web_page }}" aria-label="{{ 'Open web page for'|_ }} {{ record.title }}">{{ record.web_page }}</a></span>
+                {% endif %}
+            </div>
+
+            {% if record.file %}
             <span class="download_text">{{ 'Download'|_ }}</span>
             <a target="_blank"
                href="{{ record.file.path }}#file_name={{ record.file.file_name }}"
@@ -75,8 +82,8 @@
                 <i class="pr normal p-download" aria-hidden="true"></i>{{ 'Download'|_ }}
                 <span class="btn-file-size">({{ record.file.sizeToString() }})</span>
             </a>
+            {% endif %}
         </div>
-        {% endif %}
     </div>
 </div>
 {% else %}
