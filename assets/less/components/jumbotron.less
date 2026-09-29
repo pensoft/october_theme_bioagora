@@ -997,6 +997,12 @@
         letter-spacing: -0.56px;
     }
 
+    // Equal-height cards per row: the grid column stretches, the card fills it
+    .case{
+        display: flex;
+        flex-direction: column;
+    }
+
     .ken_item{
         background: @secondary-color;
         border-radius: 20px;
@@ -1005,6 +1011,7 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        flex: 1 1 auto;
 
 
         .info_container{
@@ -1012,6 +1019,7 @@
             align-items: center;
             justify-content: space-between;
             flex-direction: column;
+            flex: 1 1 auto;
             min-height: 185px;
             padding: 22px 30px;
 
@@ -1045,6 +1053,9 @@
 
             .title_container{
                 width: 100%;
+                flex: 1 1 auto;
+                display: flex;
+                flex-direction: column;
                 h3{
                     color: @heading-text-color;
                     font-size: 18px;
@@ -1058,6 +1069,7 @@
                     }
                 }
 
+                // Pinned to the bottom, right above "Read more", whatever the title length
                 .requester{
                     color: #5F6683;
                     font-size: 18px;
@@ -1065,10 +1077,9 @@
                     font-weight: 400;
                     line-height: normal;
                     letter-spacing: -0.36px;
-                    margin-top: 20px;
-                    .breakpoint-large-down({
-                        margin-bottom: 20px;
-                    });
+                    margin-top: auto;
+                    padding-top: 20px;
+                    margin-bottom: 15px;
                 }
 
             }
