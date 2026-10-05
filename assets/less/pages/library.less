@@ -319,6 +319,12 @@
                         opacity: 0.7;
                     }
                 }
+
+                // Optional extra button under Download; .no-margin zeroes
+                // every margin with !important, so restore the gap here.
+                > a.library-item-extra {
+                    margin-top: 10px !important;
+                }
             }
         }
 

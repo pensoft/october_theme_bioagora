@@ -439,3 +439,35 @@ if(get('download')){
     </div>
 
 </main>
+
+<script>
+    // Deep links: /knowledge-requests#request-<id> opens that request's popup,
+    // and opening/closing a popup keeps the address bar in sync so the link
+    // can be copied straight from the browser.
+    $(document).ready(function () {
+        var pattern = /^#request-\d+$/;
+
+        function openFromHash() {
+            var hash = window.location.hash;
+            if (pattern.test(hash) && $(hash).length) {
+                $('.control-popup.modal.in, .control-popup.modal.show').not(hash).modal('hide');
+                $(hash).modal('show');
+            }
+        }
+
+        $('.control-popup.modal[id^="request-"]')
+            .on('shown.bs.modal', function () {
+                if (window.location.hash !== '#' + this.id) {
+                    history.replaceState(null, '', '#' + this.id);
+                }
+            })
+            .on('hidden.bs.modal', function () {
+                if (window.location.hash === '#' + this.id) {
+                    history.replaceState(null, '', window.location.pathname + window.location.search);
+                }
+            });
+
+        $(window).on('hashchange', openFromHash);
+        openFromHash();
+    });
+</script>

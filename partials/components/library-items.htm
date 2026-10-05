@@ -83,6 +83,16 @@
                 <span class="btn-file-size">({{ record.file.sizeToString() }})</span>
             </a>
             {% endif %}
+
+            {# Set per record in the backend (Pensoft.LibraryExtension). #}
+            {% if record.extra_url %}
+            <a target="_blank" rel="noopener noreferrer"
+               href="{{ record.extra_url }}"
+               class="btn btn-primary no-margin library-item-extra"
+               aria-label="{{ record.extra_button_label ?: 'View request'|_ }} - {{ record.title }}">
+                {{ record.extra_button_label ?: 'View request'|_ }}
+            </a>
+            {% endif %}
         </div>
     </div>
 </div>
