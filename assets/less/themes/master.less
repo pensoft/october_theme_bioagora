@@ -718,7 +718,14 @@ footer .align-items-center{
 
     .synergy_item{
 
-        a{
+        // Holds the card link plus any extra button below it
+        .synergy-card-inner{
+            position: relative;
+            width: 90%;
+            margin-bottom: 50px;
+        }
+
+        a.synergy-trigger{
             height: 172px;
             /* UI Properties */
             background: #F4F4F4 0% 0% no-repeat padding-box;
@@ -726,8 +733,7 @@ footer .align-items-center{
             display: block;
             align-items: center;
             justify-content: center;
-            width: 90%;
-            margin-bottom: 50px;
+            width: 100%;
             position: relative;
             color: white!important;
             font-size: 16px;
@@ -768,6 +774,43 @@ footer .align-items-center{
                     background-position: right 15px center;
                 }
 
+            }
+        }
+
+        // Document button below "Learn more" (e.g. Biodiversa letter of
+        // collaboration); adds 51px (6 gap + 45 button) to the card.
+        a.synergy-extra-link{
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            text-align: left;
+            height: 45px;
+            padding-left: 20px;
+            padding-right: 40px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #0027BE;
+            background: #F4F4F4 url("../../assets/images/arrow-blue.svg") center no-repeat;
+            background-position: right 20px center;
+            transition: all 0.3s ease-in-out;
+            &:hover, &:focus{
+                color: #ffffff;
+                background: #0027BE url("../../assets/images/arrow.svg") center no-repeat;
+                background-position: right 15px center;
+            }
+        }
+
+        // Cards sharing a desktop row with a --has-extra card: add empty gray
+        // space (the extra button's 45 + 6 gap) above "Learn more" so the row
+        // stays even. The logo keeps its usual 120px slot, aligned with its neighbours.
+        @media only screen and (min-width: 64em) {
+            &.synergy_item--tall a.synergy-trigger{
+                height: 172px + 51px;
+                .synergy-image{
+                    height: 120px;
+                }
             }
         }
 

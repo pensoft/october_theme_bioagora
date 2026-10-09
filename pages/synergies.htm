@@ -9,7 +9,33 @@ title = "Synergies"
 use Pensoft\Synergies\Models\Synergy;
 
 function onStart(){
-    $this['items'] = Synergy::orderBy('name')->get();
+    $items = Synergy::orderBy('name')->get();
+
+    // Extra document buttons shown below a card's "Learn more", keyed by partner name
+    // (a trailing "+" in the record name is ignored, so "Biodiversa+" matches too).
+    $extraLinksByPartner = [
+        'Biodiversa' => [
+            'label' => 'Letter of collaboration',
+            'url'   => 'https://bioagora.eu/storage/app/media/moubioagorabiodiversa2026.pdf',
+        ],
+    ];
+
+    // Re-keyed by the actual record name for the template, plus the grid rows
+    // (3 cards each on desktop) holding a card with an extra button; the other
+    // cards in those rows get a taller "Learn more" so the row stays even.
+    $extraLinks = [];
+    $tallRows = [];
+    foreach ($items->values() as $i => $item) {
+        $partner = rtrim(trim($item->name), '+');
+        if (isset($extraLinksByPartner[$partner])) {
+            $extraLinks[$item->name] = $extraLinksByPartner[$partner];
+            $tallRows[] = intdiv($i, 3);
+        }
+    }
+
+    $this['items'] = $items;
+    $this['extraLinks'] = $extraLinks;
+    $this['tallRows'] = $tallRows;
 }
 ?>
 ==
@@ -32,11 +58,13 @@ function onStart(){
 
         <div class="row" role="list" aria-label="List of {{ items.count }} partner projects">
         {% for record in items %}
-            <article class="col-md-4 col-xs-12 synergy_item"
+            {% set extraLink = extraLinks[record.name] ?? null %}
+            <article class="col-md-4 col-xs-12 synergy_item{% if extraLink %} synergy_item--has-extra{% elseif (loop.index0 // 3) in tallRows %} synergy_item--tall{% endif %}"
                      role="listitem"
                      aria-labelledby="synergy-title-{{record.id}}">
 
                 <div class="row start-md center-xs synergy-card">
+                <div class="synergy-card-inner">
                 <a data-toggle="modal" href="#content{{record.id}}"
                    class="synergy-trigger"
                    data-target="#content{{record.id}}"
@@ -67,6 +95,16 @@ function onStart(){
                         Click to view detailed information about the {{ record.name }} project, including description, website link, and related resources
                     </span>
                 </a>
+                {% if extraLink %}
+                <a href="{{ extraLink.url }}"
+                   class="synergy-extra-link"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    {{ extraLink.label }}
+                    <span class="sr-only">of {{ record.name }} (PDF, opens in new window)</span>
+                </a>
+                {% endif %}
+                </div>
             </div>
             </article>
             <div class="control-popup modal fade" id="content{{record.id}}" role="dialog"
